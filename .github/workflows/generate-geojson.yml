@@ -1,0 +1,50 @@
+name: Generate and Commit GeoJSON
+
+# "on" define cuándo correrá este workflow
+on:
+  # 1) Permite ejecución manual desde la pestaña "Actions" (Run workflow)
+  workflow_dispatch:
+
+  # 2) Ejecuta automáticamente cada día a las 00:00 (hora UTC)
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  build-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Clonar el repo
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      # 2. Instalar Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      # 3. Instalar dependencias
+      - name: Install dependencies
+        run: |
+          pip install feedparser geopy requests
+
+      # 4. Ejecutar tu script
+      - name: Run script
+        run: |
+          python script.py
+          # Cambia "script.py" si tu archivo se llama distinto
+          # Este script generará/actualizará master_data.json y masoneria_alertas.geojson
+
+      # 5. Commitear y pushear cambios si hubo modificaciones
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "actions@github.com"
+          git add .
+          # Verificar si hay cambios con "git diff --cached"
+          if [ -n "$(git diff --cached)" ]; then
+            git commit -m "Auto-update from GitHub Actions $(date +'%Y-%m-%d %H:%M:%S')"
+            git push
+          else
+            echo "No changes to commit."
