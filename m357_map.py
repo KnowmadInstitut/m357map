@@ -10,7 +10,6 @@ Original file is located at
 # ======================================
 # 1. Instalación de librerías en Colab
 # ======================================
-!pip install feedparser geopy requests
 
 # ======================================
 # 2. Importaciones
