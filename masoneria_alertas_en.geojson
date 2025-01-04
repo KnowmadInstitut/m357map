@@ -1,0 +1,200 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "William Antoine Benoit III Obituary - Cape Cod Times",
+        "published": "2025-01-04T17:05:09Z",
+        "location_str": "Chatham"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.0626008,
+          31.9668887
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Obituary information for Stephen Boyson - Chapman Funerals...",
+        "published": "2025-01-04T07:16:58Z",
+        "location_str": "Dennis"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.13771137623480884,
+          51.519849050000005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Rose Acquadro OBITUARY - Scranton Times-Tribune",
+        "published": "2025-01-04T05:33:18Z",
+        "location_str": "Wellesley"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.2925571,
+          42.2964859
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Donald Mote - The Daily Reporter - Greenfield Indiana",
+        "published": "2025-01-04T05:05:26Z",
+        "location_str": "Hancock County"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -91.1458063,
+          40.3941712
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Fraternal Organizations: A Legacy of Community in Douglas County | | nrtoday.com",
+        "published": "2025-01-03T21:51:48Z",
+        "location_str": "Douglas County"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2170516,
+          39.7628415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Royall M. Dodge | Wiscasset Newspaper",
+        "published": "2025-01-03T20:50:27Z",
+        "location_str": "East Boothbay"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.5852939,
+          43.8656167
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Where to Eat in Greater Boston in January 2025",
+        "published": "2025-01-03T20:28:47Z",
+        "location_str": "Greater Boston"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.06583269114233,
+          42.334405149999995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Fraternal Organizations: A Legacy of Community in Douglas County | | nrtoday.com",
+        "published": "2025-01-04T11:44:06Z",
+        "location_str": "Douglas County"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2170516,
+          39.7628415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Get Ready to Succumb to the Darkness with Limited 'Nosferatu: The Immersive Experience ...",
+        "published": "2025-01-04T00:51:55Z",
+        "location_str": "Los Angeles"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.242766,
+          34.0536909
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "ODOT Urges Caution as First Major Snowstorm of the Year Approaches - WHIZ News",
+        "published": "2025-01-04T15:43:40Z",
+        "location_str": "Zanesville"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.005019,
+          39.9401426
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Muskingum County Sheriff Explains Snow Emergencies and Tips for Driving in the Snow",
+        "published": "2025-01-04T15:43:40Z",
+        "location_str": "Zanesville"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.005019,
+          39.9401426
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Fraternal Organizations: A Legacy of Community in Douglas County | | nrtoday.com",
+        "published": "2025-01-04T11:44:06Z",
+        "location_str": "Douglas County"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2170516,
+          39.7628415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Royall M. Dodge | Wiscasset Newspaper",
+        "published": "2025-01-04T08:50:29Z",
+        "location_str": "East Boothbay"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.5852939,
+          43.8656167
+        ]
+      }
+    }
+  ]
+}
