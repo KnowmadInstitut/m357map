@@ -33,7 +33,7 @@ jobs:
       - name: Run script
         run: |
           python script.py
-          # Cambia "script.py" si tu archivo se llama distinto
+          # Cambia "m357_map.py" si tu archivo se llama distinto
           # Este script generará/actualizará master_data.json y masoneria_alertas.geojson
 
       # 5. Commitear y pushear cambios si hubo modificaciones
