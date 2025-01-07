@@ -36,7 +36,7 @@ jobs:
             fi
           else
             echo "No new data generated. Skipping combination."
-            exit 0
+          fi
 
       - name: Commit and push changes
         run: |
