@@ -1,10 +1,7 @@
 name: Generate and Commit GeoJSON
 
 on:
-  # Permite ejecución manual desde la pestaña "Actions" (Run workflow)
   workflow_dispatch:
-
-  # Ejecuta automáticamente cada día a las 00:00 (hora UTC)
   schedule:
     - cron: '0 0 * * *'
 
@@ -13,48 +10,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Clonar el repo
       - name: Check out repository
         uses: actions/checkout@v2
 
-      # 2. Instalar Python
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.10'
 
-      # 3. Instalar dependencias
       - name: Install dependencies
         run: |
           pip install feedparser geopy requests
 
-      # 4. Ejecutar tu script
-      - name: Run script
+      - name: Run script to generate new data
         run: |
           python m357_map.py
-          # Cambia "m357_map.py" si tu archivo se llama distinto
 
-      # 5. Combinar datos existentes con nuevos
       - name: Combine existing and new GeoJSON data
         run: |
-          # Comprobar si el archivo existente existe
-          if [ -f masoneria_alertas.geojson ]; then
-            python combine_geojson.py masoneria_alertas.geojson new_data.geojson masoneria_alertas.geojson
+          if [ -f new_data.geojson ]; then
+            if [ -f masoneria_alertas.geojson ]; then
+              python combine_geojson.py masoneria_alertas.geojson new_data.geojson masoneria_alertas.geojson
+            else
+              mv new_data.geojson masoneria_alertas.geojson
+            fi
           else
-            mv new_data.geojson masoneria_alertas.geojson
-          fi
+            echo "No new data generated. Skipping combination."
+            exit 0
 
-      # 6. Commitear y pushear cambios si hubo modificaciones
       - name: Commit and push changes
         run: |
           git config user.name "GitHub Action"
           git config user.email "actions@github.com"
           git add .
-
-          # Verificar si hay cambios con "git diff --cached"
           if [ -n "$(git diff --cached)" ]; then
             git commit -m "Auto-update from GitHub Actions $(date +'%Y-%m-%d %H:%M:%S')"
             git push
           else
             echo "No changes to commit."
-          fi
