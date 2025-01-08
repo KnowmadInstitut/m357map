@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""M357_MAP.ipynb"""
+"""M357_MAP.py"""
 
 import feedparser
 import re
@@ -10,7 +10,7 @@ from geopy.geocoders import Nominatim
 
 # Configuración
 RSS_FEEDS = [
-    # Enlaces de feeds RSS
+    # Enlaces de feeds RSS (completa lista proporcionada)
     "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
     "https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668",
     "https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165",
@@ -44,22 +44,21 @@ RSS_FEEDS = [
 MASTER_JSON = "master_data.json"
 OUTPUT_GEOJSON = "masoneria_alertas.geojson"
 
+# Configuración para geocodificación
 USE_GEOCODING = True
 geolocator = Nominatim(user_agent="masoneria_geolocator")
 
-# Función para cargar datos del archivo maestro
+# Funciones auxiliares
 def load_master_data():
     if os.path.isfile(MASTER_JSON):
         with open(MASTER_JSON, "r", encoding="utf-8") as f:
             return json.load(f)
     return []
 
-# Función para guardar datos en el archivo maestro
 def save_master_data(data):
     with open(MASTER_JSON, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-# Verificar si la entrada ya existe
 def is_duplicate(entry, master_data):
     link_new = entry.get("link", "")
     for item in master_data:
@@ -67,16 +66,14 @@ def is_duplicate(entry, master_data):
             return True
     return False
 
-# Extraer posible ubicación de un texto
 def extract_possible_location(text):
     pattern = r"\b(?:in|at)\s([A-Z][a-zA-Z]+(?:\s[A-Z][a-zA-Z]+)*)"
     matches = re.findall(pattern, text)
     return matches[0] if matches else None
 
-# Geocodificación usando Nominatim
 def geocode_location(location_str):
     try:
-        time.sleep(1)  # Respetar el límite de peticiones
+        time.sleep(1)
         loc = geolocator.geocode(location_str)
         if loc:
             return (loc.latitude, loc.longitude)
@@ -84,7 +81,6 @@ def geocode_location(location_str):
         print(f"[ERROR] geocoding {location_str}: {e}")
     return None
 
-# Parsear un feed RSS
 def parse_feed(feed_url):
     feed = feedparser.parse(feed_url)
     entries = []
@@ -124,7 +120,15 @@ def parse_feed(feed_url):
 
     return entries
 
-# Generar datos en formato GeoJSON
+def generate_apa_citation(title, link, published):
+    if not title:
+        title = "Sin título"
+    if not published:
+        published = "Fecha desconocida"
+    if not link:
+        link = "Enlace no disponible"
+    return f"{title}. ({published}). [Blog post]. Recuperado de {link}"
+
 def generate_geojson(data):
     geojson_data = {
         "type": "FeatureCollection",
@@ -144,6 +148,7 @@ def generate_geojson(data):
             published = item.get("published", "")
             image_url = item.get("image_url", None)
 
+            apa_citation = generate_apa_citation(title, link, published)
             description_text = f"{summary}\n\n[[{link}|Ver la fuente]]"
 
             feature = {
@@ -152,6 +157,7 @@ def generate_geojson(data):
                     "title": title,
                     "description": description_text,
                     "published": published,
+                    "apa_citation": apa_citation,
                     "image_url": image_url
                 },
                 "geometry": {
