@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """M357_MAP.py"""
-import feedparser  # Nombre correcto
+import feedparser
 import re
 import json
 import time
 import os
 import logging
-from functools import lru_cache  # Corregido
-from geopy.geocoders import Nominatim  # Importación correcta
+from functools import lru_cache
+from geopy.geocoders import Nominatim
 from geojson import FeatureCollection, Feature, Point, dump
 
-# Configuración de logging CORREGIDA
+# ============== CONFIGURACIÓN ==============
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -18,8 +18,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Configuración principal
+# ============== INSERTA TUS RSS AQUÍ ==============
 RSS_FEEDS = [
+    # Pega tus URLs de Google Alerts aquí
     "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
     "https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668",
     "https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165",
@@ -48,40 +49,38 @@ RSS_FEEDS = [
     "https://www.google.com/alerts/feeds/08823391955851607514/14458568452294133843",
     "https://www.google.com/alerts/feeds/08823391955851607514/3528049070088672707",
     "https://www.google.com/alerts/feeds/08823391955851607514/11937818240173291166",
-    "https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173"
+    "https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173",
+    # ... (todos tus feeds)
 ]
 
+# ============== CONSTANTES ==============
 GEOCODING_ENABLED = True
 MAX_SUMMARY_LENGTH = 200
 MASTER_JSON = "master_data.json"
 OUTPUT_GEOJSON = "new_data.geojson"
-
-# Configuración de geocodificación
 geolocator = Nominatim(user_agent="masoneria_geolocator_v2")
 
+# ============== FUNCIONES DE GEOCODIFICACIÓN ==============
 @lru_cache(maxsize=500)
 def geocode_location(location_str: str) -> tuple:
-    """Geocodificación con caché y orden [longitud, latitud]"""
     try:
-        time.sleep(1.2)  # Respeta política de uso de Nominatim
+        time.sleep(1.2)
         loc = geolocator.geocode(location_str, exactly_one=True, timeout=15)
         return (loc.longitude, loc.latitude) if loc else (None, None)
     except Exception as e:
-        logger.error(f"Error en geocodificación: {location_str} - {str(e)}")
+        logger.error(f"Geocoding error: {location_str} - {str(e)}")
         return (None, None)
 
 def is_valid_coords(lon: float, lat: float) -> bool:
-    """Valida coordenadas geográficas"""
     return (-180 <= lon <= 180) and (-90 <= lat <= 90)
 
+# ============== FUNCIONES DE PROCESAMIENTO ==============
 def extract_location(text: str) -> str:
-    """Extrae ubicaciones con expresión regular mejorada"""
     pattern = r"\b(?:in|en|at|de)\s+([A-ZÀ-ÿ][a-zA-ZÀ-ÿ\s-]+?)(?:\.|,|$)"
     match = re.search(pattern, text, re.IGNORECASE|re.UNICODE)
     return match.group(1).strip() if match else None
 
 def parse_feed(feed_url: str) -> list:
-    """Procesa feeds RSS con manejo robusto de errores"""
     try:
         feed = feedparser.parse(feed_url)
         entries = []
@@ -109,13 +108,61 @@ def parse_feed(feed_url: str) -> list:
         return entries
     
     except Exception as e:
-        logger.error(f"Error crítico procesando feed {feed_url}: {str(e)}")
+        logger.error(f"Error procesando feed: {feed_url} - {str(e)}")
         return []
 
-# Resto de funciones (load_master_data, save_master_data, is_duplicate, generate_geojson, main) 
-# se mantienen igual que en la versión anterior pero usando las variables de configuración locales
+# ============== FUNCIONES PRINCIPALES ==============
+def load_master_data() -> list:
+    if os.path.isfile(MASTER_JSON):
+        with open(MASTER_JSON, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return []
 
-# ... (Las funciones restantes son idénticas a la versión anterior pero sin referencia a config.py)
+def save_master_data(data: list) -> None:
+    with open(MASTER_JSON, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+def is_duplicate(entry: dict, master_data: list) -> bool:
+    return any(e["link"] == entry["link"] for e in master_data)
+
+def generate_geojson(data: list) -> dict:
+    features = []
+    for item in data:
+        if item["lon"] and item["lat"]:
+            properties = {
+                "title": item["title"],
+                "description": f"{item['summary']}\n[[{item['link']}|Fuente]]",
+                "published": item["published"],
+                "image_url": item["image_url"],
+                "link": item["link"]
+            }
+            features.append(Feature(geometry=Point((item["lon"], item["lat"])), properties=properties))
+    return FeatureCollection(features)
+
+def main():
+    try:
+        logger.info("Iniciando actualización de datos")
+        master_data = load_master_data()
+        new_entries = []
+        
+        for feed_url in RSS_FEEDS:
+            entries = parse_feed(feed_url)
+            new_entries.extend([e for e in entries if not is_duplicate(e, master_data)])
+        
+        if new_entries:
+            logger.info(f"Nuevas entradas encontradas: {len(new_entries)}")
+            with open("new_data.geojson", "w") as f:
+                dump(generate_geojson(new_entries), f, ensure_ascii=False, indent=2)
+            
+            master_data.extend(new_entries)
+            save_master_data(master_data)
+            logger.info("Datos actualizados correctamente")
+        else:
+            logger.info("No hay nuevas entradas")
+            
+    except Exception as e:
+        logger.error(f"Error crítico: {str(e)}")
+        raise
 
 if __name__ == "__main__":
-    main()  # ✅ Llama a la función main()
+    main()
