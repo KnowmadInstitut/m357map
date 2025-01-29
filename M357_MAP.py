@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """M357_MAP.py"""
-import feedparser
+import feedparser  # Nombre correcto
 import re
 import json
 import time
 import os
 import logging
-from functools import lru_cache
-from geopy.geocoders import Nominatim
+from functools import lru_cache  # Corregido
+from geopy.geocoders import Nominatim  # Importación correcta
 from geojson import FeatureCollection, Feature, Point, dump
 
-# Configuración de logging
+# Configuración de logging CORREGIDA
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
