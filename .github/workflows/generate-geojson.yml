@@ -32,7 +32,7 @@ jobs:
 
       - name: Run script to generate new data
         run: |
-          python M357_MAP.py || exit 1  # ✅ Nombre corregido
+          python M357_MAP.py || exit 1  # ✅ Nombre exacto
 
       - name: Validate new GeoJSON
         run: |
