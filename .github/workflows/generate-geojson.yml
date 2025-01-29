@@ -3,7 +3,7 @@ name: Generate and Commit GeoJSON
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *'  # Ejecución diaria a medianoche UTC
 
 jobs:
   build-and-update:
@@ -11,32 +11,47 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
-          pip install feedparser geopy requests
+          pip install -r requirements.txt
 
       - name: Run script to generate new data
         run: |
-          python m357_map.py
+          python M357_MAP.py || exit 1
+
+      - name: Validate new GeoJSON
+        run: |
+          if [ -f new_data.geojson ]; then
+            python -m json.tool new_data.geojson || exit 1
+          else
+            echo "No new data generated. Skipping validation."
+          fi
 
       - name: Combine existing and new GeoJSON data
         run: |
           if [ -f new_data.geojson ]; then
-            if [ -f masoneria_alertas.geojson ]; then
-              python combine_geojson.py masoneria_alertas.geojson new_data.geojson masoneria_alertas.geojson
-            else
-              mv new_data.geojson masoneria_alertas.geojson
-            fi
+            python combine_geojson.py masoneria_alertas.geojson new_data.geojson masoneria_alertas.geojson
           else
             echo "No new data generated. Skipping combination."
           fi
+
+      - name: Clean temporary files
+        run: |
+          rm -f new_data.geojson
 
       - name: Commit and push changes
         env:
@@ -48,6 +63,14 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Auto-update from GitHub Actions $(date +'%Y-%m-%d %H:%M:%S')"
+            git commit -m "Auto-update: $(date +'%Y-%m-%d') [$(git diff --stat HEAD | grep 'masoneria_alertas.geojson' | awk '{print $1}') new entries]"
             git push
           fi
+
+      - name: Deploy to GitHub Pages (opcional)
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          keep_files: true
