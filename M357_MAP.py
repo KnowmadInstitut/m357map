@@ -118,4 +118,4 @@ def parse_feed(feed_url: str) -> list:
 # ... (Las funciones restantes son idénticas a la versión anterior pero sin referencia a config.py)
 
 if __name__ == "__main__":
-    main()
+    main() # ✅ Llama a main() solo cuando el script se ejecute directamente
