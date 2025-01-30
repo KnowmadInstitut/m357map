@@ -20,9 +20,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============== INSERTA TUS RSS AQUÍ ==============
-# Pega aquí tus URLs de Google Alerts u otros feeds RSS relacionados con la francmasonería.
 RSS_FEEDS = [
-    "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
+     "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
     "https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668",
     "https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165",
     "https://www.google.com/alerts/feeds/08823391955851607514/9378709536916495456",
@@ -60,11 +59,19 @@ MAX_SUMMARY_LENGTH = 200
 MASTER_JSON = "master_data.json"
 OUTPUT_GEOJSON = "new_data.geojson"
 geolocator = Nominatim(user_agent="masoneria_geolocator_v2")
-nlp = spacy.load("es_core_news_sm")  # Usamos el modelo de español
+nlp = spacy.load("es_core_news_sm")
 
+# Palabras clave de las alertas de Google
 MASONIC_KEYWORDS = [
-    "francmasonería", "logia", "gran maestro", "ritual", "simbolismo",
-    "templo masónico", "grado masónico", "masonería especulativa"
+    "Masones", "Freimaurertempel", "Franc-maçon", "Franc-maçonnerie",
+    "Francmasonería", "Franco-maçonaria", "Freemason", "Freemasonry",
+    "Freimaurer", "Freimaurerei", "Freimaurerloge", "Gran Logia",
+    "Grand Lodge", "Grande Loge", "Grande Loja", "Großloge",
+    "Hermandad masónica", "Loge maçonnique", "Logia masónica",
+    "Loja maçônica", "Maçonaria", "Masonería", "Masonic Brotherhood",
+    "Masonic Lodge", "Masonic Order", "Masonic Temple", "Maurerorden",
+    "Ordem maçônica", "Ordre maçonnique", "Rito masónico",
+    "Temple maçonnique", "Templo maçônico", "Templo masónico"
 ]
 
 # ============== FUNCIONES DE GEOCODIFICACIÓN ==============
@@ -83,22 +90,21 @@ def is_valid_coords(lon: float, lat: float) -> bool:
 
 # ============== ANÁLISIS SEMÁNTICO ==============
 def is_masonic_content(text: str) -> bool:
-    """Determina si el contenido es relevante para la francmasonería."""
+    """Determina si el contenido es relevante para la masonería."""
     doc = nlp(text)
-    # Verificamos palabras clave específicas
+    # Verificar si alguna palabra clave está en el texto
     if any(keyword.lower() in text.lower() for keyword in MASONIC_KEYWORDS):
         return True
-    
-    # Verificar entidades relevantes como logias o lugares
+    # Si detectamos entidades relevantes relacionadas con la masonería, también es válido
     for ent in doc.ents:
         if ent.label_ in ["ORG", "LOC"]:
             if any(keyword.lower() in ent.text.lower() for keyword in MASONIC_KEYWORDS):
                 return True
-    
     return False
 
 # ============== FUNCIONES DE PROCESAMIENTO ==============
 def extract_location(text: str) -> str:
+    """Extrae posibles ubicaciones de un texto usando expresiones regulares."""
     pattern = r"\b(?:in|en|at|de)\s+([A-ZÀ-ÿ][a-zA-ZÀ-ÿ\s-]+?)(?:\.|,|$)"
     match = re.search(pattern, text, re.IGNORECASE|re.UNICODE)
     return match.group(1).strip() if match else None
@@ -111,7 +117,7 @@ def parse_feed(feed_url: str) -> list:
         for entry in feed.entries:
             combined_text = f"{entry.get('title', '')} {entry.get('summary', '')}"
             
-            # Filtrar solo contenido relevante
+            # Filtrar solo contenido masónico relevante
             if not is_masonic_content(combined_text):
                 continue
             
