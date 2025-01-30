@@ -21,8 +21,7 @@ logger = logging.getLogger(__name__)
 
 # ============== INSERTA TUS URL DE RSS AQUÍ ==============
 RSS_FEEDS = [
-    # Pega aquí los enlaces de tus feeds RSS
-    "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
+"https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
     "https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668",
     "https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165",
     "https://www.google.com/alerts/feeds/08823391955851607514/9378709536916495456",
@@ -51,7 +50,7 @@ RSS_FEEDS = [
     "https://www.google.com/alerts/feeds/08823391955851607514/3528049070088672707",
     "https://www.google.com/alerts/feeds/08823391955851607514/11937818240173291166",
     "https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173",
-    # ... (todos tus feeds)
+    # ... Agrega más feeds aquí si es necesario
 ]
 
 # ============== CONSTANTES ==============
@@ -62,40 +61,44 @@ OUTPUT_GEOJSON = "new_data.geojson"
 geolocator = Nominatim(user_agent="masoneria_geolocator_v2")
 nlp = spacy.load("es_core_news_sm")
 
-MASONIC_KEYWORDS = [
-    "Masones", "Francmasonería", "Freemason", "Freimaurer", "Logia masónica", "Gran Logia",
-    "Freemasonry", "Masonic Lodge", "Masonería", "Franc-maçon", "Franco-maçonaria", "Grande Loge",
-    "Großloge", "Loge maçonnique", "Ordem maçônica", "Temple maçonnique", "Templo masónico"
-]
-
-# ============== FUNCIONES DE GEOCODIFICACIÓN ==============
+# ============== FUNCIONES AUXILIARES ==============
 @lru_cache(maxsize=500)
 def geocode_location(location_str: str) -> tuple:
     try:
-        time.sleep(1.2)  # Para evitar problemas con la API de geocoding
+        time.sleep(1.2)
         loc = geolocator.geocode(location_str, exactly_one=True, timeout=15)
         return (loc.longitude, loc.latitude) if loc else (None, None)
     except Exception as e:
         logger.error(f"Geocoding error: {location_str} - {str(e)}")
         return (None, None)
 
-def is_valid_coords(lon, lat) -> bool:
-    if lon is None or lat is None:
-        return False
-    return -180 <= lon <= 180 and -90 <= lat <= 90
+def is_valid_coords(lon: float, lat: float) -> bool:
+    return lon is not None and lat is not None and (-180 <= lon <= 180) and (-90 <= lat <= 90)
 
-# ============== ANÁLISIS SEMÁNTICO ==============
+def validate_geojson(file_path):
+    """ Verifica si el archivo JSON generado es válido. """
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            json.load(f)
+        logger.info(f"El archivo {file_path} es un JSON válido.")
+        return True
+    except json.JSONDecodeError as e:
+        logger.error(f"Error de JSON en {file_path}: {str(e)}")
+        return False
+
+# ============== ANÁLISIS SEMÁNTICO Y FILTRADO ==============
 def is_masonic_content(text: str) -> bool:
+    """ Determina si el contenido es relevante para la masonería. """
     doc = nlp(text)
-    if any(keyword.lower() in text.lower() for keyword in MASONIC_KEYWORDS):
+    if any(keyword.lower() in text.lower() for keyword in ["Masones", "Francmasonería", "Logia masónica", "Gran Logia"]):
         return True
     for ent in doc.ents:
         if ent.label_ in ["ORG", "LOC"]:
-            if any(keyword.lower() in ent.text.lower() for keyword in MASONIC_KEYWORDS):
+            if any(keyword.lower() in ent.text.lower() for keyword in ["Masones", "Logia", "Gran Logia"]):
                 return True
     return False
 
-# ============== FUNCIONES DE PROCESAMIENTO ==============
+# ============== FUNCIONES DE PROCESAMIENTO DE FEEDS ==============
 def extract_location(text: str) -> str:
     pattern = r"\b(?:in|en|at|de)\s+([A-ZÀ-ÿ][a-zA-ZÀ-ÿ\s-]+?)(?:\.|,|$)"
     match = re.search(pattern, text, re.IGNORECASE | re.UNICODE)
@@ -132,14 +135,13 @@ def parse_feed(feed_url: str) -> list:
                         new_entry.update({"lon": lon, "lat": lat})
 
             entries.append(new_entry)
-        
         return entries
 
     except Exception as e:
         logger.error(f"Error procesando feed: {feed_url} - {str(e)}")
         return []
 
-# ============== FUNCIONES PRINCIPALES ==============
+# ============== MANEJO DE ARCHIVOS JSON Y GEOJSON ==============
 def load_master_data() -> list:
     if os.path.isfile(MASTER_JSON):
         with open(MASTER_JSON, "r", encoding="utf-8") as f:
@@ -167,6 +169,7 @@ def generate_geojson(data: list) -> dict:
             features.append(Feature(geometry=Point((item["lon"], item["lat"])), properties=properties))
     return FeatureCollection(features)
 
+# ============== FUNCIONES PRINCIPALES ==============
 def main():
     try:
         logger.info("Iniciando actualización de datos")
@@ -176,21 +179,27 @@ def main():
         for feed_url in RSS_FEEDS:
             entries = parse_feed(feed_url)
             new_entries.extend([e for e in entries if not is_duplicate(e, master_data)])
-        
+
         if new_entries:
             logger.info(f"Nuevas entradas encontradas: {len(new_entries)}")
-            with open(OUTPUT_GEOJSON, "w") as f:
-                dump(generate_geojson(new_entries), f, ensure_ascii=False, indent=2)
-            
+            with open(OUTPUT_GEOJSON, "w", encoding="utf-8") as f:
+                json.dump(generate_geojson(new_entries), f, ensure_ascii=False, indent=2)
+
+            # Validar el GeoJSON generado
+            if not validate_geojson(OUTPUT_GEOJSON):
+                logger.error("El archivo GeoJSON generado es inválido. Abortando proceso.")
+                return
+
             master_data.extend(new_entries)
             save_master_data(master_data)
             logger.info("Datos actualizados correctamente")
         else:
             logger.info("No hay nuevas entradas")
-            
+
     except Exception as e:
         logger.error(f"Error crítico: {str(e)}")
         raise
 
 if __name__ == "__main__":
     main()
+
