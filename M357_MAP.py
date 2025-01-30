@@ -9,6 +9,7 @@ import logging
 from functools import lru_cache
 from geopy.geocoders import Nominatim
 from geojson import FeatureCollection, Feature, Point, dump
+import spacy
 
 # ============== CONFIGURACIÓN ==============
 logging.basicConfig(
@@ -19,8 +20,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============== INSERTA TUS RSS AQUÍ ==============
+# Pega aquí tus URLs de Google Alerts u otros feeds RSS relacionados con la francmasonería.
 RSS_FEEDS = [
-    # Pega tus URLs de Google Alerts aquí
     "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
     "https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668",
     "https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165",
@@ -59,6 +60,12 @@ MAX_SUMMARY_LENGTH = 200
 MASTER_JSON = "master_data.json"
 OUTPUT_GEOJSON = "new_data.geojson"
 geolocator = Nominatim(user_agent="masoneria_geolocator_v2")
+nlp = spacy.load("es_core_news_sm")  # Usamos el modelo de español
+
+MASONIC_KEYWORDS = [
+    "francmasonería", "logia", "gran maestro", "ritual", "simbolismo",
+    "templo masónico", "grado masónico", "masonería especulativa"
+]
 
 # ============== FUNCIONES DE GEOCODIFICACIÓN ==============
 @lru_cache(maxsize=500)
@@ -74,6 +81,22 @@ def geocode_location(location_str: str) -> tuple:
 def is_valid_coords(lon: float, lat: float) -> bool:
     return (-180 <= lon <= 180) and (-90 <= lat <= 90)
 
+# ============== ANÁLISIS SEMÁNTICO ==============
+def is_masonic_content(text: str) -> bool:
+    """Determina si el contenido es relevante para la francmasonería."""
+    doc = nlp(text)
+    # Verificamos palabras clave específicas
+    if any(keyword.lower() in text.lower() for keyword in MASONIC_KEYWORDS):
+        return True
+    
+    # Verificar entidades relevantes como logias o lugares
+    for ent in doc.ents:
+        if ent.label_ in ["ORG", "LOC"]:
+            if any(keyword.lower() in ent.text.lower() for keyword in MASONIC_KEYWORDS):
+                return True
+    
+    return False
+
 # ============== FUNCIONES DE PROCESAMIENTO ==============
 def extract_location(text: str) -> str:
     pattern = r"\b(?:in|en|at|de)\s+([A-ZÀ-ÿ][a-zA-ZÀ-ÿ\s-]+?)(?:\.|,|$)"
@@ -86,6 +109,12 @@ def parse_feed(feed_url: str) -> list:
         entries = []
         
         for entry in feed.entries:
+            combined_text = f"{entry.get('title', '')} {entry.get('summary', '')}"
+            
+            # Filtrar solo contenido relevante
+            if not is_masonic_content(combined_text):
+                continue
+            
             new_entry = {
                 "title": entry.get("title", "Sin título"),
                 "summary": entry.get("summary", "")[:MAX_SUMMARY_LENGTH] + "..." if len(entry.get("summary", "")) > MAX_SUMMARY_LENGTH else entry.get("summary", ""),
@@ -97,7 +126,7 @@ def parse_feed(feed_url: str) -> list:
             }
             
             if GEOCODING_ENABLED:
-                location = extract_location(f"{new_entry['title']} {new_entry['summary']}")
+                location = extract_location(combined_text)
                 if location:
                     lon, lat = geocode_location(location)
                     if is_valid_coords(lon, lat):
