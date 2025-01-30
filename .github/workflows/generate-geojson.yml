@@ -1,4 +1,4 @@
-name: Generate and Commit GeoJSON
+name: Generate and Commit Enhanced GeoJSON with APA References
 
 on:
   workflow_dispatch:
@@ -6,74 +6,83 @@ on:
     - cron: '0 0 * * *'  # Ejecución diaria a medianoche UTC
 
 jobs:
-  build-and-update:
+  analyze-and-map:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4  # ✅ Correcto
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'  # ✅ Versión actualizada
+          python-version: '3.10'
 
-      - name: Cache Python dependencies
-        uses: actions/cache@v3    # ⚠️ Actualiza a v4 (versión más reciente)
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: ${{ runner.os }}-pip-
-
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
-          pip install --upgrade pip  # Agregar para actualizar pip
+          sudo apt-get update
+          sudo apt-get install -y jq gdal-bin  # Para validación geoespacial
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+          key: ${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run script to generate new data
+      - name: Run enhanced Masonic analysis and APA citation generation
         run: |
-          python M357_MAP.py || exit 1  # ✅ Nombre exacto
+          python M357_MAP.py
+          python generate_apa_citations.py masoneria_alertas.geojson references_apa7.txt
 
       - name: Validate new GeoJSON
         run: |
           if [ -f new_data.geojson ]; then
-            jq empty new_data.geojson || exit 1  # Mejor validación con jq
+            jq '.features[] | select(.geometry.coordinates[0] != null and .geometry.coordinates[1] != null)' \
+              new_data.geojson > validated_data.geojson
+            ogr2ogr -f GeoJSON -t_srs EPSG:4326 final_data.geojson validated_data.geojson
           else
             echo "No new data generated. Skipping validation."
           fi
 
       - name: Combine existing and new GeoJSON data
         run: |
-          if [ -f new_data.geojson ]; then
-            python combine_geojson.py masoneria_alertas.geojson new_data.geojson masoneria_alertas.geojson
+          if [ -f final_data.geojson ]; then
+            python combine_geojson.py masoneria_alertas.geojson final_data.geojson masoneria_alertas.geojson
           else
             echo "No new data generated. Skipping combination."
           fi
 
       - name: Clean temporary files
         run: |
-          rm -f new_data.geojson
+          rm -f new_data.geojson validated_data.geojson final_data.geojson
 
       - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "actions@github.com"
+          git config --global user.name "Masonic Mapper"
+          git config --global user.email "masonic-bot@analysis.net"
           git add .
-          if git diff --staged --quiet; then  # Usar --staged en lugar de --cached
+          if git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            # Mensaje más robusto
-            COUNT=$(jq '.features | length' new_data.geojson 2>/dev/null || echo 0)
+            COUNT=$(jq '.features | length' masoneria_alertas.geojson 2>/dev/null || echo 0)
             git commit -m "Auto-update: $(date +'%Y-%m-%d') - $COUNT nuevas entradas"
             git push
           fi
 
-      - name: Deploy to GitHub Pages (opcional)
+      - name: Deploy to Knowledge Base
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./  # Asegurar que el GeoJSON esté en este directorio
+          publish_dir: ./
           keep_files: true
+          destination_dir: masonic_analysis
