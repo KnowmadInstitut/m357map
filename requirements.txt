@@ -5,3 +5,4 @@ geojson==3.0.1
 python-dotenv==1.0.0
 spacy==3.7.2
 textblob
+langdetect==1.0.9
