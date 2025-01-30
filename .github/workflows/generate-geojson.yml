@@ -38,6 +38,47 @@ jobs:
           pip install -r requirements.txt
           python -m spacy download en_core_web_sm  # Instala modelo de idioma requerido
 
+name: Generate and Commit Enhanced GeoJSON with APA References
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  analyze-and-map:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq gdal-bin
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+          key: ${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies and Spacy model
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m spacy download es_core_news_sm
+          python -c "import spacy; spacy.load('es_core_news_sm')"  # Verificación manual de la carga del modelo
+
       - name: Run enhanced Masonic analysis and APA citation generation
         run: |
           python M357_MAP.py
