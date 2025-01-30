@@ -56,3 +56,44 @@ if __name__ == "__main__":
         sys.exit(1)
         
     combine_geojson(sys.argv[1], sys.argv[2], sys.argv[3])
+import json
+from geojson import Feature, FeatureCollection, Point, dump
+
+def load_wikipedia_data():
+    with open("wikipedia_data.json", "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def create_geojson_from_wikipedia(data):
+    features = []
+
+    for entry in data:
+        if "summary" in entry and entry["summary"]:  # Verificamos que tenga contenido
+            properties = {
+                "title": entry["title"],
+                "summary": entry["summary"],
+                "categories": entry["categories"],
+                "source": "Wikipedia",
+                "keyword": entry["keyword"]
+            }
+            # Nota: Usa coordenadas ficticias si Wikipedia no proporciona ubicaciones específicas
+            features.append(Feature(geometry=Point((0, 0)), properties=properties))  
+
+    return FeatureCollection(features)
+
+def main():
+    # Cargar datos de Wikipedia
+    wikipedia_data = load_wikipedia_data()
+    wikipedia_geojson = create_geojson_from_wikipedia(wikipedia_data)
+
+    # Combinar con otros datos (como Google Alerts)
+    with open("masoneria_alertas.geojson", "r", encoding="utf-8") as f:
+        google_alerts_data = json.load(f)
+    
+    combined_features = google_alerts_data["features"] + wikipedia_geojson["features"]
+
+    # Guardar los datos combinados
+    with open("combined_data.geojson", "w", encoding="utf-8") as f:
+        dump(FeatureCollection(combined_features), f, ensure_ascii=False, indent=2)
+
+if __name__ == "__main__":
+    main()
