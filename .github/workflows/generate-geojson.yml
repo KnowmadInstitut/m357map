@@ -19,12 +19,6 @@ jobs:
         with:
           python-version: '3.10'
           
-      - name: Install Python dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          python -m spacy download en_core_web_sm  # Modelo de idioma requerido
-
       - name: Install system dependencies
         run: |
           sudo apt-get update
@@ -36,11 +30,13 @@ jobs:
           path: |
             ~/.cache/pip
           key: ${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
 
-      - name: Install Python dependencies
+      - name: Install Python dependencies and Spacy model
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
+          python -m spacy download en_core_web_sm  # Instala modelo de idioma requerido
 
       - name: Run enhanced Masonic analysis and APA citation generation
         run: |
@@ -92,4 +88,3 @@ jobs:
           publish_dir: ./
           keep_files: true
           destination_dir: masonic_analysis
-          
