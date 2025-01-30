@@ -115,11 +115,11 @@ def analyze_sentiment(text):
 
 # ========== Clasificación basada en categorías ==========
 def categorize_text(text):
-    for main_category, subcategories in CATEGORIES.items():
-        for subcategory, keywords in subcategories.items():
-            if any(keyword.lower() in text.lower() for keyword in keywords):
-                return f"{main_category} -> {subcategory}"
-    return "sin categoría"
+    found_categories = []
+    for main_category, keywords in CATEGORIES.items():
+        if any(keyword.lower() in text.lower() for keyword in keywords):
+            found_categories.append(main_category)
+    return ", ".join(found_categories) if found_categories else "sin categoría"
 
 # ========== Generar resumen largo utilizando BART ==========
 def generate_long_summary(text):
