@@ -62,38 +62,30 @@ OUTPUT_GEOJSON = "new_data.geojson"
 geolocator = Nominatim(user_agent="masoneria_geolocator_v2")
 nlp = spacy.load("es_core_news_sm")
 
-# Palabras clave de las alertas de Google
 MASONIC_KEYWORDS = [
-    "Masones", "Freimaurertempel", "Franc-maçon", "Franc-maçonnerie",
-    "Francmasonería", "Franco-maçonaria", "Freemason", "Freemasonry",
-    "Freimaurer", "Freimaurerei", "Freimaurerloge", "Gran Logia",
-    "Grand Lodge", "Grande Loge", "Grande Loja", "Großloge",
-    "Hermandad masónica", "Loge maçonnique", "Logia masónica",
-    "Loja maçônica", "Maçonaria", "Masonería", "Masonic Brotherhood",
-    "Masonic Lodge", "Masonic Order", "Masonic Temple", "Maurerorden",
-    "Ordem maçônica", "Ordre maçonnique", "Rito masónico",
-    "Temple maçonnique", "Templo maçônico", "Templo masónico"
+    "Masones", "Francmasonería", "Freemason", "Freimaurer", "Logia masónica", "Gran Logia",
+    "Freemasonry", "Masonic Lodge", "Masonería", "Franc-maçon", "Franco-maçonaria", "Grande Loge",
+    "Großloge", "Loge maçonnique", "Ordem maçônica", "Temple maçonnique", "Templo masónico"
 ]
 
 # ============== FUNCIONES DE GEOCODIFICACIÓN ==============
 @lru_cache(maxsize=500)
 def geocode_location(location_str: str) -> tuple:
     try:
-        time.sleep(1.2)
+        time.sleep(1.2)  # Para evitar problemas con la API de geocoding
         loc = geolocator.geocode(location_str, exactly_one=True, timeout=15)
         return (loc.longitude, loc.latitude) if loc else (None, None)
     except Exception as e:
         logger.error(f"Geocoding error: {location_str} - {str(e)}")
         return (None, None)
 
-def is_valid_coords(lon: float, lat: float) -> bool:
+def is_valid_coords(lon, lat) -> bool:
     if lon is None or lat is None:
         return False
-    return (-180 <= lon <= 180) and (-90 <= lat <= 90)
+    return -180 <= lon <= 180 and -90 <= lat <= 90
 
 # ============== ANÁLISIS SEMÁNTICO ==============
 def is_masonic_content(text: str) -> bool:
-    """Determina si el contenido es relevante para la masonería."""
     doc = nlp(text)
     if any(keyword.lower() in text.lower() for keyword in MASONIC_KEYWORDS):
         return True
@@ -105,7 +97,6 @@ def is_masonic_content(text: str) -> bool:
 
 # ============== FUNCIONES DE PROCESAMIENTO ==============
 def extract_location(text: str) -> str:
-    """Extrae posibles ubicaciones de un texto usando expresiones regulares."""
     pattern = r"\b(?:in|en|at|de)\s+([A-ZÀ-ÿ][a-zA-ZÀ-ÿ\s-]+?)(?:\.|,|$)"
     match = re.search(pattern, text, re.IGNORECASE | re.UNICODE)
     return match.group(1).strip() if match else None
@@ -120,7 +111,6 @@ def parse_feed(feed_url: str) -> list:
         entries = []
         for entry in feed.entries:
             combined_text = f"{entry.get('title', '')} {entry.get('summary', '')}"
-
             if not is_masonic_content(combined_text):
                 continue
 
