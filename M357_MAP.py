@@ -11,7 +11,7 @@ from geopy.geocoders import Nominatim
 from geojson import FeatureCollection, Feature, Point, dump
 import spacy
 
-# ============== CONFIGURACIÓN ==============
+# ============== CONFIGURACIÓN DEL LOG ==============
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -19,9 +19,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# ============== INSERTA TUS RSS AQUÍ ==============
+# ============== INSERTA TUS URL DE RSS AQUÍ ==============
 RSS_FEEDS = [
-     "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
+    # Pega aquí los enlaces de tus feeds RSS
+    "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
     "https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668",
     "https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165",
     "https://www.google.com/alerts/feeds/08823391955851607514/9378709536916495456",
@@ -86,16 +87,16 @@ def geocode_location(location_str: str) -> tuple:
         return (None, None)
 
 def is_valid_coords(lon: float, lat: float) -> bool:
+    if lon is None or lat is None:
+        return False
     return (-180 <= lon <= 180) and (-90 <= lat <= 90)
 
 # ============== ANÁLISIS SEMÁNTICO ==============
 def is_masonic_content(text: str) -> bool:
     """Determina si el contenido es relevante para la masonería."""
     doc = nlp(text)
-    # Verificar si alguna palabra clave está en el texto
     if any(keyword.lower() in text.lower() for keyword in MASONIC_KEYWORDS):
         return True
-    # Si detectamos entidades relevantes relacionadas con la masonería, también es válido
     for ent in doc.ents:
         if ent.label_ in ["ORG", "LOC"]:
             if any(keyword.lower() in ent.text.lower() for keyword in MASONIC_KEYWORDS):
@@ -106,21 +107,23 @@ def is_masonic_content(text: str) -> bool:
 def extract_location(text: str) -> str:
     """Extrae posibles ubicaciones de un texto usando expresiones regulares."""
     pattern = r"\b(?:in|en|at|de)\s+([A-ZÀ-ÿ][a-zA-ZÀ-ÿ\s-]+?)(?:\.|,|$)"
-    match = re.search(pattern, text, re.IGNORECASE|re.UNICODE)
+    match = re.search(pattern, text, re.IGNORECASE | re.UNICODE)
     return match.group(1).strip() if match else None
 
 def parse_feed(feed_url: str) -> list:
     try:
         feed = feedparser.parse(feed_url)
+        if not feed.entries:
+            logger.warning(f"El feed {feed_url} está vacío o tiene problemas.")
+            return []
+
         entries = []
-        
         for entry in feed.entries:
             combined_text = f"{entry.get('title', '')} {entry.get('summary', '')}"
-            
-            # Filtrar solo contenido masónico relevante
+
             if not is_masonic_content(combined_text):
                 continue
-            
+
             new_entry = {
                 "title": entry.get("title", "Sin título"),
                 "summary": entry.get("summary", "")[:MAX_SUMMARY_LENGTH] + "..." if len(entry.get("summary", "")) > MAX_SUMMARY_LENGTH else entry.get("summary", ""),
@@ -130,18 +133,18 @@ def parse_feed(feed_url: str) -> list:
                 "lon": None,
                 "lat": None
             }
-            
+
             if GEOCODING_ENABLED:
                 location = extract_location(combined_text)
                 if location:
                     lon, lat = geocode_location(location)
                     if is_valid_coords(lon, lat):
                         new_entry.update({"lon": lon, "lat": lat})
-            
+
             entries.append(new_entry)
         
         return entries
-    
+
     except Exception as e:
         logger.error(f"Error procesando feed: {feed_url} - {str(e)}")
         return []
@@ -179,14 +182,14 @@ def main():
         logger.info("Iniciando actualización de datos")
         master_data = load_master_data()
         new_entries = []
-        
+
         for feed_url in RSS_FEEDS:
             entries = parse_feed(feed_url)
             new_entries.extend([e for e in entries if not is_duplicate(e, master_data)])
         
         if new_entries:
             logger.info(f"Nuevas entradas encontradas: {len(new_entries)}")
-            with open("new_data.geojson", "w") as f:
+            with open(OUTPUT_GEOJSON, "w") as f:
                 dump(generate_geojson(new_entries), f, ensure_ascii=False, indent=2)
             
             master_data.extend(new_entries)
