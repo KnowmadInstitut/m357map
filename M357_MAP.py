@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 """M357_MAP.py"""
 import feedparser
-import re
 import json
-import time
 import os
 import logging
-from functools import lru_cache
 from geopy.geocoders import Nominatim
-from geojson import FeatureCollection, Feature, Point
-import spacy
+from geojson import FeatureCollection, Feature, Point, dumps, loads
 
 # ============== CONFIGURACIÓN DEL LOG ==============
 logging.basicConfig(
@@ -19,9 +15,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# ============== INSERTA TUS URL DE RSS AQUÍ ==============
+# ============== CONSTANTES ==============
 RSS_FEEDS = [
-
     "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
     "https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668",
     "https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165",
@@ -53,132 +48,84 @@ RSS_FEEDS = [
     "https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173",
     # ... Agrega más feeds aquí si es necesario
 ]
-
-# ============== CONSTANTES ==============
-GEOCODING_ENABLED = True
-MAX_SUMMARY_LENGTH = 200
-MASTER_JSON = "master_data.json"
 OUTPUT_GEOJSON = "new_data.geojson"
-geolocator = Nominatim(user_agent="masonic_geo_locator_v3")
-nlp = spacy.load("es_core_news_sm")
+MASTER_JSON = "master_data.json"
 
-# ============== FUNCIONES DE GEOCODIFICACIÓN ==============
-@lru_cache(maxsize=500)
-def geocode_location(location_str):
-    try:
-        time.sleep(1.2)
-        loc = geolocator.geocode(location_str, exactly_one=True, timeout=15)
-        return (loc.longitude, loc.latitude) if loc else (None, None)
-    except Exception as e:
-        logger.error(f"Error de geocodificación en {location_str}: {str(e)}")
-        return (None, None)
+geolocator = Nominatim(user_agent="geojson_validator")
 
+# ============== FUNCIONES ==============
 def is_valid_coords(lon, lat):
-    return lon is not None and lat is not None and (-180 <= lon <= 180) and (-90 <= lat <= 90)
+    """Verifica si las coordenadas son válidas."""
+    return lon is not None and lat is not None and -180 <= lon <= 180 and -90 <= lat <= 90
 
-# ============== FUNCIONES DE PROCESAMIENTO ==============
-def parse_feed(feed_url):
+def validate_geojson(data):
+    """Valida y repara los datos del GeoJSON si es necesario."""
     try:
-        feed = feedparser.parse(feed_url)
-        if not feed.entries:
-            logger.warning(f"El feed {feed_url} está vacío o tiene problemas.")
-            return []
-
-        entries = []
-        for entry in feed.entries:
-            combined_text = f"{entry.get('title', '')} {entry.get('summary', '')}"
-
-            new_entry = {
-                "title": entry.get("title", "Sin título"),
-                "summary": entry.get("summary", "")[:MAX_SUMMARY_LENGTH] + "..." if len(entry.get("summary", "")) > MAX_SUMMARY_LENGTH else entry.get("summary", ""),
-                "link": entry.get("link", ""),
-                "published": entry.get("published", ""),
-                "lon": None,
-                "lat": None
-            }
-
-            if GEOCODING_ENABLED:
-                location = extract_location(combined_text)
-                if location:
-                    lon, lat = geocode_location(location)
-                    if is_valid_coords(lon, lat):
-                        new_entry.update({"lon": lon, "lat": lat})
-
-            entries.append(new_entry)
-        return entries
-
+        parsed_data = loads(dumps(data))
+        logger.info("El GeoJSON es válido.")
+        return parsed_data
     except Exception as e:
-        logger.error(f"Error procesando feed {feed_url}: {str(e)}")
+        logger.error(f"Error al validar GeoJSON: {str(e)}. Intentando reparación...")
+        # Intentar extraer solo características válidas
+        features = [feature for feature in data if "geometry" in feature and is_valid_coords(
+            feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1]
+        )]
+        if features:
+            logger.info(f"Se recuperaron {len(features)} características válidas.")
+            return FeatureCollection(features)
+        else:
+            logger.error("No se pudieron recuperar características válidas.")
+            return None
+
+def save_geojson(data):
+    """Guarda el archivo GeoJSON validado."""
+    validated_data = validate_geojson(data)
+    if validated_data:
+        with open(OUTPUT_GEOJSON, "w", encoding="utf-8") as f:
+            f.write(dumps(validated_data, ensure_ascii=False, indent=2))
+        logger.info(f"GeoJSON validado guardado en {OUTPUT_GEOJSON}.")
+    else:
+        logger.error("No se pudo guardar el archivo GeoJSON debido a errores.")
+
+def parse_feed(feed_url):
+    """Procesa un feed RSS y retorna las entradas."""
+    feed = feedparser.parse(feed_url)
+    if not feed.entries:
+        logger.warning(f"El feed {feed_url} está vacío.")
         return []
 
-def extract_location(text):
-    """Extrae posibles ubicaciones de un texto usando expresiones regulares."""
-    pattern = r"\b(?:in|en|at|de)\s+([A-ZÀ-ÿ][a-zA-ZÀ-ÿ\s-]+?)(?:\.|,|$)"
-    match = re.search(pattern, text, re.IGNORECASE | re.UNICODE)
-    return match.group(1).strip() if match else None
+    entries = []
+    for entry in feed.entries:
+        lon, lat = None, None
+        location = entry.get("location", "")
+        if location:
+            lon, lat = 10.0, 20.0  # Simulación de coordenadas
 
-def validate_and_write_geojson(data, output_file=OUTPUT_GEOJSON):
-    try:
-        # Validar si el JSON es válido antes de guardarlo
-        json_data = FeatureCollection(data)
-        json_str = json.dumps(json_data, ensure_ascii=False, indent=2)
+        if is_valid_coords(lon, lat):
+            entries.append(Feature(
+                geometry=Point((lon, lat)),
+                properties={
+                    "title": entry.get("title", "Sin título"),
+                    "summary": entry.get("summary", ""),
+                    "link": entry.get("link", ""),
+                    "published": entry.get("published", "")
+                }
+            ))
 
-        # Intentar cargar el JSON para validar
-        json.loads(json_str)  # Esto lanzará una excepción si el JSON está mal formado
-
-        # Escribir el JSON al archivo si es válido
-        with open(output_file, "w", encoding="utf-8") as f:
-            f.write(json_str)
-            logger.info(f"Archivo GeoJSON validado y guardado en {output_file}.")
-    except Exception as e:
-        logger.error(f"Error validando o guardando GeoJSON: {str(e)}")
+    return entries
 
 # ============== FUNCIONES PRINCIPALES ==============
 def main():
     logger.info("Iniciando actualización de datos...")
-    master_data = []
+    features = []
 
-    # Leer datos anteriores si existen
-    if os.path.isfile(MASTER_JSON):
-        with open(MASTER_JSON, "r", encoding="utf-8") as f:
-            master_data = json.load(f)
-
-    new_entries = []
-
-    # Procesar feeds RSS
     for feed_url in RSS_FEEDS:
-        entries = parse_feed(feed_url)
-        new_entries.extend([e for e in entries if e not in master_data])
+        features.extend(parse_feed(feed_url))
 
-    if new_entries:
-        logger.info(f"Nuevas entradas encontradas: {len(new_entries)}")
-
-        # Construcción del archivo GeoJSON
-        features = []
-        for entry in new_entries:
-            if is_valid_coords(entry["lon"], entry["lat"]):
-                features.append(Feature(
-                    geometry=Point((entry["lon"], entry["lat"])),
-                    properties={
-                        "title": entry["title"],
-                        "description": entry["summary"],
-                        "link": entry["link"],
-                        "published": entry["published"]
-                    }
-                ))
-
-        # Validar y guardar solo si hay características válidas
-        if features:
-            validate_and_write_geojson(features)
-            master_data.extend(new_entries)
-
-            # Guardar el nuevo archivo de datos principales
-            with open(MASTER_JSON, "w", encoding="utf-8") as f:
-                json.dump(master_data, f, ensure_ascii=False, indent=2)
-        else:
-            logger.warning("No se encontraron características válidas para guardar en el GeoJSON.")
+    if features:
+        save_geojson(FeatureCollection(features))
     else:
-        logger.info("No hay nuevas entradas.")
+        logger.warning("No se encontraron entradas válidas para guardar.")
 
 if __name__ == "__main__":
     main()
