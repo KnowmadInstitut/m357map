@@ -8,7 +8,7 @@ import os
 import logging
 from functools import lru_cache
 from geopy.geocoders import Nominatim
-from geojson import FeatureCollection, Feature, Point, dump
+from geojson import FeatureCollection, Feature, Point
 import spacy
 
 # ============== CONFIGURACIÓN DEL LOG ==============
@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 # ============== INSERTA TUS URL DE RSS AQUÍ ==============
 RSS_FEEDS = [
+
     "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
     "https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668",
     "https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165",
@@ -116,13 +117,21 @@ def extract_location(text):
     match = re.search(pattern, text, re.IGNORECASE | re.UNICODE)
     return match.group(1).strip() if match else None
 
-def write_geojson_safely(data, output_file=OUTPUT_GEOJSON):
+def validate_and_write_geojson(data, output_file=OUTPUT_GEOJSON):
     try:
+        # Validar si el JSON es válido antes de guardarlo
+        json_data = FeatureCollection(data)
+        json_str = json.dumps(json_data, ensure_ascii=False, indent=2)
+
+        # Intentar cargar el JSON para validar
+        json.loads(json_str)  # Esto lanzará una excepción si el JSON está mal formado
+
+        # Escribir el JSON al archivo si es válido
         with open(output_file, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-            logger.info(f"Archivo GeoJSON guardado en {output_file} exitosamente.")
+            f.write(json_str)
+            logger.info(f"Archivo GeoJSON validado y guardado en {output_file}.")
     except Exception as e:
-        logger.error(f"Error al guardar GeoJSON: {str(e)}")
+        logger.error(f"Error validando o guardando GeoJSON: {str(e)}")
 
 # ============== FUNCIONES PRINCIPALES ==============
 def main():
@@ -158,11 +167,9 @@ def main():
                     }
                 ))
 
-        geojson_data = FeatureCollection(features)
-
-        # Validar que no esté vacío antes de guardar
+        # Validar y guardar solo si hay características válidas
         if features:
-            write_geojson_safely(geojson_data)
+            validate_and_write_geojson(features)
             master_data.extend(new_entries)
 
             # Guardar el nuevo archivo de datos principales
