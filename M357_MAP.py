@@ -7,25 +7,6 @@ import logging
 from geopy.geocoders import Nominatim
 from geojson import FeatureCollection, Feature, Point, dumps, loads
 
-def main():
-    logger.info("Iniciando actualización de datos...")
-    features = []
-
-    for feed_url in RSS_FEEDS:
-        features.extend(parse_feed(feed_url))
-
-    if features:
-        save_geojson(FeatureCollection(features))
-    else:
-        logger.warning("No se encontraron entradas válidas. Generando un archivo vacío.")
-        # Crear un GeoJSON vacío para evitar errores
-        empty_geojson = FeatureCollection([])
-        save_geojson(empty_geojson)
-
-if __name__ == "__main__":
-    main()
-
-
 # ============== CONFIGURACIÓN DEL LOG ==============
 logging.basicConfig(
     level=logging.INFO,
@@ -65,27 +46,22 @@ RSS_FEEDS = [
     "https://www.google.com/alerts/feeds/08823391955851607514/3528049070088672707",
     "https://www.google.com/alerts/feeds/08823391955851607514/11937818240173291166",
     "https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173",
-    # ... Agrega más feeds aquí si es necesario
 ]
 OUTPUT_GEOJSON = "new_data.geojson"
 MASTER_JSON = "master_data.json"
-
 geolocator = Nominatim(user_agent="geojson_validator")
 
 # ============== FUNCIONES ==============
 def is_valid_coords(lon, lat):
-    """Verifica si las coordenadas son válidas."""
     return lon is not None and lat is not None and -180 <= lon <= 180 and -90 <= lat <= 90
 
 def validate_geojson(data):
-    """Valida y repara los datos del GeoJSON si es necesario."""
     try:
         parsed_data = loads(dumps(data))
         logger.info("El GeoJSON es válido.")
         return parsed_data
     except Exception as e:
         logger.error(f"Error al validar GeoJSON: {str(e)}. Intentando reparación...")
-        # Intentar extraer solo características válidas
         features = [feature for feature in data if "geometry" in feature and is_valid_coords(
             feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1]
         )]
@@ -97,7 +73,6 @@ def validate_geojson(data):
             return None
 
 def save_geojson(data):
-    """Guarda el archivo GeoJSON validado."""
     validated_data = validate_geojson(data)
     if validated_data:
         with open(OUTPUT_GEOJSON, "w", encoding="utf-8") as f:
@@ -107,7 +82,6 @@ def save_geojson(data):
         logger.error("No se pudo guardar el archivo GeoJSON debido a errores.")
 
 def parse_feed(feed_url):
-    """Procesa un feed RSS y retorna las entradas."""
     feed = feedparser.parse(feed_url)
     if not feed.entries:
         logger.warning(f"El feed {feed_url} está vacío.")
