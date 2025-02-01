@@ -7,6 +7,25 @@ import logging
 from geopy.geocoders import Nominatim
 from geojson import FeatureCollection, Feature, Point, dumps, loads
 
+def main():
+    logger.info("Iniciando actualización de datos...")
+    features = []
+
+    for feed_url in RSS_FEEDS:
+        features.extend(parse_feed(feed_url))
+
+    if features:
+        save_geojson(FeatureCollection(features))
+    else:
+        logger.warning("No se encontraron entradas válidas. Generando un archivo vacío.")
+        # Crear un GeoJSON vacío para evitar errores
+        empty_geojson = FeatureCollection([])
+        save_geojson(empty_geojson)
+
+if __name__ == "__main__":
+    main()
+
+
 # ============== CONFIGURACIÓN DEL LOG ==============
 logging.basicConfig(
     level=logging.INFO,
