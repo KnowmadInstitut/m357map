@@ -6,6 +6,15 @@ from urllib.parse import urlparse
 from geopy.geocoders import Nominatim
 import tldextract
 from transformers import pipeline  # Importar el modelo de Hugging Face
+import os
+
+def main(input_file="new_data.geojson", output_file="references_apa7.txt", analysis_file="analysis_summary.txt"):
+    if not os.path.isfile(input_file):
+        print(f"Error: No se encontró el archivo {input_file}. Verifica que el proceso de generación haya sido exitoso.")
+        return
+
+    with open(input_file, "r", encoding="utf-8") as f:
+        geojson_data = json.load(f)
 
 DetectorFactory.seed = 0
 
