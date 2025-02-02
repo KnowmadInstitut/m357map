@@ -14,3 +14,4 @@ scikit-learn==1.2.2         # Clasificación y clustering del contenido
 pandas==1.5.3               # Análisis y manipulación de datos estructurados
 openai==0.27.0              # (Opcional) Para interactuar con GPT si fuera necesario en el futuro
 torch==2.0.1                # (Requerido por transformers para modelos de NLP)
+mwparserfromhell==0.6.4
