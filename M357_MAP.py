@@ -46,6 +46,8 @@ RSS_FEEDS = [
     "https://www.google.com/alerts/feeds/08823391955851607514/3528049070088672707",
     "https://www.google.com/alerts/feeds/08823391955851607514/11937818240173291166",
     "https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173",
+    "https://www.google.com/alerts/feeds/08823391955851607514/5792372986925203132",
+    "https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427",
 ]
 OUTPUT_GEOJSON = "new_data.geojson"
 MASTER_JSON = "master_data.json"
