@@ -2,8 +2,8 @@ name: Wikipedia Data Update
 
 on:
   schedule:
-    - cron: '0 3 * * *'  # Ejecución diaria a las 3:00 AM UTC
-  workflow_dispatch:  # Permite la ejecución manual desde GitHub Actions
+    - cron: '0 3 * * *'  # Se ejecuta diariamente a las 3:00 AM UTC
+  workflow_dispatch:        # Permite la ejecución manual desde GitHub Actions
 
 jobs:
   update-wikipedia:
@@ -20,18 +20,28 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Paso 1: Ejecuta el scraper para obtener wikipedia_data.json
       - name: Run Wikipedia scraper
         run: |
           python wikipedia_scraper.py
 
+      # Paso 2: Crea "wikipedia_data.geojson" a partir de "wikipedia_data.json"
+      - name: Generate Wikipedia GeoJSON
+        run: |
+          python create_wikipedia_geojson.py
+
+      # Paso 3: Commit y push de los archivos modificados (json + geojson)
       - name: Commit updated data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "action@github.com"
-          git add wikipedia_data.json
+          git add wikipedia_data.json wikipedia_data.geojson
+          # Si NO hay cambios reales, 'git commit' fallará, por lo que 
+          # puedes manejarlo con un condicional, o dejar que emita un warning.
           git commit -m "Auto-update: Wikipedia data $(date +'%Y-%m-%d')"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
