@@ -1,3 +1,4 @@
+# ==================== PRINCIPALES DEPENDENCIAS ====================
 feedparser==6.0.10          # Procesar feeds RSS
 geopy==2.3.0                # Geocodificación de ubicaciones
 requests==2.31.0            # Realizar solicitudes HTTP
@@ -20,3 +21,14 @@ certifi==2023.5.7           # Certificados SSL/TLS
 regex==2023.6.3             # Mejor manejo de expresiones regulares
 lxml==4.9.2                 # Parseo rápido de XML/HTML (opcional para scraping masivo)
 PyYAML==6.0                 # Trabajar con archivos YAML (opcional, para configuraciones avanzadas)
+dateparser==1.1.8           # Análisis y parseo flexible de fechas
+
+# ==================== DEPENDENCIAS POTENCIALES ====================
+unidecode==1.3.6            # Elimina acentos y caracteres especiales (limpieza de datos)
+python-dateutil==2.8.2      # Análisis y manipulación adicional de fechas
+validators==0.20.0          # Validación de URLs antes de solicitar datos
+aiohttp==3.8.5              # HTTP asíncrono para optimizar scraping
+httpx==0.24.1               # Alternativa moderna y rápida a requests (opcional)
+pytest==7.4.2               # Framework de pruebas automatizadas
+sqlalchemy==2.0.5           # Manejo de bases de datos (si se requiere persistencia)
+networkx==3.0               # Análisis de redes y relaciones masónicas (opcional)
