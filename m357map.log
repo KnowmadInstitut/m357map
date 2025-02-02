@@ -72,3 +72,48 @@
 2025-02-02 16:49:21,487 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/5792372986925203132 está vacío.
 2025-02-02 16:49:21,835 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427 está vacío.
 2025-02-02 16:49:21,835 - WARNING - No se encontraron entradas válidas para guardar.
+2025-02-02 20:18:28,109 - INFO - Iniciando actualización de datos (Google Alerts)...
+2025-02-02 20:18:28,251 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/17243776362555978691 => 6 entradas
+2025-02-02 20:18:28,297 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/9378709536916495456 => 20 entradas
+2025-02-02 20:18:28,303 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/6833079353494005014 => 3 entradas
+2025-02-02 20:18:28,330 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477 => 4 entradas
+2025-02-02 20:18:28,341 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165 está vacío o sin entradas.
+2025-02-02 20:18:28,342 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165 => 0 entradas
+2025-02-02 20:18:28,357 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668 => 3 entradas
+2025-02-02 20:18:28,385 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/5572981003473119348 está vacío o sin entradas.
+2025-02-02 20:18:28,393 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/15847044508852608532 => 20 entradas
+2025-02-02 20:18:28,394 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/5572981003473119348 => 0 entradas
+2025-02-02 20:18:28,399 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/11043471059141282309 => 2 entradas
+2025-02-02 20:18:28,409 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/17383807687186980718 => 1 entradas
+2025-02-02 20:18:28,448 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461850 está vacío o sin entradas.
+2025-02-02 20:18:28,449 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461850 => 0 entradas
+2025-02-02 20:18:28,457 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/10413993926495102043 => 1 entradas
+2025-02-02 20:18:28,474 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/13877290848809114470 está vacío o sin entradas.
+2025-02-02 20:18:28,475 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/13877290848809114470 => 0 entradas
+2025-02-02 20:18:28,493 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461178 está vacío o sin entradas.
+2025-02-02 20:18:28,494 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461178 => 0 entradas
+2025-02-02 20:18:28,515 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/7760122889210870690 está vacío o sin entradas.
+2025-02-02 20:18:28,518 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/7760122889210870690 => 0 entradas
+2025-02-02 20:18:28,552 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/2031900511198117844 está vacío o sin entradas.
+2025-02-02 20:18:28,552 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/2031900511198117844 => 0 entradas
+2025-02-02 20:18:28,581 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/8744244600052796540 => 4 entradas
+2025-02-02 20:18:28,590 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/15183025294765855574 => 5 entradas
+2025-02-02 20:18:28,614 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/4297759070181606765 => 12 entradas
+2025-02-02 20:18:28,620 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/357094683772830109 => 2 entradas
+2025-02-02 20:18:28,623 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/13155130439785831467 está vacío o sin entradas.
+2025-02-02 20:18:28,624 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/13155130439785831467 => 0 entradas
+2025-02-02 20:18:28,633 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/15251611368669093385 => 1 entradas
+2025-02-02 20:18:28,641 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/11630540178333861502 => 2 entradas
+2025-02-02 20:18:28,677 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/9684782093161547179 => 3 entradas
+2025-02-02 20:18:28,683 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/15809012670835506226 => 6 entradas
+2025-02-02 20:18:28,716 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/14458568452294133843 => 2 entradas
+2025-02-02 20:18:28,728 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/11937818240173291166 está vacío o sin entradas.
+2025-02-02 20:18:28,728 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/11937818240173291166 => 0 entradas
+2025-02-02 20:18:28,755 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/5792372986925203132 está vacío o sin entradas.
+2025-02-02 20:18:28,755 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/5792372986925203132 => 0 entradas
+2025-02-02 20:18:28,760 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/3528049070088672707 => 4 entradas
+2025-02-02 20:18:28,766 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427 está vacío o sin entradas.
+2025-02-02 20:18:28,766 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427 => 0 entradas
+2025-02-02 20:18:28,842 - INFO - Procesado feed: https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173 => 12 entradas
+2025-02-02 20:18:28,846 - INFO - Datos combinados guardados en google_alerts.geojson.
+2025-02-02 20:18:28,846 - INFO - Proceso finalizado con éxito.
