@@ -34,3 +34,12 @@
 2025-01-30 00:51:20,697 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173 - '<=' not supported between instances of 'int' and 'NoneType'
 2025-01-30 00:51:20,697 - INFO - Nuevas entradas encontradas: 1
 2025-01-30 00:51:20,725 - INFO - Datos actualizados correctamente
+2025-02-02 15:08:34,058 - INFO - Iniciando actualización de datos...
+2025-02-02 15:08:34,241 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165 está vacío.
+2025-02-02 15:08:34,566 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/5572981003473119348 está vacío.
+2025-02-02 15:08:34,927 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461850 está vacío.
+2025-02-02 15:08:34,981 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461178 está vacío.
+2025-02-02 15:08:35,036 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/7760122889210870690 está vacío.
+2025-02-02 15:08:35,286 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/15251611368669093385 está vacío.
+2025-02-02 15:08:35,509 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/13155130439785831467 está vacío.
+2025-02-02 15:08:35,837 - WARNING - No se encontraron entradas válidas para guardar.
