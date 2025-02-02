@@ -4,13 +4,37 @@ requests==2.31.0            # Realizar solicitudes HTTP
 geojson==3.0.1              # Manejo de datos GeoJSON
 python-dotenv==1.0.0        # Cargar variables de entorno desde .env
 spacy==3.7.2                # Procesamiento de lenguaje natural (NLP)
+nltk==3.8.1                 # NLP para tokenización y más
 textblob==0.15.3            # Análisis de sentimiento y corrección gramatical
 langdetect==1.0.9           # Detección de idioma
 tldextract==3.4.0           # Extraer dominios de URLs
-transformers==4.30.0        # Modelos de Hugging Face para generación de resúmenes
-nltk==3.8.1                 # NLP para tokenización y más (opcional pero útil)
-beautifulsoup4==4.12.2      # Parseo de HTML (para scraping si es necesario)
+transformers==4.30.0        # Modelos de Hugging Face para resúmenes
+torch==2.0.1                # Requerido por transformers para NLP
+beautifulsoup4==4.12.2      # Parseo de HTML (para scraping)
 scikit-learn==1.2.2         # Clasificación y clustering del contenido
 pandas==1.5.3               # Análisis y manipulación de datos estructurados
-openai==0.27.0              # (Opcional) Para interactuar con GPT si fuera necesario en el futuro
-torch==2.0.1                # (Requerido por transformers para modelos de NLP)
+openai==0.27.0              # Interacción con GPT si fuera necesario
+mwparserfromhell==0.6.4     # Procesar wikitext para Wikipedia
+psutil==5.9.5               # Monitoreo del sistema
+certifi==2023.5.7           # Certificados SSL seguros
+regex==2023.6.3             # Expresiones regulares avanzadas
+lxml==4.9.2                 # Parseo de XML y HTML
+PyYAML==6.0                 # Procesamiento de archivos YAML
+dateparser==1.1.8           # Parseo flexible de fechas
+tenacity==8.2.2             # Reintentos automáticos en solicitudes
+unidecode==1.3.6            # Normalización Unicode
+orjson==3.8.5               # Parseo JSON avanzado
+msgpack==1.0.5              # Serialización de datos
+matplotlib==3.7.1           # Visualización de datos básicos
+zstandard==0.21.0           # Soporte para archivos comprimidos
+dask[complete]==2023.1.0    # Procesamiento de datos grandes
+selenium==4.10.0            # Web scraping automatizado
+fake-useragent==1.2.0       # Agente de usuario automático
+tabulate==0.9.0             # Manejo de datos tabulares
+pdfplumber==0.9.0           # Extracción de datos tabulares de PDFs
+pytesseract==0.3.10         # OCR (Reconocimiento óptico de caracteres)
+validators==0.20.0          # Validación de URLs
+requests-oauthlib==1.3.1    # Autenticación OAuth
+ratelimit==2.2.1            # Manejar límites de solicitudes
+pyarrow==13.0.0             # Soporte para escribir/leer archivos Parquet
+fastparquet==2023.4.0       # Alternativa para el soporte Parquet
