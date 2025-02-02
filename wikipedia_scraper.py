@@ -1,59 +1,80 @@
 # -*- coding: utf-8 -*-
-"""wikipedia_scraper.py
+"""
+wikipedia_scraper.py
 
-Combina un motor de búsqueda avanzado en Wikipedia con enriquecimiento de datos 
-(Wikidata, Infobox, geocodificación, APA references, etc.) y concurrencia.
+Script avanzado para:
+1) Buscar artículos relacionados con masonería en múltiples Wikipedias.
+2) Obtener detalles del artículo (resumen, categorías) + QID de Wikidata.
+3) Extraer coordenadas de P625 (Wikidata) o bien con infobox -> geocodificación.
+4) Analizar fechas históricas (dateparser) y generar referencias APA.
+5) Mantener un sistema de caché (en JSON o SQLite) para no reprocesar datos.
+6) Concurrencia usando ThreadPoolExecutor.
+
+TODO:
+- Ajustar KEYWORDS y WIKI_LANGUAGES según tus necesidades.
+- Revisar la sección "Análisis Post-proceso" para personalizar tu analítica.
 """
 
 import requests
 import json
 import logging
 import time
+import re
+import os
 from typing import List, Dict, Optional, Tuple
 import mwparserfromhell
-from geopy.geocoders import Nominatim
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from unidecode import unidecode
-import pytz
-import re
 
-# ============== CONFIGURACIÓN AVANZADA DE LOG =================
+# Librerías gratuitas y abiertas
+import dateparser  # Para parsear fechas en múltiples idiomas
+from tenacity import retry, stop_after_attempt, wait_exponential  # Para reintentos automáticos en requests
+
+# geopy (open source)
+from geopy.geocoders import Nominatim
+
+############################################################################
+# =========================== CONFIGURACIÓN ================================
+############################################################################
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - [%(module)s] - %(message)s",
     handlers=[
-        logging.FileHandler("masonic_research.log"),
+        logging.FileHandler("masonic_research_advanced.log"),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger("MasonicWikiScraper")
 
-# ============== CONFIGURACIÓN DINÁMICA =================
 class Config:
-    # Idiomas de Wikipedia a recorrer
-    WIKI_LANGUAGES = ["en", "es", "fr", "de"]  # puedes ampliar a "pt", "it", etc.
+    """
+    Parametrizaciones básicas:
+    - WIKI_LANGUAGES: idiomas de Wikipedia a recorrer.
+    - MAX_WORKERS: número de hilos concurrentes en ThreadPoolExecutor.
+    - REQUEST_TIMEOUT: tiempo máximo de espera por request.
+    - USE_SQLITE_CACHE: si es True, se usará SQLite en vez de JSON para caché.
+    - HISTORIC_DATES_REGEX: regex básico para encontrar posibles fechas en el texto.
+    - REQUEST_DELAY: retardo entre requests para no saturar los servicios abiertos.
+    """
+
+    WIKI_LANGUAGES = ["en", "es"]  # Amplía con 'fr', 'de', 'pt', etc. si deseas
     MAX_WORKERS = 5
     REQUEST_TIMEOUT = 15
-    CACHE_FILE = "scraper_cache.json"
-
-    # Regex que intenta capturar fechas históricas (ejemplo simplificado)
-    # Ajusta según tus necesidades idiomáticas:
-    HISTORIC_DATES_REGEX = r"\b(\d{1,2}\s+(?:de\s+)?[A-Za-z]+\s+(?:de\s+)?\d{4}|\d{4})\b"
-
-    # Tiempo de pausa entre peticiones para no saturar APIs
-    REQUEST_DELAY = 1.5
-
-    # API key de MapQuest (ejemplo si deseas usar su geocodificación)
-    MAPQUEST_API_KEY = "YOUR_API_KEY_HERE"  # <-- reempázalo o déjalo vacío
+    USE_SQLITE_CACHE = False  # Si True, usa SQLite. Si False, usa JSON
+    JSON_CACHE_FILE = "scraper_cache.json"
+    SQLITE_DB = "scraper_cache.db"
+    HISTORIC_DATES_REGEX = r"\b(\d{1,2}\s+\w+\s+\d{4}|\d{4})\b"
+    REQUEST_DELAY = 1.0
 
 config = Config()
+geolocator = Nominatim(user_agent="masonic_research_v3")
 
-# Geolocalizador base
-geolocator = Nominatim(user_agent="masonic_research_v2")
+############################################################################
+# ============== LISTA DE PALABRAS CLAVE (AMPLÍA SEGÚN NECESIDAD) =========
+############################################################################
 
-# ============== LISTA DE PALABRAS CLAVE (COMBINADA) =================
-# Si deseas reusar tu anterior KEYWORDS, pégalas aquí.
 KEYWORDS = [
     "Freemason", "Mason", "Francmason", "Freemasonry", "Francmasonería", "Gran Logia", "Masonic Lodge",
     "Masonic Temple", "Loge maçonnique", "Freimaurer", "Freimaurerei", "Franc-maçon", "Masonic Order",
@@ -81,208 +102,290 @@ KEYWORDS = [
     "Ramsay's Oration", "Oración de Ramsay", "Oração de Ramsay", "Discours de Ramsay", "Ramsays Rede",
     "Lessing and German Freemasonry", "Lessing y la Masonería Alemana", "Lessing e a Maçonaria Alemã",
     "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst", 
-
-    # ... Resto de tu lista ampliada
+    # ... añade las palabras que desees
 ]
 
-# ============== BUSQUEDA SEMÁNTICA / FILTRADA =================
-def semantic_search(keyword: str, lang: str) -> List[Dict]:
+############################################################################
+# =================== SISTEMA DE CACHÉ: JSON O SQLITE ======================
+############################################################################
+
+def ensure_sqlite_tables(conn):
+    """Crea tablas (articles, locations) si no existen."""
+    c = conn.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS articles (
+            cache_key TEXT PRIMARY KEY,
+            data TEXT
+        )
+    """)
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS locations (
+            place_name TEXT PRIMARY KEY,
+            lat REAL,
+            lon REAL
+        )
+    """)
+    conn.commit()
+
+class CacheManager:
     """
-    Búsqueda semántica en Wikipedia con filtrado adicional "masonic"|"freemason"|"lodge"|"grand lodge"
-    para refinar los resultados y extraer los más relevantes.
+    Manejador de caché.
+    - Por defecto usa un archivo JSON (scraper_cache.json).
+    - Si se activa USE_SQLITE_CACHE, utiliza una base de datos local 'scraper_cache.db'.
     """
+
+    @staticmethod
+    def load_json() -> Dict:
+        if not os.path.exists(config.JSON_CACHE_FILE):
+            return {"articles": {}, "locations": {}}
+        try:
+            with open(config.JSON_CACHE_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, FileNotFoundError):
+            return {"articles": {}, "locations": {}}
+
+    @staticmethod
+    def save_json(cache: Dict):
+        with open(config.JSON_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(cache, f, indent=2, ensure_ascii=False)
+
+    @staticmethod
+    def load_sqlite():
+        import sqlite3
+        conn = sqlite3.connect(config.SQLITE_DB)
+        ensure_sqlite_tables(conn)
+        return conn
+
+    @staticmethod
+    def get_article(cache_key: str) -> Optional[Dict]:
+        if config.USE_SQLITE_CACHE:
+            import sqlite3
+            conn = CacheManager.load_sqlite()
+            c = conn.cursor()
+            c.execute("SELECT data FROM articles WHERE cache_key = ?", (cache_key,))
+            row = c.fetchone()
+            conn.close()
+            if row:
+                return json.loads(row[0])
+            return None
+        else:
+            # JSON
+            c = CacheManager.load_json()
+            return c["articles"].get(cache_key)
+
+    @staticmethod
+    def set_article(cache_key: str, data: Dict):
+        if config.USE_SQLITE_CACHE:
+            import sqlite3
+            conn = CacheManager.load_sqlite()
+            c = conn.cursor()
+            c.execute("REPLACE INTO articles (cache_key, data) VALUES (?, ?)",
+                      (cache_key, json.dumps(data, ensure_ascii=False)))
+            conn.commit()
+            conn.close()
+        else:
+            c = CacheManager.load_json()
+            c["articles"][cache_key] = data
+            CacheManager.save_json(c)
+
+    @staticmethod
+    def get_location(place_name: str) -> Optional[Tuple[float, float]]:
+        if config.USE_SQLITE_CACHE:
+            import sqlite3
+            conn = CacheManager.load_sqlite()
+            c = conn.cursor()
+            c.execute("SELECT lat, lon FROM locations WHERE place_name = ?", (place_name,))
+            row = c.fetchone()
+            conn.close()
+            if row:
+                return (row[0], row[1])
+            return None
+        else:
+            c = CacheManager.load_json()
+            loc = c["locations"].get(place_name)
+            if loc:
+                return (loc["lat"], loc["lon"])
+            return None
+
+    @staticmethod
+    def set_location(place_name: str, lat: float, lon: float):
+        if config.USE_SQLITE_CACHE:
+            import sqlite3
+            conn = CacheManager.load_sqlite()
+            c = conn.cursor()
+            c.execute("REPLACE INTO locations (place_name, lat, lon) VALUES (?, ?, ?)",
+                      (place_name, lat, lon))
+            conn.commit()
+            conn.close()
+        else:
+            c = CacheManager.load_json()
+            c["locations"][place_name] = {"lat": lat, "lon": lon}
+            CacheManager.save_json(c)
+
+############################################################################
+# =============== BÚSQUEDA AVANZADA (MediaWiki / CirrusSearch) =============
+############################################################################
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1))
+def advanced_search(keyword: str, lang: str) -> List[Dict]:
+    """
+    Realiza una búsqueda avanzada en Wikipedia usando CirrusSearch.
+    Para no saturar con muchas OR, aquí se demuestra un ejemplo con incategory/hastemplate.
+    """
+    # Por ej.: "(incategory:'Masonic_buildings' OR hastemplate:'Infobox_freemasonry')"
+    srsearch = f'"{keyword}" AND (incategory:"Masonic_buildings" OR hastemplate:"Infobox_freemasonry")'
     params = {
         "action": "query",
         "list": "search",
-        "srsearch": f'{keyword} "masonic"|"freemason"|"lodge"|"grand lodge"',
+        "srsearch": srsearch,
         "format": "json",
         "srlimit": 10,
         "srprop": "size|wordcount|timestamp"
     }
-    try:
-        response = requests.get(
-            f"https://{lang}.wikipedia.org/w/api.php",
-            params=params,
-            timeout=config.REQUEST_TIMEOUT
-        )
-        response.raise_for_status()
-        results = response.json().get("query", {}).get("search", [])
-        # Ordenar por wordcount y tomar los 5 más extensos
-        return sorted(results, key=lambda x: x.get('wordcount', 0), reverse=True)[:5]
-
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Búsqueda fallida para {keyword} ({lang}): {str(e)}")
-        return []
-
-# ============== SISTEMA DE CACHÉ =================
-class CacheManager:
-    @staticmethod
-    def load() -> Dict:
-        try:
-            with open(config.CACHE_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            return {"articles": {}, "locations": {}}
-
-    @staticmethod
-    def save(cache: Dict):
-        with open(config.CACHE_FILE, "w", encoding="utf-8") as f:
-            json.dump(cache, f, indent=2, ensure_ascii=False)
-
-# ============== OBTENER QID / COORDENADAS WIKIDATA =================
-def get_qid_from_wikipedia_page(page_title: str, lang: str = "en") -> Optional[str]:
-    """
-    Retorna el QID de un artículo de Wikipedia, p.ej. 'Q12345'.
-    """
     url = f"https://{lang}.wikipedia.org/w/api.php"
+    resp = requests.get(url, params=params, timeout=config.REQUEST_TIMEOUT)
+    resp.raise_for_status()
+
+    results = resp.json().get("query", {}).get("search", [])
+    # Ordenar por wordcount descendente, tomar top 5
+    sorted_res = sorted(results, key=lambda x: x.get("wordcount", 0), reverse=True)[:5]
+    return sorted_res
+
+############################################################################
+# ============= WIKIDATA: QID y Coordenadas P625 ===========================
+############################################################################
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1))
+def get_qid_from_wikipedia_page(page_title: str, lang: str) -> Optional[str]:
+    """Obtiene el QID (p.ej. 'Q12345') de un artículo de Wikipedia."""
+    api_url = f"https://{lang}.wikipedia.org/w/api.php"
     params = {
         "action": "query",
         "prop": "pageprops",
         "format": "json",
         "titles": page_title
     }
-    try:
-        r = requests.get(url, params=params, timeout=config.REQUEST_TIMEOUT)
-        data = r.json()
-        pages = data["query"]["pages"]
-        for _, page_info in pages.items():
-            if "pageprops" in page_info and "wikibase_item" in page_info["pageprops"]:
-                return page_info["pageprops"]["wikibase_item"]
-    except Exception as e:
-        logger.warning(f"No se pudo obtener QID para {page_title}: {e}")
+    r = requests.get(api_url, params=params, timeout=config.REQUEST_TIMEOUT)
+    r.raise_for_status()
+    data = r.json()
+    pages = data["query"]["pages"]
+    for _, page_info in pages.items():
+        if "pageprops" in page_info and "wikibase_item" in page_info["pageprops"]:
+            return page_info["pageprops"]["wikibase_item"]
     return None
 
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1))
 def get_coords_from_wikidata(qid: str) -> Tuple[Optional[float], Optional[float]]:
-    """
-    Retorna (lat, lon) de la propiedad P625 en Wikidata, o (None, None) si no existe.
-    """
+    """Retorna (lat, lon) de la propiedad P625 en Wikidata o (None, None) si no existe."""
     if not qid:
         return None, None
-    try:
-        url = f"https://www.wikidata.org/wiki/Special:EntityData/{qid}.json"
-        r = requests.get(url, timeout=config.REQUEST_TIMEOUT)
-        data = r.json()
-        entity = data["entities"].get(qid, {})
-        claims = entity.get("claims", {})
-        if "P625" in claims:
-            coord_claim = claims["P625"][0]["mainsnak"]["datavalue"]["value"]
-            lat = coord_claim["latitude"]
-            lon = coord_claim["longitude"]
-            return (lat, lon)
-    except Exception as e:
-        logger.warning(f"Error obteniendo coords de Wikidata para {qid}: {e}")
+    wd_url = f"https://www.wikidata.org/wiki/Special:EntityData/{qid}.json"
+    resp = requests.get(wd_url, timeout=config.REQUEST_TIMEOUT)
+    resp.raise_for_status()
+    data = resp.json()
+    entity = data["entities"].get(qid, {})
+    claims = entity.get("claims", {})
+    if "P625" in claims:
+        coord_claim = claims["P625"][0]["mainsnak"]["datavalue"]["value"]
+        lat = coord_claim["latitude"]
+        lon = coord_claim["longitude"]
+        return (lat, lon)
     return None, None
 
-# ============== PARSE INFBOX LOCATION =================
-def parse_infobox_location(page_title: str, lang: str = "en") -> Optional[str]:
+############################################################################
+# ============== PARSE INFOBOX PARA UBICACIÓN =============================
+############################################################################
+
+def parse_infobox_location(page_title: str, lang: str) -> Optional[str]:
     """
-    Descarga el wikitext raw de la página y busca campos típicos de ubicación.
+    Descarga el wikitext raw y busca campos como birth_place, location, etc.
     """
-    url_raw = f"https://{lang}.wikipedia.org/w/index.php?title={page_title}&action=raw"
+    raw_url = f"https://{lang}.wikipedia.org/w/index.php?title={page_title}&action=raw"
     try:
-        response = requests.get(url_raw, timeout=config.REQUEST_TIMEOUT)
-        if response.status_code != 200:
+        resp = requests.get(raw_url, timeout=config.REQUEST_TIMEOUT)
+        if resp.status_code != 200:
             return None
-        wikitext = response.text
-    except Exception as e:
-        logger.warning(f"Error obteniendo wikitext de {page_title}: {e}")
+        wikitext = resp.text
+    except requests.RequestException as e:
+        logger.warning(f"Error fetch wikitext {page_title} {lang}: {e}")
         return None
 
     parsed = mwparserfromhell.parse(wikitext)
     templates = parsed.filter_templates()
-
     campos_ubicacion = [
         "birth_place", "death_place", "headquarters", "location",
         "place", "foundation_place", "venue", "native_place"
     ]
-    for template in templates:
-        name = template.name.strip().lower()
+    for tmpl in templates:
+        name = tmpl.name.strip().lower()
         if "infobox" in name:
             for campo in campos_ubicacion:
-                if template.has(campo):
-                    val = template.get(campo).value.strip()
+                if tmpl.has(campo):
+                    val = tmpl.get(campo).value.strip()
                     if val:
                         return str(val)
     return None
 
-# ============== GEOCODIFICACIÓN MEJORADA =================
+############################################################################
+# ============= GEOCODIFICACIÓN: PHOTON + NOMINATIM (GRATIS) ===============
+############################################################################
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1))
 def enhanced_geocoding(place_name: str) -> Optional[Tuple[float, float]]:
     """
-    1) Verifica caché
-    2) Limpia el 'place_name'
-    3) Intenta Photon -> Nominatim -> MapQuest
-    4) Retorna la primera coincidencia
+    - Limpia 'place_name' y recurre a Photon y luego Nominatim.
+    - Almacena el resultado en caché para no repetir.
+    - No se usa MapQuest ni otras APIs privadas.
     """
     if not place_name:
         return None
 
-    cache = CacheManager.load()
-    if place_name in cache["locations"]:
-        latlon = cache["locations"][place_name]
-        return (latlon["lat"], latlon["lon"])
+    cached = CacheManager.get_location(place_name)
+    if cached:
+        return cached
 
-    # limpiar paréntesis, normalizar, etc.
+    # Limpieza
     clean_place = re.sub(r"\(.*?\)", "", place_name).strip()
     clean_place = unidecode(clean_place)
 
-    # Distintos servicios
     services = [
         ("photon", "https://photon.komoot.io/api/"),
-        ("nominatim", "https://nominatim.openstreetmap.org/search/"),
-        ("mapquest", "https://www.mapquestapi.com/geocoding/v1/address")
+        ("nominatim", "https://nominatim.openstreetmap.org/search/")
     ]
 
-    for service, url in services:
+    for svc, url in services:
         try:
-            params = {}
-            if service == "photon":
-                params = {"q": clean_place}
-                resp = requests.get(url, params=params, timeout=10)
-                data = resp.json()
-                if "features" in data and len(data["features"]) > 0:
-                    best = data["features"][0]
-                    coords = best["geometry"]["coordinates"]
+            time.sleep(config.REQUEST_DELAY)
+            if svc == "photon":
+                r = requests.get(url, params={"q": clean_place}, timeout=10)
+                j = r.json()
+                if j.get("features"):
+                    coords = j["features"][0]["geometry"]["coordinates"]
                     lat, lon = coords[1], coords[0]
-                    # Guardar en caché
-                    cache["locations"][place_name] = {"lat": lat, "lon": lon}
-                    CacheManager.save(cache)
+                    CacheManager.set_location(place_name, lat, lon)
                     return (lat, lon)
-
-            elif service == "nominatim":
-                params = {"q": clean_place, "format": "json"}
-                resp = requests.get(url, params=params, timeout=10)
-                data = resp.json()
-                if len(data) > 0:
-                    best = data[0]
-                    lat = float(best["lat"])
-                    lon = float(best["lon"])
-                    cache["locations"][place_name] = {"lat": lat, "lon": lon}
-                    CacheManager.save(cache)
+            elif svc == "nominatim":
+                r = requests.get(url, params={"q": clean_place, "format": "json"}, timeout=10)
+                j = r.json()
+                if j:
+                    lat = float(j[0]["lat"])
+                    lon = float(j[0]["lon"])
+                    CacheManager.set_location(place_name, lat, lon)
                     return (lat, lon)
-
-            elif service == "mapquest" and config.MAPQUEST_API_KEY:
-                params = {"key": config.MAPQUEST_API_KEY, "location": clean_place}
-                resp = requests.get(url, params=params, timeout=10)
-                data = resp.json()
-                if "results" in data and len(data["results"]) > 0:
-                    loc = data["results"][0]["locations"]
-                    if loc and len(loc) > 0:
-                        lat = loc[0]["latLng"]["lat"]
-                        lon = loc[0]["latLng"]["lng"]
-                        cache["locations"][place_name] = {"lat": lat, "lon": lon}
-                        CacheManager.save(cache)
-                        return (lat, lon)
-
         except Exception as e:
-            logger.warning(f"Error en {service} para {clean_place}: {e}")
+            logger.warning(f"[{svc}] Error geocoding '{clean_place}': {e}")
 
-    logger.error(f"Geocodificación fallida para: {clean_place}")
+    logger.error(f"No se pudo geocodificar: {clean_place}")
     return None
 
-# ============== FUNCIÓN PARA OBTENER EXTRACT Y CATEGORÍAS =================
-def fetch_article_details(title: str, lang="en") -> Dict:
+############################################################################
+# ============ FETCH DETALLES DEL ARTÍCULO: Extract + Categories ===========
+############################################################################
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1))
+def fetch_article_details(title: str, lang: str = "en") -> Dict:
     """
-    Retorna un dict con {title, summary, categories}.
+    Retorna {title, summary, categories}.
     """
     endpoint = f"https://{lang}.wikipedia.org/w/api.php"
     params = {
@@ -294,154 +397,143 @@ def fetch_article_details(title: str, lang="en") -> Dict:
         "format": "json",
         "cllimit": 20
     }
+    resp = requests.get(endpoint, params=params, timeout=config.REQUEST_TIMEOUT)
+    resp.raise_for_status()
+
     details = {"title": title, "summary": "", "categories": []}
-    try:
-        response = requests.get(endpoint, params=params, timeout=config.REQUEST_TIMEOUT)
-        if response.status_code == 200:
-            pages = response.json().get("query", {}).get("pages", {})
-            for _, page_info in pages.items():
-                details["title"] = page_info.get("title", title)
-                details["summary"] = page_info.get("extract", "")
-                cats = page_info.get("categories", [])
-                details["categories"] = [cat.get("title", "") for cat in cats]
-    except Exception as e:
-        logger.warning(f"Error fetching details de {title} ({lang}): {e}")
+    pages = resp.json().get("query", {}).get("pages", {})
+    for _, pinfo in pages.items():
+        details["title"] = pinfo.get("title", title)
+        details["summary"] = pinfo.get("extract", "")
+        cats = pinfo.get("categories", [])
+        details["categories"] = [c.get("title", "") for c in cats]
     return details
 
-# ============== EXTRAER FECHAS HISTÓRICAS =================
+############################################################################
+# ================ EXTRAER FECHAS HISTÓRICAS (DATEPARSER) =================
+############################################################################
+
 def extract_historic_dates(text: str) -> List[Dict]:
     """
-    Usa un regex para extraer fechas (formato flexible) y contextualizarlas.
+    Usa un regex básico para encontrar posibles fechas
+    y dateparser para parsear de modo multilingüe.
     """
     pattern = re.compile(config.HISTORIC_DATES_REGEX, re.IGNORECASE)
-    matches = list(pattern.finditer(text))
+    matches = pattern.finditer(text)
     results = []
 
-    for match in matches:
-        raw_date = match.group(1)
-        snippet = text[max(0, match.start()-40): match.end()+40]
-        # Intentar parsear
-        parsed_date = None
-        try:
-            # Ejemplo: "2 de Enero de 1885"
-            # Ajusta a tus idiomas
-            # O intenta solo año
-            if re.match(r"^\d{4}$", raw_date):
-                parsed_date = datetime.strptime(raw_date, "%Y")
-            else:
-                # Podrías necesitar un parse manual
-                pass
-        except Exception:
-            pass
+    for m in matches:
+        raw_date = m.group(1)
+        snippet = text[max(0, m.start()-30): m.end()+30]
 
+        parsed = dateparser.parse(raw_date, settings={'PREFER_DAY_OF_MONTH': 'first'})
         results.append({
             "raw": raw_date,
-            "context": snippet,
-            "parsed": parsed_date.isoformat() if parsed_date else ""
+            "parsed": parsed.isoformat() if parsed else "",
+            "context": snippet
         })
     return results
 
-# ============== AGREGAR ENLACES RELACIONADOS E IMÁGENES =================
+############################################################################
+# ========== ENRIQUECER: ENLACES, IMÁGENES Y REFERENCIA APA ================
+############################################################################
+
 def add_semantic_links(article_data: Dict):
     """
-    Usa la API de Wikimedia (core/v1) para encontrar enlaces 
-    que incluyan 'masonic' en su título.
+    Ejemplo: obtiene enlaces que incluyan "masonic" o "freemason" en su título.
+    (Puede que en algunos idiomas la API de Wikimedia no lo soporte.)
     """
     lang = article_data.get("lang", "en")
+    title_underscore = article_data["title"].replace(" ", "_")
+    url = f"https://api.wikimedia.org/core/v1/wikipedia/{lang}/page/{title_underscore}/links"
     try:
-        # API actual (experimental) --> Podría variar si la wiki no la soporta
-        resp = requests.get(
-            f"https://api.wikimedia.org/core/v1/wikipedia/{lang}/page/{article_data['title']}/links",
-            timeout=config.REQUEST_TIMEOUT
-        )
-        js = resp.json()
-        related = []
-        for pg in js.get("pages", []):
-            t = pg["title"].lower()
-            if "masonic" in t or "freemason" in t:
-                related.append(pg["title"])
-        article_data["related_links"] = related
+        r = requests.get(url, timeout=config.REQUEST_TIMEOUT)
+        if r.status_code == 200:
+            pages = r.json().get("pages", [])
+            related = []
+            for p in pages:
+                tlow = p["title"].lower()
+                if "masonic" in tlow or "freemason" in tlow:
+                    related.append(p["title"])
+            article_data["related_links"] = related
     except Exception as e:
-        logger.warning(f"Error al obtener enlaces relacionados: {e}")
+        logger.warning(f"add_semantic_links error: {e}")
 
 def add_image_data(article_data: Dict):
     """
-    Obtiene imágenes con la palabra 'lodge' o 'masonic' en el título.
+    Obtiene imágenes con 'masonic' o 'lodge' en el título.
     """
     lang = article_data.get("lang", "en")
+    t = article_data["title"].replace(" ", "_")
     params = {
         "action": "query",
         "prop": "images",
-        "titles": article_data["title"],
+        "titles": t,
         "format": "json"
     }
     try:
-        resp = requests.get(f"https://{lang}.wikipedia.org/w/api.php", params=params, timeout=config.REQUEST_TIMEOUT)
-        data = resp.json()
-        pages = data["query"]["pages"]
-        images_list = []
-        for v in pages.values():
-            imgs = v.get("images", [])
-            for img in imgs:
-                low = img["title"].lower()
-                if "lodge" in low or "masonic" in low:
-                    images_list.append(img["title"])
-        article_data["images"] = images_list
+        r = requests.get(f"https://{lang}.wikipedia.org/w/api.php", params=params, timeout=config.REQUEST_TIMEOUT)
+        if r.status_code == 200:
+            data = r.json()
+            pages = data["query"]["pages"]
+            imgs_ret = []
+            for v in pages.values():
+                if "images" in v:
+                    for img in v["images"]:
+                        ititle = img["title"].lower()
+                        if "masonic" in ititle or "lodge" in ititle:
+                            imgs_ret.append(img["title"])
+            article_data["images"] = imgs_ret
     except Exception as e:
-        logger.warning(f"Error obteniendo imágenes: {e}")
+        logger.warning(f"add_image_data error: {e}")
 
-# ============== APA REFERENCE =================
 def generate_apa_reference(title: str, url: str) -> str:
     """
-    Genera referencia APA 7 simplificada para Wikipedia.
-    Ejemplo: 
-    Título. (n.d.). En Wikipedia. Retrieved 24 September 2025, from <URL>
+    Crea una referencia APA 7 simplificada para un artículo de Wikipedia.
     """
     date_str = datetime.now().strftime("%d %B %Y")
-    cleaned_title = title.replace("_", " ")
-    return f"{cleaned_title}. (n.d.). En Wikipedia. Retrieved {date_str}, from {url}"
+    clean_title = title.replace("_", " ")
+    return f"{clean_title}. (n.d.). En Wikipedia. Retrieved {date_str}, from {url}"
 
-# ============== COORDENADAS COMPLETAS (WIKIDATA + INFOBOX + GEOCOD) =================
-def get_coordinates(page_title: str, lang: str) -> Tuple[float, float]:
+############################################################################
+# ================ PRIORIDAD POR PALABRAS CLAVE EN TÍTULO ==================
+############################################################################
+
+def assign_priority(article_data: Dict):
     """
-    1) Busca QID -> coords en Wikidata
-    2) Si no, parsea Infobox para 'location' y geocodifica
-    3) Fallback (0,0) si nada
+    Ajusta un campo "priority" según ciertas condiciones
+    (p. ej., si 'Grand Lodge' aparece en el título).
     """
-    # 1. QID
-    qid = get_qid_from_wikipedia_page(page_title, lang)
-    lat_wiki, lon_wiki = get_coords_from_wikidata(qid)
-    if lat_wiki is not None and lon_wiki is not None:
-        return (lat_wiki, lon_wiki)
+    title_lower = article_data["title"].lower()
+    p = 0
+    if "grand lodge" in title_lower:
+        p += 50
+    if "masonic temple" in title_lower:
+        p += 30
+    # Otras reglas personalizadas
+    article_data["priority"] = p
 
-    # 2. Parse infobox
-    place_str = parse_infobox_location(page_title, lang)
-    if place_str:
-        coords = enhanced_geocoding(place_str)
-        if coords:
-            return coords[0], coords[1]
+############################################################################
+# ====== FUNCIÓN PIPELINE: PROCESAR 1 ARTÍCULO DE WIKIPEDIA ================
+############################################################################
 
-    # 3. Fallback
-    return (0.0, 0.0)
-
-# ============== PIPELINE PRINCIPAL POR ARTÍCULO =================
 def process_article(article: Dict, keyword: str, lang: str) -> Dict:
     """
-    Procesa un artículo de Wikipedia:
-      - Extrae detalles (extract, categories)
-      - Coord. (wikidata + infobox + geocoding)
-      - Enlaces relacionados, imágenes
-      - Fechas históricas, referencia APA
-      - Maneja caché
+    1. Revisa caché
+    2. Extrae detalles (resumen, categorías)
+    3. QID -> P625 o infobox->geocod
+    4. Enlaces e imágenes
+    5. Fechas históricas
+    6. Referencia APA
+    7. Asigna prioridad
+    8. Actualiza caché
     """
-    cache = CacheManager.load()
     cache_key = f"{lang}_{article['title']}"
-    if cache_key in cache["articles"]:
-        # Ya procesado
-        return cache["articles"][cache_key]
+    cached = CacheManager.get_article(cache_key)
+    if cached:
+        return cached
 
-    # --- Preparar campos básicos ---
-    article_data = {
+    data = {
         "keyword": keyword,
         "lang": lang,
         "title": article["title"],
@@ -453,104 +545,122 @@ def process_article(article: Dict, keyword: str, lang: str) -> Dict:
         }
     }
 
-    # 1. Detalles (extract, categories)
-    details = fetch_article_details(article["title"], lang=lang)
-    article_data["summary"] = details.get("summary", "")
-    article_data["categories"] = details.get("categories", [])
-    real_title = details.get("title", article["title"])  # por si el título oficial difiere
-    article_data["title"] = real_title
+    # (1) Detalles
+    det = fetch_article_details(article["title"], lang=lang)
+    data["title"] = det.get("title", data["title"])
+    data["summary"] = det.get("summary", "")
+    data["categories"] = det.get("categories", [])
 
-    # 2. Coordenadas
-    lat, lon = get_coordinates(real_title, lang)
-    article_data["latitude"] = lat
-    article_data["longitude"] = lon
+    # (2) QID + coords
+    qid = get_qid_from_wikipedia_page(data["title"], lang)
+    lat, lon = get_coords_from_wikidata(qid)
+    if lat is None or lon is None:
+        place_str = parse_infobox_location(data["title"], lang)
+        if place_str:
+            coords = enhanced_geocoding(place_str)
+            if coords:
+                lat, lon = coords
+    if lat is None or lon is None:
+        lat, lon = 0.0, 0.0
+    data["latitude"] = lat
+    data["longitude"] = lon
 
-    # 3. Enriquecimiento
-    add_semantic_links(article_data)
-    add_image_data(article_data)
+    # (3) Enriquecimientos
+    add_semantic_links(data)
+    add_image_data(data)
 
-    # 4. Fechas históricas
-    article_data["historic_dates"] = extract_historic_dates(article_data["summary"])
+    # (4) Fechas históricas
+    data["historic_dates"] = extract_historic_dates(data["summary"])
 
-    # 5. APA reference
-    article_data["apa_reference"] = generate_apa_reference(real_title, article_data["source_url"])
+    # (5) APA reference
+    data["apa_reference"] = generate_apa_reference(data["title"], data["source_url"])
 
-    # 6. Guardar en caché
-    cache["articles"][cache_key] = article_data
-    CacheManager.save(cache)
+    # (6) Asignar prioridad
+    assign_priority(data)
 
-    return article_data
+    # (7) Guardar en caché
+    CacheManager.set_article(cache_key, data)
+    return data
 
-# ============== PROCESAR UN PAR (LANG, KEYWORD) =================
+############################################################################
+# ========= PROCESAR (LANG, KEYWORD) EN CONCURRENCIA =======================
+############################################################################
+
 def process_language_keyword(lang: str, keyword: str) -> List[Dict]:
     """
-    Realiza la búsqueda semántica para la palabra clave, 
-    y procesa cada artículo retornado.
+    Llama a 'advanced_search' para la keyword en 'lang' 
+    y procesa cada artículo retornado en hilos.
     """
-    logger.info(f"Iniciando procesamiento para [{lang.upper()}] {keyword}")
-    articles = semantic_search(keyword, lang)
-    results = []
-
+    logger.info(f"[{lang.upper()}] => {keyword}")
+    results = advanced_search(keyword, lang)
+    output = []
     with ThreadPoolExecutor(max_workers=config.MAX_WORKERS) as executor:
-        futures = [executor.submit(process_article, art, keyword, lang) for art in articles]
-
-        for fut in as_completed(futures):
+        futs = [executor.submit(process_article, art, keyword, lang) for art in results]
+        for ft in as_completed(futs):
             try:
-                result = fut.result()
-                results.append(result)
+                out = ft.result()
+                output.append(out)
             except Exception as e:
-                logger.error(f"Error procesando artículo: {str(e)}")
+                logger.error(f"Error process_language_keyword: {e}")
+    return output
 
-    return results
+############################################################################
+# ====================== ANÁLISIS POST-PROCESO =============================
+############################################################################
 
-# ============== FUNCIÓN PARA ANALÍTICA (PUEDE SER PERSONALIZADA) =================
-def generate_analytics(data: List[Dict]):
+def generate_analytics(all_data: List[Dict]):
     """
-    Aquí podrías realizar distintos análisis:
-      - Conteo de artículos por idioma
-      - Ubicación geográfica y densidad
-      - Fechas históricas más recurrentes
-    Por ahora, se deja como placeholder.
+    Módulo para analizar los datos recolectados.
+    - Ejemplo: conteo por idioma, ver top 3 prioridad.
     """
-    # Ejemplo de conteo simple
-    logger.info("== Análisis Simple ==")
-    by_lang = {}
-    for d in data:
-        by_lang.setdefault(d["lang"], 0)
-        by_lang[d["lang"]] += 1
-    for k, v in by_lang.items():
-        logger.info(f"  [{k.upper()}] => {v} artículos")
+    logger.info("=== Análisis Final ===")
+    count_by_lang = {}
+    for item in all_data:
+        ln = item["lang"]
+        count_by_lang[ln] = count_by_lang.get(ln, 0) + 1
 
-# ============== FUNCIÓN PRINCIPAL =================
+    for k, v in count_by_lang.items():
+        logger.info(f"  {k.upper()} => {v} artículos")
+
+    # Ejemplo: top 3 por prioridad
+    top3 = sorted(all_data, key=lambda x: x.get("priority", 0), reverse=True)[:3]
+    logger.info("Top 3 por prioridad:")
+    for t in top3:
+        logger.info(f" * {t['title']} => priority={t['priority']}")
+
+############################################################################
+# ======================== FUNCIÓN PRINCIPAL ===============================
+############################################################################
+
 def main():
-    start_time = time.time()
-    all_data = []
+    t0 = time.time()
+    all_articles = []
 
-    # Concurrencia a nivel de (idioma, palabra clave)
+    # Concurrencia a nivel (lang, keyword)
     with ThreadPoolExecutor(max_workers=config.MAX_WORKERS) as executor:
-        future_map = {}
-        for lang in Config.WIKI_LANGUAGES:
-            for keyword in KEYWORDS:
-                fut = executor.submit(process_language_keyword, lang, keyword)
-                future_map[fut] = (lang, keyword)
+        futures_map = {}
+        for lang in config.WIKI_LANGUAGES:
+            for kw in KEYWORDS:
+                fut = executor.submit(process_language_keyword, lang, kw)
+                futures_map[fut] = (lang, kw)
 
-        for fut in as_completed(future_map):
-            lang, kw = future_map[fut]
+        for fut in as_completed(futures_map):
+            lang, keyword = futures_map[fut]
             try:
-                lang_data = fut.result()
-                all_data.extend(lang_data)
+                chunk = fut.result()
+                all_articles.extend(chunk)
             except Exception as e:
-                logger.error(f"Error procesando {lang.upper()} - {kw}: {str(e)}")
+                logger.error(f"Fallo final en lang={lang}, kw={keyword}: {e}")
 
-    # Analítica o post-proceso
-    generate_analytics(all_data)
+    # Analiza resultados
+    generate_analytics(all_articles)
 
-    # Guardar en un JSON final
+    # Guardar todo en "wikipedia_data.json"
     with open("wikipedia_data.json", "w", encoding="utf-8") as f:
-        json.dump(all_data, f, ensure_ascii=False, indent=2)
+        json.dump(all_articles, f, indent=2, ensure_ascii=False)
 
-    elapsed = time.time() - start_time
-    logger.info(f"Proceso completado en {elapsed:.2f} seg. Total de artículos: {len(all_data)}")
+    dt = time.time() - t0
+    logger.info(f"Proceso completado en {dt:.2f}s. Total artículos: {len(all_articles)}")
 
 if __name__ == "__main__":
     main()
