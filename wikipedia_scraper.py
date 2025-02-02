@@ -514,33 +514,52 @@ def process_article(article: Dict, keyword: str, lang: str) -> Dict:
         }
     }
 
-    # 1) Detalles
+    # 1) Detalles (extract + categories)
     det = fetch_article_details(article["title"], lang=lang)
     data["title"] = det.get("title", data["title"])
     data["summary"] = det.get("summary", "")
     data["categories"] = det.get("categories", [])
 
-    # 2) QID + coords
+    # 2) QID + coords (Wikidata)
     qid = get_qid_from_wikipedia_page(data["title"], lang)
     lat, lon = get_coords_from_wikidata(qid)
+
+    # 3) Infobox -> geocoding
     if lat is None or lon is None:
         place_str = parse_infobox_location(data["title"], lang)
         if place_str:
             coords = enhanced_geocoding(place_str)
             if coords:
                 lat, lon = coords
+
+    # >>>>> NUEVO PASO: usar NLP si seguimos sin coords <<<<<
+    if (lat is None or lon is None) and nlp:
+        # Extraer entidades NLP
+        nlp_ents = extract_entities_nlp(data["summary"], lang=lang)
+        # Guardar en data, para no perder la info
+        data["nlp_entities"] = nlp_ents
+
+        possible_locs = nlp_ents.get("locations", [])
+        if possible_locs:
+            # Tomar la primera ubicación
+            city_candidate = possible_locs[0]
+            coords = enhanced_geocoding(city_candidate)
+            if coords:
+                lat, lon = coords
+
+    # Fallback final
     if lat is None or lon is None:
         lat, lon = 0.0, 0.0
+
     data["latitude"] = lat
     data["longitude"] = lon
 
-    # 3) Fechas históricas
+    # 4) Fechas históricas
     data["historic_dates"] = extract_historic_dates(data["summary"])
 
-    # 4) Entidades (NLP)
-    nlp_ents = extract_entities_nlp(data["summary"], lang=lang)
-    if nlp_ents:
-        data["nlp_entities"] = nlp_ents
+    # (Si no habías guardado NLP antes, hazlo aquí; pero ya lo hicimos arriba)
+    if "nlp_entities" not in data:
+        data["nlp_entities"] = extract_entities_nlp(data["summary"], lang=lang)
 
     # 5) APA reference
     data["apa_reference"] = generate_apa_reference(data["title"], data["source_url"])
@@ -555,8 +574,6 @@ def process_article(article: Dict, keyword: str, lang: str) -> Dict:
 ############################################################################
 # =========== PROCESAR (LANG, KEYWORD) CONCURRENTE =========================
 ############################################################################
-
-from concurrent.futures import ThreadPoolExecutor
 
 def process_language_keyword(lang: str, keyword: str) -> List[Dict]:
     logger.info(f"[{lang.upper()}] => {keyword}")
