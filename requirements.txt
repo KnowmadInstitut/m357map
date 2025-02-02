@@ -1,24 +1,106 @@
-feedparser==6.0.10          # Procesar feeds RSS
-geopy==2.3.0                # Geocodificación de ubicaciones
-requests==2.31.0            # Realizar solicitudes HTTP
-geojson==3.0.1              # Manejo de datos GeoJSON
-python-dotenv==1.0.0        # Cargar variables de entorno desde .env
-spacy==3.7.2                # Procesamiento de lenguaje natural (NLP)
-textblob==0.15.3            # Análisis de sentimiento y corrección gramatical
-langdetect==1.0.9           # Detección de idioma
-tldextract==3.4.0           # Extraer dominios de URLs
-transformers==4.30.0        # Modelos de Hugging Face para generación de resúmenes
-nltk==3.8.1                 # NLP para tokenización y más (opcional pero útil)
-beautifulsoup4==4.12.2      # Parseo de HTML (para scraping si es necesario)
-scikit-learn==1.2.2         # Clasificación y clustering del contenido
-pandas==1.5.3               # Análisis y manipulación de datos estructurados
-openai==0.27.0              # (Opcional) Para interactuar con GPT si fuera necesario
-torch==2.0.1                # (Requerido por transformers para modelos de NLP)
-mwparserfromhell==0.6.4     # Procesar wikitext para extraer información de Wikipedia
-psutil==5.9.5               # Monitoreo del sistema (opcional, para optimización de procesos)
-certifi==2023.5.7           # Certificados SSL/TLS seguros
-regex==2023.6.3             # Expresiones regulares avanzadas
-lxml==4.9.2                 # Parseo avanzado de XML y HTML
-PyYAML==6.0                 # Procesamiento de archivos YAML
-dateparser==1.1.8           # Procesar y parsear fechas de forma flexible
-tenacity==8.2.2             # Reintentos automáticos en solicitudes fallidas o tareas críticas
+# Procesar feeds RSS
+feedparser==6.0.10  
+
+# Geocodificación de ubicaciones
+geopy==2.3.0  
+
+# Realizar solicitudes HTTP
+requests==2.31.0  
+
+# Manejo de datos GeoJSON
+geojson==3.0.1  
+
+# Cargar variables de entorno desde .env
+python-dotenv==1.0.0  
+
+# Procesamiento de lenguaje natural (NLP)
+spacy==3.7.2  
+nltk==3.8.1  
+
+# Análisis de sentimiento y corrección gramatical
+textblob==0.15.3  
+
+# Detección de idioma
+langdetect==1.0.9  
+
+# Extraer dominios de URLs
+tldextract==3.4.0  
+
+# Modelos de Hugging Face para generación de resúmenes
+transformers==4.30.0  
+torch==2.0.1  
+
+# Parseo de HTML (para scraping)
+beautifulsoup4==4.12.2  
+
+# Clasificación y clustering del contenido
+scikit-learn==1.2.2  
+
+# Análisis y manipulación de datos estructurados
+pandas==1.5.3  
+
+# Interactuar con modelos GPT si fuera necesario
+openai==0.27.0  
+
+# Procesar wikitext para extraer información de Wikipedia
+mwparserfromhell==0.6.4  
+
+# Monitoreo del sistema
+psutil==5.9.5  
+
+# Certificados SSL/TLS seguros
+certifi==2023.5.7  
+
+# Expresiones regulares avanzadas
+regex==2023.6.3  
+
+# Parseo avanzado de XML y HTML
+lxml==4.9.2  
+
+# Procesamiento de archivos YAML
+PyYAML==6.0  
+
+# Parseo flexible de fechas
+dateparser==1.1.8  
+
+# Reintentos automáticos en solicitudes fallidas
+tenacity==8.2.2  
+
+# Elimina acentos y normaliza texto Unicode
+unidecode==1.3.6  
+
+# Parseo JSON avanzado
+orjson==3.8.5  
+
+# Serialización de datos
+msgpack==1.0.5  
+
+# Visualización de datos básicos
+matplotlib==3.7.1  
+
+# Soporte para formatos de archivo comprimidos
+zstandard==0.21.0  
+
+# Procesamiento de datos grandes
+dask[complete]==2023.1.0  
+
+# Web scraping automatizado
+selenium==4.10.0  
+
+# Agente de usuario automático
+fake-useragent==1.2.0  
+
+# Manejo de datos tabulares
+tabulate==0.9.0  
+
+# Extracción de datos tabulares de PDFs
+pdfplumber==0.9.0  
+
+# OCR (Reconocimiento óptico de caracteres)
+pytesseract==0.3.10  
+
+# Validación de URLs
+validators==0.20.0  
+
+# Autenticación OAuth (opcional)
+requests-oauthlib==1.3.1  
