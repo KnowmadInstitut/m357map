@@ -11,18 +11,16 @@ Script Avanzado para recopilar Google Alerts sobre masonería:
 4) Fusiona datos nuevos con archivo previo google_alerts.geojson sin
    borrar información histórica.
 """
-
 import feedparser
 import json
 import logging
 import os
 import re
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import List, Dict, Optional
 from datetime import datetime
-import requests
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from geopy.geocoders import Nominatim
-from geopy.extra.rate_limiter import RateLimiter
 from geojson import FeatureCollection, Feature, Point
 
 ############################################################################
