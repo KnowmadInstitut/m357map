@@ -11,6 +11,7 @@ Script Avanzado para recopilar Google Alerts sobre masonería:
 4) Fusiona datos nuevos con archivo previo google_alerts.geojson sin
    borrar información histórica.
 """
+
 import feedparser
 import json
 import logging
@@ -20,7 +21,9 @@ from typing import List, Dict, Optional
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+import requests
 from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter  # <-- Importar RateLimiter
 from geojson import FeatureCollection, Feature, Point
 
 ############################################################################
@@ -36,7 +39,6 @@ logger = logging.getLogger("GoogleAlertsScraper")
 
 # Lista de Feeds
 RSS_FEEDS = [
-    # Aquí tus URLs:
 
     "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
     "https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668",
@@ -91,7 +93,7 @@ def geocode_text(location_text: str):
     if not location_text:
         return (None, None)
     try:
-        # Primero Nominatim
+        # Primero Nominatim, con rate limiting
         loc = geocode(location_text)
         if loc:
             return (loc.longitude, loc.latitude)
@@ -203,7 +205,7 @@ def process_entry(entry) -> Feature:
     # e.g.: location_text = extract_location_from_summary(summary)
 
     # Geocodificar
-    lon, lat = None, None
+    lon, lat = (None, None)
     if location_text:
         lon, lat = geocode_text(location_text)
     
@@ -227,7 +229,6 @@ def process_entry(entry) -> Feature:
 
 def parse_feed(feed_url: str) -> List[Feature]:
     """Lee y procesa un feed. Retorna Features list."""
-    import feedparser
     feed_data = feedparser.parse(feed_url)
     if not feed_data.entries:
         logger.warning(f"Feed vacío: {feed_url}")
@@ -245,7 +246,6 @@ def parse_feed(feed_url: str) -> List[Feature]:
 
 def process_all_feeds() -> FeatureCollection:
     """Procesa todos los feeds en concurrencia y retorna un FeatureCollection."""
-    from concurrent.futures import ThreadPoolExecutor
     all_feats = []
     with ThreadPoolExecutor(max_workers=8) as executor:
         future_map = {executor.submit(parse_feed, url): url for url in RSS_FEEDS}
