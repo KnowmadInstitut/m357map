@@ -9,6 +9,7 @@ Script Avanzado para investigación masónica en Wikipedia:
 - Geocodificación contextual gratuita (Photon + Nominatim).
 - Rate limiting para evitar bloqueos de la API.
 - Extracción de entidades (spaCy).
+- **Fusión** de datos antiguos y nuevos, sin borrar información previa.
 - Exportación a Parquet y GeoJSON para análisis.
 
 Basado en código anterior con optimizaciones propuestas.
@@ -42,6 +43,9 @@ import spacy
 # Exportación a Parquet
 import pandas as pd
 
+# Importar geojson (si no lo has instalado, pip install geojson)
+import geojson
+
 
 ############################################################################
 # ============== CONFIGURACIÓN GLOBAL Y LOG ================================
@@ -59,7 +63,7 @@ logger = logging.getLogger("MasonicWikiScraper")
 
 class Config:
     # Idiomas de Wikipedia
-    WIKI_LANGUAGES = ["en", "es"]
+    WIKI_LANGUAGES = ["en", "es", "fr", "de", "pt"]
     # Timeout para peticiones
     REQUEST_TIMEOUT = 15
     # Usar SQLite para caché (o JSON)
@@ -83,6 +87,7 @@ try:
 except Exception as e:
     logger.warning(f"spaCy model error: {e}")
     nlp = None
+
 
 ############################################################################
 # ============= LISTA COMPLETA DE PALABRAS CLAVE MULTILINGÜES =============
@@ -117,6 +122,7 @@ KEYWORDS = [
     "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst"
 ]
 
+
 ############################################################################
 # =========== RATE LIMITING (Por ejemplo para Wikipedia) ===================
 ############################################################################
@@ -130,6 +136,7 @@ def call_wiki_api(*args, **kwargs):
     Función genérica para llamar a requests.get con limitación de 50 req/min.
     """
     return requests.get(*args, **kwargs)
+
 
 ############################################################################
 # ================ SISTEMA DE CACHÉ PERSISTENTE (SQLite o JSON) ============
@@ -151,6 +158,7 @@ def ensure_tables(conn: sqlite3.Connection):
         )
     """)
     conn.commit()
+
 
 class PersistentSQLiteCache:
     def __init__(self, db_path: str):
@@ -188,6 +196,7 @@ class PersistentSQLiteCache:
     def close(self):
         self.conn.close()
 
+
 def load_json_cache() -> Dict:
     if not os.path.exists(config.JSON_CACHE_FILE):
         return {"articles": {}, "locations": {}}
@@ -197,9 +206,11 @@ def load_json_cache() -> Dict:
     except (FileNotFoundError, json.JSONDecodeError):
         return {"articles": {}, "locations": {}}
 
+
 def save_json_cache(d: Dict):
     with open(config.JSON_CACHE_FILE, "w", encoding="utf-8") as f:
         json.dump(d, f, ensure_ascii=False, indent=2)
+
 
 class CacheManager:
     sqlite_cache: Optional[PersistentSQLiteCache] = None
@@ -251,6 +262,7 @@ class CacheManager:
             d["locations"][place_name] = {"lat": lat, "lon": lon}
             save_json_cache(d)
 
+
 ############################################################################
 # =============== THREADPOOL DINÁMICO ======================================
 ############################################################################
@@ -264,6 +276,7 @@ class DynamicExecutor(ThreadPoolExecutor):
     def __init__(self):
         max_workers = min(32, (os.cpu_count() or 1) * 4)
         super().__init__(max_workers=max_workers)
+
 
 ############################################################################
 # =============== BÚSQUEDA AVANZADA CON PAGINACIÓN =========================
@@ -283,8 +296,6 @@ def advanced_search(keyword: str, lang: str, max_results=50) -> List[Dict]:
         "srprop": "size|wordcount|timestamp"
     }
     all_results = []
-    sroffset = None
-
     while len(all_results) < max_results:
         time.sleep(config.REQUEST_DELAY)
         resp = call_wiki_api(base_url, params=params, timeout=config.REQUEST_TIMEOUT)
@@ -300,6 +311,7 @@ def advanced_search(keyword: str, lang: str, max_results=50) -> List[Dict]:
             break
 
     return all_results[:max_results]
+
 
 ############################################################################
 # ================== WIKIDATA (QID + P625) =================================
@@ -322,6 +334,7 @@ def get_qid_from_wikipedia_page(page_title: str, lang: str) -> Optional[str]:
             return page_info["pageprops"]["wikibase_item"]
     return None
 
+
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1))
 def get_coords_from_wikidata(qid: str) -> Tuple[Optional[float], Optional[float]]:
     if not qid:
@@ -338,6 +351,7 @@ def get_coords_from_wikidata(qid: str) -> Tuple[Optional[float], Optional[float]
         lon = coord_claim["longitude"]
         return (lat, lon)
     return None, None
+
 
 ############################################################################
 # ============== PARSE INFOBOX PARA UBICACIÓN ==============================
@@ -362,6 +376,7 @@ def parse_infobox_location(page_title: str, lang: str) -> Optional[str]:
                     if val:
                         return str(val)
     return None
+
 
 ############################################################################
 # =========== GEOCODIFICACIÓN CONTEXTUAL (PHOTON + NOMINATIM) ==============
@@ -407,6 +422,7 @@ def enhanced_geocoding(place_name: str, context: str = "") -> Optional[Tuple[flo
     logger.error(f"No se pudo geocodificar: {place_name}")
     return None
 
+
 ############################################################################
 # ============= FETCH DETALLES (EXTRACT + CATEGORIES) ======================
 ############################################################################
@@ -434,6 +450,7 @@ def fetch_article_details(title: str, lang: str = "en") -> Dict:
         details["categories"] = [c.get("title","") for c in cats]
     return details
 
+
 ############################################################################
 # ============== EXTRAER FECHAS HISTÓRICAS (DATEPARSER) ====================
 ############################################################################
@@ -453,6 +470,7 @@ def extract_historic_dates(text: str) -> List[Dict]:
         })
     return results
 
+
 ############################################################################
 # ================ EXTRACCIÓN DE ENTIDADES (spaCy) =========================
 ############################################################################
@@ -470,6 +488,7 @@ def extract_entities_nlp(text: str, lang: str = "en") -> Dict[str, Any]:
         "dates_nlp": dates_ent
     }
 
+
 ############################################################################
 # ============== APA REFERENCE =============================================
 ############################################################################
@@ -478,6 +497,7 @@ def generate_apa_reference(title: str, url: str) -> str:
     date_str = datetime.now().strftime("%d %B %Y")
     clean_title = title.replace("_", " ")
     return f"{clean_title}. (n.d.). En Wikipedia. Retrieved {date_str}, from {url}"
+
 
 ############################################################################
 # =========== PRIORIDAD EN FUNCIÓN DE PALABRAS CLAVE EN TÍTULO ============
@@ -491,6 +511,7 @@ def assign_priority(article_data: Dict):
     if "masonic temple" in t:
         p += 30
     article_data["priority"] = p
+
 
 ############################################################################
 # =============== PIPELINE PRINCIPAL POR ARTÍCULO ==========================
@@ -571,6 +592,7 @@ def process_article(article: Dict, keyword: str, lang: str) -> Dict:
     CacheManager.set_article(cache_key, data)
     return data
 
+
 ############################################################################
 # =========== PROCESAR (LANG, KEYWORD) CONCURRENTE =========================
 ############################################################################
@@ -589,8 +611,73 @@ def process_language_keyword(lang: str, keyword: str) -> List[Dict]:
                 logger.error(f"process_article error: {e}")
     return output
 
+
 ############################################################################
-# =============== ANÁLISIS & EXPORTACIÓN (PARQUET / GEOJSON) ===============
+# ========= FUSIÓN DE DATOS (SIN BORRAR HISTÓRICOS) PARA JSON & GEOJSON ===
+############################################################################
+
+def load_previous_json(path="wikipedia_data.json") -> List[Dict]:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+def merge_json_data(old_data: List[Dict], new_data: List[Dict]) -> List[Dict]:
+    """
+    Fusiona dos listas de artículos, usando pageid (o title) como clave única.
+    Actualiza si coincide la clave, añade si es nuevo.
+    """
+    merged_dict = {}
+    for item in old_data:
+        pid = item.get("pageid") or item.get("title","unknown")
+        merged_dict[pid] = item
+
+    for nd in new_data:
+        pid = nd.get("pageid") or nd.get("title","unknown")
+        merged_dict[pid] = nd
+
+    return list(merged_dict.values())
+
+def save_merged_json(new_data: List[Dict], json_path="wikipedia_data.json"):
+    old_data = load_previous_json(json_path)
+    combined = merge_json_data(old_data, new_data)
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(combined, f, indent=2, ensure_ascii=False)
+
+
+def load_previous_geojson(path="wikipedia_data.geojson") -> geojson.FeatureCollection:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            fc = json.load(f)
+            return geojson.FeatureCollection(fc["features"])
+    except (FileNotFoundError, json.JSONDecodeError):
+        return geojson.FeatureCollection([])
+
+def merge_geojson_data(old_fc: geojson.FeatureCollection, new_fc: geojson.FeatureCollection) -> geojson.FeatureCollection:
+    merged_dict = {}
+    # Convertir old en dict
+    for feat in old_fc.features:
+        pid = feat["properties"].get("pageid") or feat["properties"].get("title","unknown")
+        merged_dict[pid] = feat
+
+    # Actualizar con new
+    for feat in new_fc.features:
+        pid = feat["properties"].get("pageid") or feat["properties"].get("title","unknown")
+        merged_dict[pid] = feat
+
+    merged_features = list(merged_dict.values())
+    return geojson.FeatureCollection(merged_features)
+
+def save_merged_geojson(new_fc: geojson.FeatureCollection, geojson_path="wikipedia_data.geojson"):
+    old_fc = load_previous_geojson(geojson_path)
+    combined_fc = merge_geojson_data(old_fc, new_fc)
+    with open(geojson_path, "w", encoding="utf-8") as f:
+        json.dump(combined_fc, f, indent=2, ensure_ascii=False)
+
+
+############################################################################
+# =============== ANÁLISIS & EXPORTACIÓN (CON FUSIÓN HISTÓRICA) ============
 ############################################################################
 
 def generate_analytics(all_data: List[Dict]):
@@ -610,30 +697,39 @@ def generate_analytics(all_data: List[Dict]):
     for t in top3:
         logger.info(f" * {t['title']} => priority={t['priority']}")
 
+
 def export_analysis_data(data: List[Dict]):
     """
-    Exporta en Parquet y GeoJSON para análisis posterior.
+    1) Fusionar con datos anteriores en JSON (wikipedia_data.json)
+    2) Fusionar con datos anteriores en GeoJSON (wikipedia_data.geojson)
+    3) Guardar Parquet
     """
-    df = pd.DataFrame(data)
-    df.to_parquet("masonic_data.parquet", index=False)
-    logger.info("Datos guardados en masonic_data.parquet")
+    # 1) Fusionar JSON
+    save_merged_json(data, "wikipedia_data.json")
 
-    # Construir GeoJSON
-    features = []
+    # 2) Generar FeatureCollection de la data nueva
+    new_features = []
     for d in data:
         lat = d.get("latitude", 0.0)
         lon = d.get("longitude", 0.0)
         if lat != 0.0 or lon != 0.0:
-            feat = {
-                "type": "Feature",
-                "geometry": {"type": "Point", "coordinates": [lon, lat]},
-                "properties": d
-            }
-            features.append(feat)
-    geojson = {"type":"FeatureCollection","features":features}
-    with open("masonic_map.geojson", "w", encoding="utf-8") as f:
-        json.dump(geojson, f, ensure_ascii=False, indent=2)
-    logger.info("Mapa guardado en masonic_map.geojson")
+            feat = geojson.Feature(
+                geometry=geojson.Point((lon, lat)),
+                properties=d
+            )
+            new_features.append(feat)
+    new_fc = geojson.FeatureCollection(new_features)
+
+    # Fusionar con geojson previo
+    save_merged_geojson(new_fc, "wikipedia_data.geojson")
+
+    logger.info("Datos combinados y guardados en wikipedia_data.json + wikipedia_data.geojson.")
+
+    # Opcional: exportar en Parquet con la data nueva (o combinada)
+    df = pd.DataFrame(data)
+    df.to_parquet("masonic_data.parquet", index=False)
+    logger.info("Datos guardados en masonic_data.parquet")
+
 
 ############################################################################
 # ============================= MAIN =======================================
@@ -662,6 +758,8 @@ def main():
 
     # Análisis final
     generate_analytics(all_data)
+
+    # Fusión con data previa y guardado final
     export_analysis_data(all_data)
 
     # Cerrar caché
