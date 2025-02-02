@@ -2,8 +2,8 @@ name: Wikipedia Data Update
 
 on:
   schedule:
-    - cron: '0 3 * * *'  # Se ejecuta diariamente a las 3:00 AM UTC
-  workflow_dispatch:        # Permite la ejecución manual desde GitHub Actions
+    - cron: '0 3 * * *'   # Corre todos los días a las 3:00 AM UTC
+  workflow_dispatch:       # Permite ejecución manual
 
 jobs:
   update-wikipedia:
@@ -22,18 +22,23 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
+          # Asegúrate de que en requirements.txt figuren geopy y geojson
+          # ej: 
+          # geojson==2.5.0
+          # geopy==2.3.0
 
-      # Paso 1: Ejecuta el scraper para obtener wikipedia_data.json
+      # Paso 1: Ejecuta tu scraper que genera/actualiza wikipedia_data.json
       - name: Run Wikipedia scraper
         run: |
           python wikipedia_scraper.py
 
-      # Paso 2: Crea "wikipedia_data.geojson" a partir de "wikipedia_data.json"
+      # Paso 2: Crear wikipedia_data.geojson usando el script combinado
+      # que aprovecha lat/lon si existen, o geocodifica si hay "location"
       - name: Generate Wikipedia GeoJSON
         run: |
           python create_wikipedia_geojson.py
 
-      # Paso 3: Commit y push de los archivos modificados (json + geojson)
+      # Paso 3: Commit y push de ambas salidas (json + geojson)
       - name: Commit updated data
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -41,7 +46,7 @@ jobs:
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "action@github.com"
           git add wikipedia_data.json wikipedia_data.geojson
-          # Si NO hay cambios reales, 'git commit' fallará, por lo que 
-          # puedes manejarlo con un condicional, o dejar que emita un warning.
-          git commit -m "Auto-update: Wikipedia data $(date +'%Y-%m-%d')"
+          # Si no hay cambios reales, el commit puede fallar 
+          # o no hará nada. No pasa nada, el job seguirá.
+          git commit -m "Auto-update: Wikipedia data $(date +'%Y-%m-%d')" || echo "No changes to commit."
           git push
