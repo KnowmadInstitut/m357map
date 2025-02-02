@@ -15,9 +15,9 @@ from langdetect import detect, DetectorFactory
 from urllib.parse import urlparse
 from geopy.geocoders import Nominatim
 import tldextract
-from transformers import pipeline  # Importar el modelo de Hugging Face
+from transformers import pipeline
 
-DetectorFactory.seed = 0  # Semilla para resultados consistentes al detectar idioma
+DetectorFactory.seed = 0  # Para resultados consistentes en detección de idioma
 
 # Configurar geolocalización
 geolocator = Nominatim(user_agent="masonic_analysis_geolocator")
@@ -75,7 +75,7 @@ CATEGORIES = {
 def get_location_details(coords):
     """
     Intenta obtener información detallada de localización (municipio, país, etc.)
-    a partir de coordenadas (lat, lon) usando geopy.
+    a partir de coords en formato (lat, lon) para geopy.
     """
     try:
         location = geolocator.reverse(coords, exactly_one=True, timeout=10)
@@ -166,14 +166,19 @@ def categorize_text(text):
 # ========== Generar resumen largo utilizando BART ==========
 def generate_long_summary(text):
     """
-    Genera un resumen largo usando el modelo BART.
-    Si ocurre un error, retorna los primeros 500 caracteres del texto original.
+    Genera un resumen usando el modelo BART. 
+    - Omite el resumen si el texto es muy corto (< 200 caracteres).
+    - max_length reducido a 120 para acelerar el proceso y evitar timeouts.
     """
+    # Evitar resumen si texto muy corto
+    if len(text) < 200:
+        return text
+
     try:
         summarized_text = summarizer(
-            text, 
-            max_length=250, 
-            min_length=100, 
+            text,
+            max_length=120,  # Reducir para que el pipeline sea más rápido
+            min_length=60,   # Ajusta según la extensión que quieras
             do_sample=False
         )[0]["summary_text"]
         return summarized_text
@@ -185,8 +190,9 @@ def generate_long_summary(text):
 def main():
     """
     Procesa los argumentos de CLI para determinar archivo de entrada, archivo de salida
-    de referencias APA y archivo de salida de análisis. Si no se proporcionan, se
-    usan valores por defecto.
+    de referencias APA y archivo de salida de análisis. 
+    Uso: 
+        python generate_apa_citations.py [input_file.geojson] [output_file.txt] [analysis_file.txt]
     """
     # Argumentos por defecto
     input_file = "new_data.geojson"
@@ -218,9 +224,10 @@ def main():
     for feature in geojson_data.get("features", []):
         properties = feature.get("properties", {})
         title = properties.get("title", "Sin título").strip()
-        description = properties.get("description", "")
+        description = properties.get("summary", "")  # O 'description' si fuese la key
         link = properties.get("link", "")
         coords = feature.get("geometry", {}).get("coordinates", [None, None])
+        # coords => [lon, lat] en GeoJSON
         coords_str = f"{coords[1]}, {coords[0]}" if all(coords) else "Desconocido"
 
         # 1. Generar referencia APA
@@ -242,17 +249,18 @@ def main():
         # 6. Detección de fuente
         source = get_source_from_url(link)
 
-        # 7. Detalles de la ubicación
-        location_details = (
-            get_location_details(tuple(coords))
-            if coords[0] and coords[1] else {
+        # 7. Detalles de la ubicación (pasamos lat, lon)
+        lat, lon = coords[1], coords[0]
+        if lat and lon:
+            location_details = get_location_details((lat, lon))
+        else:
+            location_details = {
                 "municipio": "Desconocido",
                 "subregion": "Desconocido",
                 "region": "Desconocido",
                 "continente": "Desconocido",
                 "pais": "Desconocido"
             }
-        )
 
         # Construir el texto de análisis
         analysis_text = (
