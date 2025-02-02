@@ -2,50 +2,91 @@
 
 import json
 from geojson import Feature, FeatureCollection, Point, dump
+from geopy.geocoders import Nominatim
+
+# Prepara un geolocalizador (para "location" strings)
+# Ajusta "user_agent" a algo representativo de tu proyecto
+geolocator = Nominatim(user_agent="my_wiki_geocoder")
 
 def load_wikipedia_data():
     """
-    Carga el contenido del archivo wikipedia_data.json.
-    Debe ser un JSON con estructura [{title, summary, categories, keyword, ...}, ...]
+    Carga el contenido de wikipedia_data.json y lo devuelve como lista/dict.
     """
     with open("wikipedia_data.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
+def geocode_location(place_name):
+    """
+    Intenta geocodificar una ubicación usando geopy (Nominatim).
+    Retorna (lat, lon) o (None, None) si falla.
+    """
+    if not place_name:
+        return None, None
+    try:
+        location = geolocator.geocode(place_name, timeout=10)
+        if location:
+            return (location.latitude, location.longitude)
+    except Exception as e:
+        print(f"Error geocodificando '{place_name}': {e}")
+    return None, None
+
 def create_geojson_from_wikipedia(data):
     """
-    Genera un FeatureCollection en formato GeoJSON.
-    Si no tienes coordenadas reales, se usarán (0, 0) a modo de ejemplo.
+    Crea un FeatureCollection (GeoJSON).
+    Usa lat/lon si están presentes, de lo contrario intenta geocodificar "location".
+    Finalmente, fallback a (0,0) si todo falla.
     """
     features = []
     for entry in data:
-        # Validar que 'summary' exista y no esté vacío.
-        if "summary" in entry and entry["summary"]:
-            properties = {
-                "title": entry["title"],
-                "summary": entry["summary"],
-                "categories": entry.get("categories", []),
-                "source": "Wikipedia",
-                "keyword": entry.get("keyword", "")
-            }
-            # Coordenadas ficticias (lon=0, lat=0)
-            geometry = Point((0, 0))  
-            features.append(Feature(geometry=geometry, properties=properties))
+        summary = entry.get("summary", "")
+        if not summary:
+            # Si no hay summary o es vacío, omite esta entrada
+            continue
 
-    # Construye el FeatureCollection y devuélvelo
+        # 1. Chequear si hay lat/lon
+        lat = entry.get("latitude")
+        lon = entry.get("longitude")
+
+        # 2. Si no existen lat/lon válidos, intenta con geocodificación
+        if not (isinstance(lat, (int, float)) and isinstance(lon, (int, float))):
+            place_name = entry.get("location")
+            lat, lon = geocode_location(place_name)
+
+        # 3. Si no se obtuvo nada, fallback (0,0)
+        if not (isinstance(lat, (int, float)) and isinstance(lon, (int, float))):
+            lat = 0.0
+            lon = 0.0
+
+        # GeoJSON usa (lon, lat)
+        geometry = Point((lon, lat))
+
+        # Construir las propiedades
+        properties = {
+            "title": entry.get("title", "Sin título"),
+            "summary": summary,
+            "source": "Wikipedia",
+            "keyword": entry.get("keyword", ""),
+            # Guardamos info extra como "raw_location" si lo deseas
+            "raw_location": entry.get("location", "")
+        }
+
+        # Agregar el feature
+        features.append(Feature(geometry=geometry, properties=properties))
+
     return FeatureCollection(features)
 
 def main():
-    # 1. Cargar datos de Wikipedia desde wikipedia_data.json
-    wikipedia_data = load_wikipedia_data()
+    # 1. Cargar los datos desde wikipedia_data.json
+    data = load_wikipedia_data()
 
-    # 2. Convertir a GeoJSON
-    wikipedia_geojson = create_geojson_from_wikipedia(wikipedia_data)
+    # 2. Crear FeatureCollection con la lógica combinada
+    fc = create_geojson_from_wikipedia(data)
 
-    # 3. Guardar en un nuevo archivo (wikipedia_data.geojson)
+    # 3. Guardar en archivo 'wikipedia_data.geojson'
     with open("wikipedia_data.geojson", "w", encoding="utf-8") as f:
-        dump(wikipedia_geojson, f, ensure_ascii=False, indent=2)
+        dump(fc, f, ensure_ascii=False, indent=2)
 
-    print("✅ Se generó wikipedia_data.geojson con éxito.")
+    print("✅ Generado wikipedia_data.geojson con uso de lat/lon y geocodificación si es necesario.")
 
 if __name__ == "__main__":
     main()
