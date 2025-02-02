@@ -1,0 +1,16 @@
+feedparser==6.0.10          # Procesar feeds RSS
+geopy==2.3.0                # Geocodificación de ubicaciones
+requests==2.31.0            # Realizar solicitudes HTTP
+geojson==3.0.1              # Manejo de datos GeoJSON
+python-dotenv==1.0.0        # Cargar variables de entorno desde .env
+spacy==3.7.2                # Procesamiento de lenguaje natural (NLP)
+textblob==0.15.3            # Análisis de sentimiento y corrección gramatical
+langdetect==1.0.9           # Detección de idioma
+tldextract==3.4.0           # Extraer dominios de URLs
+transformers==4.30.0        # Modelos de Hugging Face para generación de resúmenes
+nltk==3.8.1                 # NLP para tokenización y más (opcional pero útil)
+beautifulsoup4==4.12.2      # Parseo de HTML (para scraping si es necesario)
+scikit-learn==1.2.2         # Clasificación y clustering del contenido
+pandas==1.5.3               # Análisis y manipulación de datos estructurados
+openai==0.27.0              # (Opcional) Para interactuar con GPT si fuera necesario en el futuro
+torch==2.0.1                # (Requerido por transformers para modelos de NLP)

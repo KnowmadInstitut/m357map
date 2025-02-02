@@ -1,0 +1,45 @@
+2025-01-29 23:43:44,492 - INFO - Iniciando actualización de datos
+2025-01-29 23:43:46,368 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:43:55,173 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/9378709536916495456 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:43:56,772 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/17243776362555978691 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:01,335 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/15847044508852608532 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:04,374 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/5572981003473119348 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:05,996 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/17383807687186980718 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:09,018 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/13877290848809114470 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:18,974 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/4297759070181606765 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:22,577 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/11630540178333861502 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:24,787 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/8744244600052796540 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:26,362 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/357094683772830109 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:28,281 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/15809012670835506226 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:31,301 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/14458568452294133843 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:32,825 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/3528049070088672707 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:37,402 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-29 23:44:37,402 - INFO - Nuevas entradas encontradas: 36
+2025-01-29 23:44:37,431 - INFO - Datos actualizados correctamente
+2025-01-30 00:50:34,376 - INFO - Iniciando actualización de datos
+2025-01-30 00:50:36,055 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:50:39,104 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/9378709536916495456 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:50:41,929 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/17243776362555978691 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:50:47,938 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/15847044508852608532 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:50:50,854 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/5572981003473119348 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:50:52,384 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/17383807687186980718 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:50:55,215 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/13877290848809114470 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:51:04,203 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/4297759070181606765 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:51:07,374 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/11630540178333861502 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:51:09,070 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/8744244600052796540 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:51:10,383 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/357094683772830109 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:51:11,995 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/15809012670835506226 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:51:14,735 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/14458568452294133843 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:51:16,265 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/3528049070088672707 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:51:20,697 - ERROR - Error procesando feed: https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173 - '<=' not supported between instances of 'int' and 'NoneType'
+2025-01-30 00:51:20,697 - INFO - Nuevas entradas encontradas: 1
+2025-01-30 00:51:20,725 - INFO - Datos actualizados correctamente
+2025-02-02 15:08:34,058 - INFO - Iniciando actualización de datos...
+2025-02-02 15:08:34,241 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165 está vacío.
+2025-02-02 15:08:34,566 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/5572981003473119348 está vacío.
+2025-02-02 15:08:34,927 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461850 está vacío.
+2025-02-02 15:08:34,981 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461178 está vacío.
+2025-02-02 15:08:35,036 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/7760122889210870690 está vacío.
+2025-02-02 15:08:35,286 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/15251611368669093385 está vacío.
+2025-02-02 15:08:35,509 - WARNING - El feed https://www.google.com/alerts/feeds/08823391955851607514/13155130439785831467 está vacío.
+2025-02-02 15:08:35,837 - WARNING - No se encontraron entradas válidas para guardar.
