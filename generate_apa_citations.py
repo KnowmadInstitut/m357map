@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+generate_apa_citations.py
+
+Script para generar citas en formato APA 7, análisis de sentimiento,
+clasificación temática y resúmenes largos con Hugging Face.
+"""
+
+import sys
+import os
 import json
 from datetime import datetime
 from textblob import TextBlob
@@ -6,60 +16,67 @@ from urllib.parse import urlparse
 from geopy.geocoders import Nominatim
 import tldextract
 from transformers import pipeline  # Importar el modelo de Hugging Face
-import os
 
-def main(input_file="new_data.geojson", output_file="references_apa7.txt", analysis_file="analysis_summary.txt"):
-    if not os.path.isfile(input_file):
-        print(f"Error: No se encontró el archivo {input_file}. Verifica que el proceso de generación haya sido exitoso.")
-        return
-
-    with open(input_file, "r", encoding="utf-8") as f:
-        geojson_data = json.load(f)
-
-DetectorFactory.seed = 0
+DetectorFactory.seed = 0  # Semilla para resultados consistentes al detectar idioma
 
 # Configurar geolocalización
 geolocator = Nominatim(user_agent="masonic_analysis_geolocator")
 
-# Inicializar pipeline de resúmenes (BART preentrenado)
+# Inicializar pipeline de resúmenes (modelo BART preentrenado)
 summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
 
 # ========== Diccionario de categorías optimizadas ==========
 CATEGORIES = {
-    "antimasonico": ["antimasonería", "conspiración masónica", "teoría conspirativa", "nuevo orden mundial", 
-                     "ataques contra masones", "destrucción de logias", "control mundial", "propaganda antimasonica"],
-    
-    "desinformación": ["fake news", "noticias falsas", "información errónea", "desmentido", "bulo masónico", 
-                       "manipulación de información", "censura", "distorsión masónica", "manipulación mediática"],
-    
-    "pro masonico": ["gran logia", "evento masónico", "logia masónica", "hermandad masónica", "educación masónica", 
-                     "beneficencia masónica", "avances masónicos", "proyectos de logias", "contribución social"],
-    
-    "política y masonería": ["relación masonería-gobierno", "influencia masónica en política", "legislación", "tratado", 
-                             "parlamento", "colaboración internacional", "gobierno y masonería"],
-    
-    "historia masónica": ["fundación de logias", "orígenes de la masonería", "figuras históricas de la masonería", 
-                          "eventos masónicos históricos", "ritos históricos", "símbolos masónicos", "templos históricos"],
-    
-    "actualidad masónica": ["noticias masónicas", "última hora masonería", "conferencia masónica", "anuncio masónico", 
-                            "eventos masónicos recientes", "crisis masónica", "conflictos masónicos", "comunicado oficial"],
-    
-    "cultura y entretenimiento": ["cine masónico", "series sobre masonería", "documentales masónicos", "arte masónico", 
-                                  "masonería en cultura pop", "representaciones masónicas", "literatura masónica"],
-    
-    "anuncios y comunicaciones": ["comunicado oficial masónico", "anuncio de logia", "circulares masónicas", "boletines masónicos"],
-    
-    "obituarios y homenajes": ["obituario masónico", "homenaje a masones", "in memoriam", "funeral masónico"],
-    
-    "artículos de opinión": ["artículo de opinión masónica", "editorial sobre masonería", "columna de opinión masónica", 
-                             "análisis masónico", "ensayo masónico"],
-    
-    "artículos académicos y estudios": ["artículo académico sobre masonería", "investigación masónica", 
-                                        "estudios históricos de la masonería", "tesis sobre masonería", "revistas académicas masónicas"]
+    "antimasonico": [
+        "antimasonería", "conspiración masónica", "teoría conspirativa", "nuevo orden mundial",
+        "ataques contra masones", "destrucción de logias", "control mundial", "propaganda antimasonica"
+    ],
+    "desinformación": [
+        "fake news", "noticias falsas", "información errónea", "desmentido", "bulo masónico",
+        "manipulación de información", "censura", "distorsión masónica", "manipulación mediática"
+    ],
+    "pro masonico": [
+        "gran logia", "evento masónico", "logia masónica", "hermandad masónica", "educación masónica",
+        "beneficencia masónica", "avances masónicos", "proyectos de logias", "contribución social"
+    ],
+    "política y masonería": [
+        "relación masonería-gobierno", "influencia masónica en política", "legislación", "tratado",
+        "parlamento", "colaboración internacional", "gobierno y masonería"
+    ],
+    "historia masónica": [
+        "fundación de logias", "orígenes de la masonería", "figuras históricas de la masonería",
+        "eventos masónicos históricos", "ritos históricos", "símbolos masónicos", "templos históricos"
+    ],
+    "actualidad masónica": [
+        "noticias masónicas", "última hora masonería", "conferencia masónica", "anuncio masónico",
+        "eventos masónicos recientes", "crisis masónica", "conflictos masónicos", "comunicado oficial"
+    ],
+    "cultura y entretenimiento": [
+        "cine masónico", "series sobre masonería", "documentales masónicos", "arte masónico",
+        "masonería en cultura pop", "representaciones masónicas", "literatura masónica"
+    ],
+    "anuncios y comunicaciones": [
+        "comunicado oficial masónico", "anuncio de logia", "circulares masónicas", "boletines masónicos"
+    ],
+    "obituarios y homenajes": [
+        "obituario masónico", "homenaje a masones", "in memoriam", "funeral masónico"
+    ],
+    "artículos de opinión": [
+        "artículo de opinión masónica", "editorial sobre masonería", "columna de opinión masónica",
+        "análisis masónico", "ensayo masónico"
+    ],
+    "artículos académicos y estudios": [
+        "artículo académico sobre masonería", "investigación masónica",
+        "estudios históricos de la masonería", "tesis sobre masonería", "revistas académicas masónicas"
+    ]
 }
 
 # ========== Función para geolocalización avanzada ==========
 def get_location_details(coords):
+    """
+    Intenta obtener información detallada de localización (municipio, país, etc.)
+    a partir de coordenadas (lat, lon) usando geopy.
+    """
     try:
         location = geolocator.reverse(coords, exactly_one=True, timeout=10)
         if location and location.raw.get("address"):
@@ -73,6 +90,7 @@ def get_location_details(coords):
             }
     except Exception as e:
         print(f"Error al obtener ubicación: {str(e)}")
+
     return {
         "municipio": "Desconocido",
         "subregion": "Desconocido",
@@ -83,12 +101,18 @@ def get_location_details(coords):
 
 # ========== Función para identificar fuente del artículo ==========
 def get_source_from_url(url):
+    """
+    Extrae el nombre de dominio principal a partir de la URL.
+    """
     parsed_url = urlparse(url)
     domain = tldextract.extract(url).domain
     return domain.capitalize() if domain else "Fuente desconocida"
 
 # ========== Función para obtener idioma ==========
 def detect_language(text):
+    """
+    Detecta el idioma del texto usando langdetect.
+    """
     try:
         return detect(text)
     except Exception:
@@ -96,6 +120,9 @@ def detect_language(text):
 
 # ========== Generar referencias en formato APA ==========
 def generate_apa_reference(entry):
+    """
+    Genera una cadena de referencia en formato APA7 para un artículo dado.
+    """
     title = entry.get("title", "Sin título").strip()
     link = entry.get("link", "")
     published_date = entry.get("published", "").strip()
@@ -113,6 +140,9 @@ def generate_apa_reference(entry):
 
 # ========== Análisis de sentimiento ==========
 def analyze_sentiment(text):
+    """
+    Usa TextBlob para obtener la polaridad. Devuelve positivo, negativo o neutral.
+    """
     blob = TextBlob(text)
     sentiment_score = blob.sentiment.polarity
     if sentiment_score > 0.1:
@@ -124,6 +154,9 @@ def analyze_sentiment(text):
 
 # ========== Clasificación basada en categorías ==========
 def categorize_text(text):
+    """
+    Asigna al texto una o varias categorías en base a palabras clave definidas en CATEGORIES.
+    """
     found_categories = []
     for main_category, keywords in CATEGORIES.items():
         if any(keyword.lower() in text.lower() for keyword in keywords):
@@ -132,21 +165,56 @@ def categorize_text(text):
 
 # ========== Generar resumen largo utilizando BART ==========
 def generate_long_summary(text):
+    """
+    Genera un resumen largo usando el modelo BART.
+    Si ocurre un error, retorna los primeros 500 caracteres del texto original.
+    """
     try:
-        summarized_text = summarizer(text, max_length=250, min_length=100, do_sample=False)[0]["summary_text"]
+        summarized_text = summarizer(
+            text, 
+            max_length=250, 
+            min_length=100, 
+            do_sample=False
+        )[0]["summary_text"]
         return summarized_text
     except Exception as e:
         print(f"Error al generar resumen: {str(e)}")
-        return text[:500]  # En caso de error, recortar el texto original
+        return text[:500]
 
-# ========== Función principal ==========
-def main(input_file="new_data.geojson", output_file="references_apa7.txt", analysis_file="analysis_summary.txt"):
+# ========== Función principal (con manejo de parámetros de línea de comandos) ==========
+def main():
+    """
+    Procesa los argumentos de CLI para determinar archivo de entrada, archivo de salida
+    de referencias APA y archivo de salida de análisis. Si no se proporcionan, se
+    usan valores por defecto.
+    """
+    # Argumentos por defecto
+    input_file = "new_data.geojson"
+    output_file = "references_apa7.txt"
+    analysis_file = "analysis_summary.txt"
+
+    # Leer argumentos desde CLI (si existen)
+    args = sys.argv[1:]
+    if len(args) > 0:
+        input_file = args[0]
+    if len(args) > 1:
+        output_file = args[1]
+    if len(args) > 2:
+        analysis_file = args[2]
+
+    # Verificar existencia del archivo de entrada
+    if not os.path.isfile(input_file):
+        print(f"Error: No se encontró el archivo {input_file}. Verifica que el proceso de generación haya sido exitoso.")
+        return
+
+    # Cargar el GeoJSON
     with open(input_file, "r", encoding="utf-8") as f:
         geojson_data = json.load(f)
 
     references = []
     analysis_results = []
 
+    # Procesar cada característica en el GeoJSON
     for feature in geojson_data.get("features", []):
         properties = feature.get("properties", {})
         title = properties.get("title", "Sin título").strip()
@@ -155,36 +223,39 @@ def main(input_file="new_data.geojson", output_file="references_apa7.txt", analy
         coords = feature.get("geometry", {}).get("coordinates", [None, None])
         coords_str = f"{coords[1]}, {coords[0]}" if all(coords) else "Desconocido"
 
-        # Generar referencia APA
+        # 1. Generar referencia APA
         reference = generate_apa_reference(properties)
         references.append(reference)
 
-        # Resumen extenso usando BART
+        # 2. Resumen extenso usando BART
         long_summary = generate_long_summary(description)
 
-        # Realizar análisis de sentimiento
+        # 3. Análisis de sentimiento
         sentiment = analyze_sentiment(description)
 
-        # Clasificar el texto
+        # 4. Clasificación del texto
         category = categorize_text(description)
 
-        # Detectar el idioma
+        # 5. Detección de idioma
         language = detect_language(description)
 
-        # Detectar fuente del artículo
+        # 6. Detección de fuente
         source = get_source_from_url(link)
 
-        # Obtener detalles de la ubicación
-        location_details = get_location_details(tuple(coords)) if coords[0] and coords[1] else {
-            "municipio": "Desconocido",
-            "subregion": "Desconocido",
-            "region": "Desconocido",
-            "continente": "Desconocido",
-            "pais": "Desconocido"
-        }
+        # 7. Detalles de la ubicación
+        location_details = (
+            get_location_details(tuple(coords))
+            if coords[0] and coords[1] else {
+                "municipio": "Desconocido",
+                "subregion": "Desconocido",
+                "region": "Desconocido",
+                "continente": "Desconocido",
+                "pais": "Desconocido"
+            }
+        )
 
-        # Resumen del análisis
-        analysis_results.append(
+        # Construir el texto de análisis
+        analysis_text = (
             f"Título: {title}\n"
             f"Resumen: {long_summary}\n"
             f"Fuente: {source}\n"
@@ -196,14 +267,16 @@ def main(input_file="new_data.geojson", output_file="references_apa7.txt", analy
             f"{location_details['region']}, {location_details['continente']}, {location_details['pais']}\n"
             f"Coordenadas: {coords_str}\n\n"
         )
+        analysis_results.append(analysis_text)
 
-    # Guardar referencias APA
+    # Guardar referencias APA en archivo de texto
     with open(output_file, "w", encoding="utf-8") as f:
         f.writelines(references)
 
-    # Guardar el resumen del análisis
+    # Guardar análisis en otro archivo
     with open(analysis_file, "w", encoding="utf-8") as f:
         f.writelines(analysis_results)
 
+# Punto de entrada
 if __name__ == "__main__":
     main()
