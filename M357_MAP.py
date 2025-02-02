@@ -91,12 +91,13 @@ def parse_feed(feed_url):
     for entry in feed.entries:
         lon, lat = None, None
         location = entry.get("location", "")
+        # Simulación de coordenadas (GeoJSON usa orden [lon, lat])
         if location:
-            lon, lat = 10.0, 20.0  # Simulación de coordenadas
+            lon, lat = 10.0, 20.0  
 
         if is_valid_coords(lon, lat):
             entries.append(Feature(
-                geometry=Point((lon, lat)),
+                geometry=Point((lon, lat)),  # GeoJSON: (longitud, latitud)
                 properties={
                     "title": entry.get("title", "Sin título"),
                     "summary": entry.get("summary", ""),
