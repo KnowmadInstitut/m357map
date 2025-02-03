@@ -61,7 +61,6 @@ class Config:
     "Ramsay's Oration", "Oración de Ramsay", "Oração de Ramsay", "Discours de Ramsay", "Ramsays Rede",
     "Lessing and German Freemasonry", "Lessing y la Masonería Alemana", "Lessing e a Maçonaria Alemã",
     "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst"
-        # Continúa con el resto...
         # Continúa con el resto de las palabras clave
     ]
     CACHE_DB = "masonic_data_cache.db"
