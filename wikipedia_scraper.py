@@ -1,4 +1,4 @@
-    # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Masonic Wikipedia Scraper - Versión Completa y Optimizada
 
@@ -21,6 +21,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 import spacy
+import subprocess
 import pandas as pd
 import geojson
 from geopy.geocoders import Nominatim
@@ -60,16 +61,24 @@ class Config:
     "Ramsay's Oration", "Oración de Ramsay", "Oração de Ramsay", "Discours de Ramsay", "Ramsays Rede",
     "Lessing and German Freemasonry", "Lessing y la Masonería Alemana", "Lessing e a Maçonaria Alemã",
     "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst"
+        # Puedes agregar más palabras clave si es necesario
     ]
     CACHE_DB = "masonic_data_cache.db"
     REQUEST_TIMEOUT = 15
     RATE_LIMIT_CALLS = 50  # Máximo de llamadas por minuto
     SPA_MODEL = "en_core_web_sm"
 
+# Verificar y descargar automáticamente el modelo spaCy si no está disponible
+try:
+    nlp = spacy.load(Config.SPA_MODEL)
+except OSError:
+    logger.warning(f"Modelo {Config.SPA_MODEL} no encontrado. Descargando...")
+    subprocess.run(["python", "-m", "spacy", "download", Config.SPA_MODEL], check=True)
+    nlp = spacy.load(Config.SPA_MODEL)
+
 # Inicialización de componentes
 geolocator = Nominatim(user_agent="masonic_scraper_v3")
 geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
-nlp = spacy.load(Config.SPA_MODEL)
 
 # Caché de geocodificación
 class GeoCache:
@@ -201,4 +210,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
