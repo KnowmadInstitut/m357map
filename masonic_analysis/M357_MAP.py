@@ -23,7 +23,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
 from geopy.geocoders import Nominatim
-from geopy.extra.rate_limiter import RateLimiter  # <-- Importar RateLimiter
+from geopy.extra.rate_limiter import RateLimiter  # Aquí importamos RateLimiter
 from geojson import FeatureCollection, Feature, Point
 
 ############################################################################
@@ -39,7 +39,6 @@ logger = logging.getLogger("GoogleAlertsScraper")
 
 # Lista de Feeds
 RSS_FEEDS = [
-
     "https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477",
     "https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668",
     "https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165",
@@ -77,7 +76,7 @@ OUTPUT_FILE = "google_alerts.geojson"  # Nombre del archivo final
 
 # Instancia geolocalizador
 geolocator = Nominatim(user_agent="masonic_alerts_app")
-# Rate limit (p.ej., 1 seg entre peticiones para evitar bloqueo)
+# Rate limit (p.ej., 1 seg entre peticiones para evitar bloqueos)
 geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1.0)
 
 ############################################################################
