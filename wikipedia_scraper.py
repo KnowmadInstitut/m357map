@@ -61,11 +61,11 @@ class Config:
     "Ramsay's Oration", "Oración de Ramsay", "Oração de Ramsay", "Discours de Ramsay", "Ramsays Rede",
     "Lessing and German Freemasonry", "Lessing y la Masonería Alemana", "Lessing e a Maçonaria Alemã",
     "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst"
-        # Puedes agregar más palabras clave si es necesario
+        # Continúa con el resto...
     ]
     CACHE_DB = "masonic_data_cache.db"
     REQUEST_TIMEOUT = 15
-    RATE_LIMIT_CALLS = 50  # Máximo de llamadas por minuto
+    RATE_LIMIT_CALLS = 50
     SPA_MODEL = "en_core_web_sm"
 
 # Verificar y descargar automáticamente el modelo spaCy si no está disponible
@@ -76,7 +76,7 @@ except OSError:
     subprocess.run(["python", "-m", "spacy", "download", Config.SPA_MODEL], check=True)
     nlp = spacy.load(Config.SPA_MODEL)
 
-# Inicialización de componentes
+# Inicialización de geolocalización
 geolocator = Nominatim(user_agent="masonic_scraper_v3")
 geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
 
@@ -124,6 +124,8 @@ def fetch_wikipedia_data(keyword, lang):
     return response.json().get("query", {}).get("search", [])
 
 def geocode_location(place):
+    if not place:
+        return None
     cached = geo_cache.get(place)
     if cached:
         return cached
@@ -142,7 +144,10 @@ def process_article(article, lang, keyword):
     title = article["title"]
     url = f"https://{lang}.wikipedia.org/wiki/{title.replace(' ', '_')}"
     entity_location = extract_entities(title)
-    coords = geocode_location(entity_location) if entity_location else (None, None)
+    coords = geocode_location(entity_location) if entity_location else None
+
+    # Manejo seguro de coordenadas
+    latitude, longitude = (None, None) if coords is None else coords
 
     # Asignar prioridad
     priority = 3 if "grand lodge" in title.lower() else 2 if "temple" in title.lower() else 1
@@ -152,8 +157,8 @@ def process_article(article, lang, keyword):
         "url": url,
         "keyword": keyword,
         "lang": lang,
-        "latitude": coords[0],
-        "longitude": coords[1],
+        "latitude": latitude,
+        "longitude": longitude,
         "priority": priority,
         "timestamp": datetime.now().isoformat()
     }
@@ -178,7 +183,7 @@ def export_data(data):
     # Guardar GeoJSON
     features = [
         geojson.Feature(
-            geometry=geojson.Point((item["longitude"], item["latitude"])),
+            geometry=geojson.Point((item["longitude"], item["latitude"])) if item["latitude"] and item["longitude"] else None,
             properties=item
         ) for item in data if item["latitude"] and item["longitude"]
     ]
