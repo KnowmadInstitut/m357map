@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Wikipedia Scraper Optimizado
+Wikipedia Scraper Final Optimizado
 - Multi-idioma: en, es, fr, de, pt
 - Geocodificación avanzada (Photon + Nominatim)
-- Extracción con NLP (spaCy)
-- Caché persistente (SQLite)
-- Exportación a JSON, GeoJSON, Parquet
+- Fusión histórica con JSON y GeoJSON.
 """
 import requests
 import json
@@ -13,7 +11,7 @@ import logging
 import time
 import re
 import sqlite3
-from typing import List, Dict, Optional, Tuple, Any
+from typing import List, Dict, Optional, Tuple
 import spacy
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
@@ -113,13 +111,39 @@ def extract_nlp_location(text: str) -> Optional[str]:
         return locations[0] if locations else None
     return None
 
-def export_geojson(data: List[Dict], path="masonic_data.geojson"):
-    features = [
+def load_previous_geojson(path="masonic_data.geojson") -> geojson.FeatureCollection:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return geojson.FeatureCollection(json.load(f)["features"])
+    except (FileNotFoundError, json.JSONDecodeError):
+        return geojson.FeatureCollection([])
+
+def merge_geojson(new_features: List[geojson.Feature], old_fc: geojson.FeatureCollection) -> geojson.FeatureCollection:
+    merged_features = {feat["properties"]["title"]: feat for feat in old_fc.features}
+    for feature in new_features:
+        title = feature["properties"]["title"]
+        merged_features[title] = feature
+    return geojson.FeatureCollection(list(merged_features.values()))
+
+def export_geojson(new_data: List[Dict], geojson_path="masonic_data.geojson"):
+    new_features = [
         geojson.Feature(geometry=geojson.Point((d["longitude"], d["latitude"])), properties=d)
-        for d in data if d["longitude"] and d["latitude"]
+        for d in new_data if d["longitude"] and d["latitude"]
     ]
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(geojson.FeatureCollection(features), f, indent=2)
+    old_fc = load_previous_geojson(geojson_path)
+    merged_fc = merge_geojson(new_features, old_fc)
+    with open(geojson_path, "w", encoding="utf-8") as f:
+        json.dump(merged_fc, f, indent=2)
+
+def export_json(new_data: List[Dict], json_path="masonic_data.json"):
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            old_data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        old_data = []
+    combined_data = {entry["title"]: entry for entry in old_data + new_data}
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(list(combined_data.values()), f, indent=2)
 
 def main():
     all_articles = []
@@ -130,6 +154,7 @@ def main():
                 processed = process_article(article, keyword, lang)
                 all_articles.append(processed)
 
+    export_json(all_articles)
     export_geojson(all_articles)
     df = pd.DataFrame(all_articles)
     df.to_parquet("masonic_data.parquet", index=False)
