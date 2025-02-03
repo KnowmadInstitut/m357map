@@ -35,7 +35,7 @@ logger = logging.getLogger("MasonicWikiScraper")
 class Config:
     LANGUAGES = ["en", "es", "fr", "de", "pt"]
     KEYWORDS = [
-    "Freemason", "Mason", "Francmason", "Freemasonry", "Francmasonería", "Gran Logia", "Masonic Lodge",
+      "Freemason", "Mason", "Francmason", "Freemasonry", "Francmasonería", "Gran Logia", "Masonic Lodge",
     "Masonic Temple", "Loge maçonnique", "Freimaurer", "Freimaurerei", "Franc-maçon", "Masonic Order",
     "Grand Orient", "Ancient and Accepted Scottish Rite", "Rito Escocés Antiguo y Aceptado", "York Rite",
     "Rito de York", "Knights Templar", "Caballeros Templarios", "Chevaliers du Temple", "Cavaleiros Templários",
@@ -62,6 +62,7 @@ class Config:
     "Lessing and German Freemasonry", "Lessing y la Masonería Alemana", "Lessing e a Maçonaria Alemã",
     "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst"
         # Continúa con el resto...
+        # Continúa con el resto de las palabras clave
     ]
     CACHE_DB = "masonic_data_cache.db"
     REQUEST_TIMEOUT = 15
@@ -163,8 +164,13 @@ def process_article(article, lang, keyword):
         "timestamp": datetime.now().isoformat()
     }
 
+def validate_data(data):
+    return [item for item in data if "url" in item and "title" in item]
+
 def merge_data(old_data, new_data):
-    merged = {item["url"]: item for item in old_data}
+    # Filtrar datos para evitar errores por claves faltantes
+    filtered_old_data = validate_data(old_data)
+    merged = {item["url"]: item for item in filtered_old_data}
     for item in new_data:
         if item["url"] not in merged or item["priority"] > merged[item["url"]]["priority"]:
             merged[item["url"]] = item
@@ -203,10 +209,10 @@ def main():
             for article in articles:
                 results.append(process_article(article, "en", article["title"]))
 
-    # Cargar datos históricos
+    # Cargar datos históricos y limpiar posibles datos corruptos
     try:
         with open("wikipedia_data.json", "r", encoding="utf-8") as f:
-            historical_data = json.load(f)
+            historical_data = validate_data(json.load(f))
     except (FileNotFoundError, json.JSONDecodeError):
         historical_data = []
 
