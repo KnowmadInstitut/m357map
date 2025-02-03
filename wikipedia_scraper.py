@@ -144,10 +144,10 @@ def process_article(article, lang, keyword):
     title = article["title"]
     url = f"https://{lang}.wikipedia.org/wiki/{title.replace(' ', '_')}"
     entity_location = extract_entities(title)
-    coords = geocode_location(entity_location) if entity_location else None
+    coords = geocode_location(entity_location) if entity_location else (None, None)
 
     # Manejo seguro de coordenadas
-    latitude, longitude = (None, None) if coords is None else coords
+    latitude, longitude = coords
 
     # Asignar prioridad
     priority = 3 if "grand lodge" in title.lower() else 2 if "temple" in title.lower() else 1
