@@ -1,14 +1,19 @@
+# Configuración principal
+class Config:
+    LANGUAGES = ["en", "es", "fr", "de", "pt"]
+    KEYWORDS = [
+
 # -*- coding: utf-8 -*-
 """
-Masonic Wikipedia Research Tool - Ultimate Edition
+Masonic Wikipedia Scraper - Versión Completa y Optimizada
 
 Características principales:
 1. Búsqueda multilingüe con paginación avanzada
-2. Sistema de caché inteligente (SQLite + Memoria)
-3. Geocodificación híbrida (Nominatim + Photon) con priorización
-4. Extracción avanzada de entidades (ubicaciones, fechas, organizaciones)
+2. Caché persistente en SQLite para geocodificación
+3. Geocodificación híbrida (Nominatim + Photon)
+4. Extracción de entidades avanzadas (ubicaciones, fechas, organizaciones)
 5. Fusión inteligente de datos históricos
-6. Exportación multi-formato (JSON/GeoJSON/Parquet)
+6. Exportación a JSON, GeoJSON y Parquet
 7. Sistema de priorización automática
 8. Control de tasa de solicitudes (Rate Limiting)
 """
@@ -17,25 +22,26 @@ import requests
 import json
 import logging
 import sqlite3
-import time
-import re
 import os
-from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from geopy.geocoders import Nominatim
-from geopy.extra.rate_limiter import RateLimiter
+from datetime import datetime
 import spacy
 import pandas as pd
 import geojson
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
 from ratelimit import limits, sleep_and_retry
-from tenacity import retry, stop_after_attempt, wait_exponential
 
-# Configuración principal
+# Configuración del logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("MasonicWikiScraper")
+
 class Config:
     LANGUAGES = ["en", "es", "fr", "de", "pt"]
     KEYWORDS = [
 
-# -*- coding: utf-8 -*-
+
+    # -*- coding: utf-8 -*-
 """
 Masonic Wikipedia Scraper - Versión Completa y Optimizada
 
@@ -96,9 +102,8 @@ class Config:
     "Wilhelmsbad Convention", "Convención de Wilhelmsbad", "Convenção de Wilhelmsbad", "Convention de Wilhelmsbad",
     "Ramsay's Oration", "Oración de Ramsay", "Oração de Ramsay", "Discours de Ramsay", "Ramsays Rede",
     "Lessing and German Freemasonry", "Lessing y la Masonería Alemana", "Lessing e a Maçonaria Alemã",
-    "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst", 
+    "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst"
     ]
-    
     CACHE_DB = "masonic_data_cache.db"
     REQUEST_TIMEOUT = 15
     RATE_LIMIT_CALLS = 50  # Máximo de llamadas por minuto
