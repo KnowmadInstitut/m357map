@@ -251,3 +251,1686 @@
 2025-02-03 14:08:41,281 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427 => 0 entradas
 2025-02-03 14:08:41,287 - INFO - Datos combinados guardados en google_alerts.geojson con total=171 features.
 2025-02-03 14:08:41,287 - INFO - Proceso completado. Revisa el archivo final para ver la data unificada.
+2025-02-03 14:30:32,892 - INFO - Iniciando scraping de Google Alerts (Masonería) con detección avanzada de ubicación...
+2025-02-03 14:30:33,012 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165
+2025-02-03 14:30:33,013 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165 => 0 entradas
+2025-02-03 14:30:33,056 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/5572981003473119348
+2025-02-03 14:30:33,057 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/5572981003473119348 => 0 entradas
+2025-02-03 14:30:33,102 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/6833079353494005014 => 4 entradas
+2025-02-03 14:30:33,103 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/17383807687186980718
+2025-02-03 14:30:33,104 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/17383807687186980718 => 0 entradas
+2025-02-03 14:30:33,146 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/11043471059141282309 => 1 entradas
+2025-02-03 14:30:33,228 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/2031900511198117844 => 1 entradas
+2025-02-03 14:30:33,271 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/10413993926495102043
+2025-02-03 14:30:33,272 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/10413993926495102043 => 0 entradas
+2025-02-03 14:30:33,275 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/13877290848809114470 => 1 entradas
+2025-02-03 14:30:33,309 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461850
+2025-02-03 14:30:33,310 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461850 => 0 entradas
+2025-02-03 14:30:33,347 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/7760122889210870690
+2025-02-03 14:30:33,348 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/7760122889210870690 => 0 entradas
+2025-02-03 14:30:33,428 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461178
+2025-02-03 14:30:33,429 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461178 => 0 entradas
+2025-02-03 14:30:33,443 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/4297759070181606765 => 9 entradas
+2025-02-03 14:30:33,462 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/15183025294765855574 => 1 entradas
+2025-02-03 14:30:33,499 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/11630540178333861502 => 3 entradas
+2025-02-03 14:30:33,534 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/9684782093161547179 => 3 entradas
+2025-02-03 14:30:33,537 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/15251611368669093385 => 1 entradas
+2025-02-03 14:30:33,571 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/8744244600052796540 => 4 entradas
+2025-02-03 14:30:33,612 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/13155130439785831467
+2025-02-03 14:30:33,613 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/13155130439785831467 => 0 entradas
+2025-02-03 14:30:33,636 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/357094683772830109 => 2 entradas
+2025-02-03 14:30:33,642 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/15809012670835506226 => 4 entradas
+2025-02-03 14:30:33,688 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/14458568452294133843 => 1 entradas
+2025-02-03 14:30:33,711 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/11937818240173291166
+2025-02-03 14:30:33,712 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/11937818240173291166 => 0 entradas
+2025-02-03 14:30:33,721 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/3528049070088672707 => 4 entradas
+2025-02-03 14:30:33,806 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173 => 20 entradas
+2025-02-03 14:30:33,807 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427
+2025-02-03 14:30:33,808 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427 => 0 entradas
+2025-02-03 14:30:33,872 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/5792372986925203132
+2025-02-03 14:30:33,872 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/5792372986925203132 => 0 entradas
+2025-02-03 14:30:44,142 - WARNING - Error geocodificando 'Christian teachings': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:30:45,353 - WARNING - Error geocodificando 'purse banned from the roads': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:30:46,063 - WARNING - Error geocodificando 'its own way': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:30:48,129 - WARNING - Error geocodificando 'The Majestic in Detroit': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:30:49,351 - WARNING - Error geocodificando 'the kitchens of the VFW and': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:30:51,359 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1
+2025-02-03 14:30:52,437 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1
+2025-02-03 14:30:53,361 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:30:53,503 - WARNING - RateLimiter caught an error, retrying (0/2 tries). Called with (*('many local civic organizations and farmed for many years in Henry County',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:30:54,431 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=one+of+Salt+Lake+City&format=json&limit=1
+2025-02-03 14:30:54,435 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:30:55,425 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Christianity&format=json&limit=1
+2025-02-03 14:30:55,508 - WARNING - RateLimiter caught an error, retrying (0/2 tries). Called with (*('Alton stands vacant',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Alton+stands+vacant&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Alton+stands+vacant&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Alton+stands+vacant&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:30:55,510 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=one+of+Salt+Lake+City&format=json&limit=1
+2025-02-03 14:30:56,222 - WARNING - Error geocodificando 'the war was the topic of': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:30:56,490 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Christianity&format=json&limit=1
+2025-02-03 14:30:56,572 - WARNING - RateLimiter caught an error, retrying (0/2 tries). Called with (*('one of Salt Lake City',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=one+of+Salt+Lake+City&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=one+of+Salt+Lake+City&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=one+of+Salt+Lake+City&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:30:57,292 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Patriot+Health+and+Rehab+Center&format=json&limit=1
+2025-02-03 14:30:57,554 - WARNING - RateLimiter caught an error, retrying (0/2 tries). Called with (*('Christianity',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Christianity&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Christianity&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Christianity&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:30:58,355 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Patriot+Health+and+Rehab+Center&format=json&limit=1
+2025-02-03 14:30:59,420 - WARNING - RateLimiter caught an error, retrying (0/2 tries). Called with (*('Patriot Health and Rehab Center',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Patriot+Health+and+Rehab+Center&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Patriot+Health+and+Rehab+Center&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Patriot+Health+and+Rehab+Center&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:30:59,658 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1
+2025-02-03 14:31:00,723 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1
+2025-02-03 14:31:01,576 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:31:01,787 - WARNING - RateLimiter caught an error, retrying (1/2 tries). Called with (*('many local civic organizations and farmed for many years in Henry County',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:31:02,651 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=one+of+Salt+Lake+City&format=json&limit=1
+2025-02-03 14:31:02,652 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:31:02,740 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:02,741 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:02,741 - WARNING - RateLimiter caught an error, retrying (1/2 tries). Called with (*('Alton stands vacant',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:02,741 - WARNING - RateLimiter caught an error, retrying (1/2 tries). Called with (*('one of Salt Lake City',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:03,648 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Christianity&format=json&limit=1
+2025-02-03 14:31:04,443 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:04,444 - WARNING - RateLimiter caught an error, retrying (1/2 tries). Called with (*('Patriot Health and Rehab Center',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:04,711 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Christianity&format=json&limit=1
+2025-02-03 14:31:05,777 - WARNING - RateLimiter caught an error, retrying (1/2 tries). Called with (*('Christianity',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Christianity&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Christianity&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Christianity&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:31:07,855 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1
+2025-02-03 14:31:08,809 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=one+of+Salt+Lake+City&format=json&limit=1
+2025-02-03 14:31:08,893 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:08,893 - WARNING - RateLimiter swallowed an error after 2 retries. Called with (*('one of Salt Lake City',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:08,920 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=many+local+civic+organizations+and+farmed+for+many+years+in+Henry+County&format=json&limit=1
+2025-02-03 14:31:08,999 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:08,999 - WARNING - RateLimiter swallowed an error after 2 retries. Called with (*('many local civic organizations and farmed for many years in Henry County',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:09,797 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:31:09,875 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:09,875 - WARNING - RateLimiter swallowed an error after 2 retries. Called with (*('Alton stands vacant',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:10,797 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Patriot+Health+and+Rehab+Center&format=json&limit=1
+2025-02-03 14:31:10,877 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:10,877 - WARNING - RateLimiter swallowed an error after 2 retries. Called with (*('Patriot Health and Rehab Center',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:11,796 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Christianity&format=json&limit=1
+2025-02-03 14:31:12,857 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Christianity&format=json&limit=1
+2025-02-03 14:31:13,921 - WARNING - RateLimiter swallowed an error after 2 retries. Called with (*('Christianity',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Christianity&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Christianity&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Christianity&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:31:19,440 - WARNING - Error geocodificando 'one of Salt Lake City': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:31:19,528 - WARNING - Error geocodificando 'many local civic organizations and farmed for many years in Henry County': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:31:20,410 - WARNING - Error geocodificando 'Alton stands vacant': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:31:20,508 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=the+heart+of+Croydon&format=json&limit=1
+2025-02-03 14:31:21,443 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:31:21,513 - WARNING - Error geocodificando 'Patriot Health and Rehab Center': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:31:21,513 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/17243776362555978691 => 4 entradas
+2025-02-03 14:31:21,569 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=the+heart+of+Croydon&format=json&limit=1
+2025-02-03 14:31:22,444 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=the+Goldfields+who+call+the+Kalgoorlie&format=json&limit=1
+2025-02-03 14:31:22,506 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:31:22,630 - WARNING - RateLimiter caught an error, retrying (0/2 tries). Called with (*('the heart of Croydon',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+heart+of+Croydon&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+heart+of+Croydon&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+heart+of+Croydon&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:31:23,505 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=the+Goldfields+who+call+the+Kalgoorlie&format=json&limit=1
+2025-02-03 14:31:23,570 - WARNING - RateLimiter caught an error, retrying (0/2 tries). Called with (*('Alton stands vacant',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Alton+stands+vacant&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Alton+stands+vacant&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Alton+stands+vacant&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:31:24,569 - WARNING - RateLimiter caught an error, retrying (0/2 tries). Called with (*('the Goldfields who call the Kalgoorlie',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+Goldfields+who+call+the+Kalgoorlie&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+Goldfields+who+call+the+Kalgoorlie&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+Goldfields+who+call+the+Kalgoorlie&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:31:24,889 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Kalgoorlie&format=json&limit=1
+2025-02-03 14:31:25,953 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Kalgoorlie&format=json&limit=1
+2025-02-03 14:31:27,018 - WARNING - RateLimiter caught an error, retrying (0/2 tries). Called with (*('Kalgoorlie',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Kalgoorlie&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Kalgoorlie&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Kalgoorlie&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:31:28,704 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=the+heart+of+Croydon&format=json&limit=1
+2025-02-03 14:31:29,703 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:31:29,768 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=the+heart+of+Croydon&format=json&limit=1
+2025-02-03 14:31:29,847 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:29,848 - WARNING - RateLimiter caught an error, retrying (1/2 tries). Called with (*('the heart of Croydon',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:30,703 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=the+Goldfields+who+call+the+Kalgoorlie&format=json&limit=1
+2025-02-03 14:31:30,765 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:31:30,844 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:30,844 - WARNING - RateLimiter caught an error, retrying (1/2 tries). Called with (*('Alton stands vacant',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:31,769 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=the+Goldfields+who+call+the+Kalgoorlie&format=json&limit=1
+2025-02-03 14:31:32,044 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:32,044 - WARNING - RateLimiter caught an error, retrying (1/2 tries). Called with (*('Kalgoorlie',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:32,833 - WARNING - RateLimiter caught an error, retrying (1/2 tries). Called with (*('the Goldfields who call the Kalgoorlie',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+Goldfields+who+call+the+Kalgoorlie&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+Goldfields+who+call+the+Kalgoorlie&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 136, in _retries_gen
+    yield i  # Run the function.
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+Goldfields+who+call+the+Kalgoorlie&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:31:35,918 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=the+heart+of+Croydon&format=json&limit=1
+2025-02-03 14:31:36,854 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:31:36,980 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=the+heart+of+Croydon&format=json&limit=1
+2025-02-03 14:31:37,071 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:37,071 - WARNING - RateLimiter swallowed an error after 2 retries. Called with (*('Kalgoorlie',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:37,916 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Alton+stands+vacant&format=json&limit=1
+2025-02-03 14:31:38,042 - WARNING - RateLimiter swallowed an error after 2 retries. Called with (*('the heart of Croydon',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+heart+of+Croydon&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+heart+of+Croydon&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=the+heart+of+Croydon&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:31:38,129 - INFO - Received an HTTP error (429): <html>
+<head>
+<title>Bandwidth limit exceeded</title>
+</head>
+<body>
+<h1>Bandwidth limit exceeded</h1>
+
+<p>You have been temporarily blocked because you have been overusing OSM's geocoding service or because you have not provided sufficient identification of your application. This block will be automatically lifted after a while. Please take the time and adapt your scripts to reduce the number of requests and make sure that you send a valid UserAgent or Referer.</p>
+
+<p>For more information, consult the <a href="https://operations.osmfoundation.org/policies/nominatim/">usage policy</a> for the OSM Nominatim server.</p>
+</body>
+</html>
+
+2025-02-03 14:31:38,129 - WARNING - RateLimiter swallowed an error after 2 retries. Called with (*('the Goldfields who call the Kalgoorlie',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 475, in _request
+    raise AdapterHTTPError(
+geopy.adapters.AdapterHTTPError: Non-successful status code 429
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 388, in _call_geocoder
+    res = self._adapter_error_handler(error)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 407, in _adapter_error_handler
+    raise exc_cls(
+geopy.exc.GeocoderRateLimited: Non-successful status code 429
+2025-02-03 14:31:38,981 - WARNING - RateLimiter swallowed an error after 2 retries. Called with (*('Alton stands vacant',), **{}).
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 871, in urlopen
+    return self.urlopen(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Alton+stands+vacant&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 457, in _request
+    resp = self.session.get(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/requests/adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Alton+stands+vacant&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/extra/rate_limiter.py", line 274, in __call__
+    res = self.func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/nominatim.py", line 297, in geocode
+    return self._call_geocoder(url, callback, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/geocoders/base.py", line 368, in _call_geocoder
+    result = self.adapter.get_json(url, timeout=timeout, headers=req_headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 447, in get_json
+    resp = self._request(url, timeout=timeout, headers=headers)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/geopy/adapters.py", line 469, in _request
+    raise GeocoderUnavailable(message)
+geopy.exc.GeocoderUnavailable: HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Alton+stands+vacant&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-02-03 14:31:47,603 - WARNING - Error geocodificando 'Kalgoorlie': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:31:47,604 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477 => 8 entradas
+2025-02-03 14:31:48,577 - WARNING - Error geocodificando 'the heart of Croydon': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:31:48,577 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668 => 8 entradas
+2025-02-03 14:31:48,664 - WARNING - Error geocodificando 'the Goldfields who call the Kalgoorlie': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:31:49,511 - WARNING - Error geocodificando 'Alton stands vacant': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:31:49,511 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/15847044508852608532 => 8 entradas
+2025-02-03 14:31:59,586 - WARNING - Error geocodificando 'Moberly by officers': HTTPSConnectionPool(host='photon.komoot.io', port=443): Read timed out. (read timeout=10)
+2025-02-03 14:32:00,639 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/9378709536916495456 => 12 entradas
+2025-02-03 14:32:00,645 - INFO - Datos combinados guardados en google_alerts.geojson con total=171 features.
+2025-02-03 14:32:00,645 - INFO - Proceso completado. Revisa el archivo final (google_alerts.geojson) para ver la data unificada.
