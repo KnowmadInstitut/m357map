@@ -206,3 +206,48 @@
 2025-02-03 01:44:34,363 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427 => 0 entradas
 2025-02-03 01:44:34,368 - INFO - Datos combinados guardados en google_alerts.geojson con total=132 features.
 2025-02-03 01:44:34,368 - INFO - Proceso completado. Revisa el archivo final para ver la data unificada.
+2025-02-03 14:08:40,563 - INFO - Iniciando scraping de Google Alerts (Masonería)...
+2025-02-03 14:08:40,748 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165
+2025-02-03 14:08:40,749 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/5572981003473119348
+2025-02-03 14:08:40,754 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/303056625914324165 => 0 entradas
+2025-02-03 14:08:40,760 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/5572981003473119348 => 0 entradas
+2025-02-03 14:08:40,792 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/6833079353494005014 => 4 entradas
+2025-02-03 14:08:40,792 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/18357020651463187477 => 8 entradas
+2025-02-03 14:08:40,798 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/17243776362555978691 => 4 entradas
+2025-02-03 14:08:40,806 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/15847044508852608532 => 8 entradas
+2025-02-03 14:08:40,806 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/434625937666013668 => 8 entradas
+2025-02-03 14:08:40,844 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/9378709536916495456 => 12 entradas
+2025-02-03 14:08:40,869 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/11043471059141282309 => 1 entradas
+2025-02-03 14:08:40,877 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/17383807687186980718
+2025-02-03 14:08:40,878 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/17383807687186980718 => 0 entradas
+2025-02-03 14:08:40,930 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461178
+2025-02-03 14:08:40,931 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461178 => 0 entradas
+2025-02-03 14:08:40,937 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/13877290848809114470 => 1 entradas
+2025-02-03 14:08:40,959 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/15183025294765855574 => 1 entradas
+2025-02-03 14:08:40,979 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461850
+2025-02-03 14:08:40,981 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/16568355059505461850 => 0 entradas
+2025-02-03 14:08:40,991 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/2031900511198117844 => 1 entradas
+2025-02-03 14:08:41,005 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/10413993926495102043
+2025-02-03 14:08:41,006 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/10413993926495102043 => 0 entradas
+2025-02-03 14:08:41,016 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/11630540178333861502 => 3 entradas
+2025-02-03 14:08:41,037 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/7760122889210870690
+2025-02-03 14:08:41,038 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/7760122889210870690 => 0 entradas
+2025-02-03 14:08:41,047 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/9684782093161547179 => 3 entradas
+2025-02-03 14:08:41,067 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/4297759070181606765 => 9 entradas
+2025-02-03 14:08:41,095 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/8744244600052796540 => 4 entradas
+2025-02-03 14:08:41,104 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/357094683772830109 => 3 entradas
+2025-02-03 14:08:41,108 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/15251611368669093385 => 1 entradas
+2025-02-03 14:08:41,152 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/14458568452294133843 => 1 entradas
+2025-02-03 14:08:41,158 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/11937818240173291166
+2025-02-03 14:08:41,159 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/11937818240173291166 => 0 entradas
+2025-02-03 14:08:41,166 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/3528049070088672707 => 4 entradas
+2025-02-03 14:08:41,204 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/13155130439785831467
+2025-02-03 14:08:41,206 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/5792372986925203132
+2025-02-03 14:08:41,207 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/13155130439785831467 => 0 entradas
+2025-02-03 14:08:41,207 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/5792372986925203132 => 0 entradas
+2025-02-03 14:08:41,213 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/15809012670835506226 => 4 entradas
+2025-02-03 14:08:41,231 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173 => 20 entradas
+2025-02-03 14:08:41,281 - WARNING - Feed vacío: https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427
+2025-02-03 14:08:41,281 - INFO - https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427 => 0 entradas
+2025-02-03 14:08:41,287 - INFO - Datos combinados guardados en google_alerts.geojson con total=171 features.
+2025-02-03 14:08:41,287 - INFO - Proceso completado. Revisa el archivo final para ver la data unificada.
