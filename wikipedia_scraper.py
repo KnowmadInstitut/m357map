@@ -1,86 +1,119 @@
 # -*- coding: utf-8 -*-
 """
-Masonic Wikipedia Scraper - Versión Completa y Optimizada
+masonic_wikipedia_scraper.py
 
 Características principales:
-1. Búsqueda multilingüe con paginación avanzada
-2. Caché persistente en SQLite para geocodificación
-3. Geocodificación híbrida (Nominatim + Photon)
-4. Extracción de entidades avanzadas (ubicaciones, fechas, organizaciones)
-5. Fusión inteligente de datos históricos
-6. Exportación a JSON, GeoJSON y Parquet
-7. Sistema de priorización automática
-8. Control de tasa de solicitudes (Rate Limiting)
+1) Búsqueda multilingüe con paginación avanzada (Wikipedia).
+2) Caché persistente en SQLite para geocodificación (GeoCache).
+3) Geocodificación híbrida (Nominatim + Photon).
+4) Extracción de entidades con spaCy (p. ej., lugar, GPE).
+5) Fusión inteligente de datos históricos (mantiene JSON anterior).
+6) Exportación a JSON, GeoJSON y Parquet.
+7) Sistema de priorización (términos como 'Grand Lodge', etc.).
+8) Control de tasa de solicitudes (Rate Limiting con ratelimit + RateLimiter).
+
+Requerimientos:
+    pip install requests spacy geopy feedparser tenacity ratelimit pandas pyarrow geojson
+    python -m spacy download en_core_web_sm   # o el modelo que desees
 """
 
-import requests
 import json
 import logging
-import sqlite3
 import os
-from concurrent.futures import ThreadPoolExecutor, as_completed
+import re
+import sqlite3
+from typing import List, Dict, Optional
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+import requests
 import spacy
 import subprocess
 import pandas as pd
 import geojson
+
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 from ratelimit import limits, sleep_and_retry
 
-# Configuración del logger
-logging.basicConfig(level=logging.INFO)
+############################################################################
+# ===================== CONFIGURACIÓN GLOBAL ===============================
+############################################################################
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("masonic_wiki_scraper.log"), logging.StreamHandler()]
+)
 logger = logging.getLogger("MasonicWikiScraper")
 
 class Config:
-    LANGUAGES = ["en", "es", "fr", "de", "pt"]
+    LANGUAGES = ["en", "es", "fr", "de", "pt"]  # Búsqueda en varios idiomas
     KEYWORDS = [
-      "Freemason", "Mason", "Francmason", "Freemasonry", "Francmasonería", "Gran Logia", "Masonic Lodge",
-    "Masonic Temple", "Loge maçonnique", "Freimaurer", "Freimaurerei", "Franc-maçon", "Masonic Order",
-    "Grand Orient", "Ancient and Accepted Scottish Rite", "Rito Escocés Antiguo y Aceptado", "York Rite",
-    "Rito de York", "Knights Templar", "Caballeros Templarios", "Chevaliers du Temple", "Cavaleiros Templários",
-    "Quatuor Coronati", "Hiram Abiff", "Anderson's Constitutions", "Constituciones de Anderson",
-    "Constitutions d’Anderson", "Operative Masonry", "Maçonnerie Opérative", "Operative Maurerei",
-    "Maçonnerie Opérative", "Free-Masons", "Franc-Maçons", "Franc-Masones", "Estatutos de Schaw",
-    "Schaw Statutes", "Schaw-Statuten", "Lodge of Antiquity", "Logia de la Antigüedad", "Loge de l’Antiquité",
-    "Mother Kilwinning", "Mãe Kilwinning", "Mère Kilwinning", "Entered Apprentice", "Aprendiz Masón",
-    "Apprenti Maçon", "Lehrling", "Templar Freemasonry", "Masonería Templaria", "Maçonnerie Templière",
-    "Templer-Freimaurerei", "Regius Manuscript", "Manuscrito Regius", "Manuscrit Regius", "Egregor",
-    "Égrégore", "Royal Arch Masonry", "Real Arco Masónico", "Arco Real Maçônico", "Arc Royal Maçonnique",
-    "Schottische Grade", "Grados del Rito Escocés", "Graus do Rito Escocês", "Degrés du Rite Écossais",
-    "Brotherhood of Light", "Hermandad de la Luz", "Irmandade da Luz", "Fraternité de la Lumière",
-    "Symbolic Masonry", "Masonería Simbólica", "Maçonnerie Symbolique", "Symbolische Maurerei",
-    "Gothic Cathedral and Masonry", "Catedral Gótica y Masonería", "Cathédrale Gothique et Maçonnerie",
-    "Gotische Kathedralen und Freimaurerei", "Speculative Masonry", "Masonería Especulativa",
-    "Maçonnerie Spéculative", "Spekulative Maurerei", "Latin American Freemasonry", "Masonería en América Latina",
-    "Maçonnerie en Amérique Latine", "Maçonaria na América Latina", "Landmarks of Freemasonry",
-    "Landmarks Masónicos", "Landmarks der Freimaurerei", "Landmarks Maçônicos", "Landmarks Maçonniques",
-    "Grand Orient of France", "Gran Oriente de Francia", "Grand Orient de France", "Grande Oriente da França",
-    "Rectified Scottish Rite", "Rito Escocés Rectificado", "Rite Écossais Rectifié", "Rito Escocês Retificado",
-    "Wilhelmsbad Convention", "Convención de Wilhelmsbad", "Convenção de Wilhelmsbad", "Convention de Wilhelmsbad",
-    "Ramsay's Oration", "Oración de Ramsay", "Oração de Ramsay", "Discours de Ramsay", "Ramsays Rede",
-    "Lessing and German Freemasonry", "Lessing y la Masonería Alemana", "Lessing e a Maçonaria Alemã",
-    "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst"
-        # Continúa con el resto de las palabras clave
+        "Freemason", "Mason", "Francmason", "Freemasonry", "Francmasonería", "Gran Logia", "Masonic Lodge",
+        "Masonic Temple", "Loge maçonnique", "Freimaurer", "Freimaurerei", "Franc-maçon", "Masonic Order",
+        "Grand Orient", "Ancient and Accepted Scottish Rite", "Rito Escocés Antiguo y Aceptado", "York Rite",
+        "Rito de York", "Knights Templar", "Caballeros Templarios", "Chevaliers du Temple", "Cavaleiros Templários",
+        "Quatuor Coronati", "Hiram Abiff", "Anderson's Constitutions", "Constituciones de Anderson",
+        "Constitutions d’Anderson", "Operative Masonry", "Maçonnerie Opérative", "Operative Maurerei",
+        "Maçonnerie Opérative", "Free-Masons", "Franc-Maçons", "Franc-Masones", "Estatutos de Schaw",
+        "Schaw Statutes", "Schaw-Statuten", "Lodge of Antiquity", "Logia de la Antigüedad", "Loge de l’Antiquité",
+        "Mother Kilwinning", "Mãe Kilwinning", "Mère Kilwinning", "Entered Apprentice", "Aprendiz Masón",
+        "Apprenti Maçon", "Lehrling", "Templar Freemasonry", "Masonería Templaria", "Maçonnerie Templière",
+        "Templer-Freimaurerei", "Regius Manuscript", "Manuscrito Regius", "Manuscrit Regius", "Egregor",
+        "Égrégore", "Royal Arch Masonry", "Real Arco Masónico", "Arco Real Maçônico", "Arc Royal Maçonnique",
+        "Schottische Grade", "Grados del Rito Escocés", "Graus do Rito Escocês", "Degrés du Rite Écossais",
+        "Brotherhood of Light", "Hermandad de la Luz", "Irmandade da Luz", "Fraternité de la Lumière",
+        "Symbolic Masonry", "Masonería Simbólica", "Maçonnerie Symbolique", "Symbolische Maurerei",
+        "Gothic Cathedral and Masonry", "Catedral Gótica y Masonería", "Cathédrale Gothique et Maçonnerie",
+        "Gotische Kathedralen und Freimaurerei", "Speculative Masonry", "Masonería Especulativa",
+        "Maçonnerie Spéculative", "Spekulative Maurerei", "Latin American Freemasonry", "Masonería en América Latina",
+        "Maçonnerie en Amérique Latine", "Maçonaria na América Latina", "Landmarks of Freemasonry",
+        "Landmarks Masónicos", "Landmarks der Freimaurerei", "Landmarks Maçônicos", "Landmarks Maçonniques",
+        "Grand Orient of France", "Gran Oriente de Francia", "Grand Orient de France", "Grande Oriente da França",
+        "Rectified Scottish Rite", "Rito Escocés Rectificado", "Rite Écossais Rectifié", "Rito Escocês Retificado",
+        "Wilhelmsbad Convention", "Convención de Wilhelmsbad", "Convenção de Wilhelmsbad", "Convention de Wilhelmsbad",
+        "Ramsay's Oration", "Oración de Ramsay", "Oração de Ramsay", "Discours de Ramsay", "Ramsays Rede",
+        "Lessing and German Freemasonry", "Lessing y la Masonería Alemana", "Lessing e a Maçonaria Alemã",
+        "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst"
     ]
     CACHE_DB = "masonic_data_cache.db"
     REQUEST_TIMEOUT = 15
-    RATE_LIMIT_CALLS = 50
+    RATE_LIMIT_CALLS = 50   # max 50 calls/min
     SPA_MODEL = "en_core_web_sm"
+    SRESULTS_PER_PAGE = 50  # Hasta 50 resultados por query (paginación)
+    
+    OUTPUT_JSON = "wikipedia_data.json"
+    OUTPUT_GEOJSON = "wikipedia_data.geojson"
+    OUTPUT_PARQUET = "wikipedia_data.parquet"
 
-# Verificar y descargar automáticamente el modelo spaCy si no está disponible
+############################################################################
+# ============= VERIFICAR/DESCARGAR AUTOMÁTICAMENTE MODELO SPACY ===========
+############################################################################
+
 try:
     nlp = spacy.load(Config.SPA_MODEL)
 except OSError:
-    logger.warning(f"Modelo {Config.SPA_MODEL} no encontrado. Descargando...")
+    logger.warning(f"Modelo spaCy '{Config.SPA_MODEL}' no encontrado. Descargando e instalando...")
     subprocess.run(["python", "-m", "spacy", "download", Config.SPA_MODEL], check=True)
     nlp = spacy.load(Config.SPA_MODEL)
 
-# Inicialización de geolocalización
-geolocator = Nominatim(user_agent="masonic_scraper_v3")
-geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
+############################################################################
+# =========================== RATE LIMITING ================================
+############################################################################
 
-# Caché de geocodificación
+@sleep_and_retry
+@limits(calls=Config.RATE_LIMIT_CALLS, period=60)
+def safe_requests_get(url, params=None):
+    """
+    Llamada a requests.get con ratelimit de 50/min
+    """
+    return requests.get(url, params=params, timeout=Config.REQUEST_TIMEOUT)
+
+############################################################################
+# ============== CACHÉ PERSISTENTE PARA GEOCODIFICACIÓN ====================
+############################################################################
+
 class GeoCache:
     def __init__(self):
         self.conn = sqlite3.connect(Config.CACHE_DB)
@@ -93,130 +126,271 @@ class GeoCache:
         """)
         self.conn.commit()
 
-    def get(self, place):
+    def get(self, place: str) -> Optional[Tuple[float, float]]:
         cursor = self.conn.cursor()
         cursor.execute("SELECT lat, lon FROM locations WHERE place=?", (place,))
         row = cursor.fetchone()
         return (row[0], row[1]) if row else None
 
-    def set(self, place, lat, lon):
-        self.conn.execute(
-            "INSERT OR REPLACE INTO locations (place, lat, lon) VALUES (?, ?, ?)",
-            (place, lat, lon)
-        )
+    def set(self, place: str, lat: float, lon: float):
+        self.conn.execute("""
+            INSERT OR REPLACE INTO locations (place, lat, lon) VALUES (?, ?, ?)
+        """, (place, lat, lon))
         self.conn.commit()
 
 geo_cache = GeoCache()
 
-@sleep_and_retry
-@limits(calls=Config.RATE_LIMIT_CALLS, period=60)
-def fetch_wikipedia_data(keyword, lang):
-    url = f"https://{lang}.wikipedia.org/w/api.php"
-    params = {
-        "action": "query",
-        "list": "search",
-        "srsearch": f'"{keyword}"',
-        "format": "json",
-        "srlimit": 50
-    }
-    response = requests.get(url, params=params, timeout=Config.REQUEST_TIMEOUT)
-    response.raise_for_status()
-    return response.json().get("query", {}).get("search", [])
+############################################################################
+# ================ GEOCODIFICACIÓN HÍBRIDA (NOMINATIM + PHOTON) ============
+############################################################################
 
-def geocode_location(place):
-    if not place:
-        return None
-    cached = geo_cache.get(place)
+# geopy's Nominatim con RateLimiter
+geolocator = Nominatim(user_agent="masonic_scraper_v3")
+geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
+
+def geocode_hybrid(location_text: str) -> Tuple[Optional[float], Optional[float]]:
+    """
+    Geocodifica usando:
+      1) Caché local
+      2) Nominatim
+      3) Photon (fallback)
+    """
+    if not location_text:
+        return (None, None)
+    
+    # 1) Revisar cache
+    cached = geo_cache.get(location_text)
     if cached:
         return cached
-    location = geocode(place)
-    if location:
-        geo_cache.set(place, location.latitude, location.longitude)
-        return location.latitude, location.longitude
+    
+    # 2) Nominatim
+    try:
+        loc = geocode(location_text)
+        if loc:
+            lat, lon = loc.latitude, loc.longitude
+            geo_cache.set(location_text, lat, lon)
+            return (lat, lon)
+    except Exception as e:
+        logger.warning(f"Nominatim error con '{location_text}': {e}")
+    
+    # 3) Fallback a Photon
+    try:
+        photon_url = f"https://photon.komoot.io/api/?q={location_text}"
+        r = safe_requests_get(photon_url)
+        if r.status_code == 200:
+            data = r.json()
+            feats = data.get("features", [])
+            if feats:
+                best = feats[0]
+                lon, lat = best["geometry"]["coordinates"]
+                geo_cache.set(location_text, lat, lon)
+                return (lat, lon)
+    except Exception as e:
+        logger.warning(f"Photon error con '{location_text}': {e}")
+
+    return (None, None)
+
+############################################################################
+# =============== PAGINACIÓN AVANZADA EN WIKIPEDIA =========================
+############################################################################
+
+def advanced_wiki_search(keyword: str, lang: str) -> List[Dict]:
+    """
+    Búsqueda en la Wikipedia con paginación, devolviendo todos los
+    resultados con srlimit=50 en cada página.
+    """
+    base_url = f"https://{lang}.wikipedia.org/w/api.php"
+    all_articles = []
+    sroffset = 0
+    
+    while True:
+        params = {
+            "action": "query",
+            "list": "search",
+            "srsearch": f'"{keyword}"',
+            "format": "json",
+            "srlimit": Config.SRESULTS_PER_PAGE,
+            "srprop": "size|wordcount|timestamp",
+            "sroffset": sroffset
+        }
+        try:
+            resp = safe_requests_get(base_url, params=params)
+            resp.raise_for_status()
+            data = resp.json()
+            
+            search_batch = data.get("query", {}).get("search", [])
+            if not search_batch:
+                break
+            all_articles.extend(search_batch)
+            
+            cont = data.get("continue")
+            if cont and "sroffset" in cont:
+                sroffset = cont["sroffset"]
+            else:
+                break
+        except Exception as e:
+            logger.warning(f"Error paginando {keyword} {lang}: {e}")
+            break
+    
+    return all_articles
+
+############################################################################
+# ================ EXTRACCIÓN DE ENTIDADES CON SPACY =======================
+############################################################################
+
+def extract_location_spacy(text: str) -> Optional[str]:
+    """
+    Usa spaCy para extraer la primera entidad GPE (Geopolitical Entity).
+    """
+    if not text:
+        return None
+    doc = nlp(text)
+    for ent in doc.ents:
+        if ent.label_ == "GPE":
+            return ent.text
     return None
 
-def extract_entities(text):
-    doc = nlp(text)
-    locations = [ent.text for ent in doc.ents if ent.label_ == "GPE"]
-    return locations[0] if locations else None
+############################################################################
+# ============= GENERAR PRIORIDAD (SISTEMA DE PRIORIZACIÓN) ===============
+############################################################################
 
-def process_article(article, lang, keyword):
-    title = article["title"]
-    url = f"https://{lang}.wikipedia.org/wiki/{title.replace(' ', '_')}"
-    entity_location = extract_entities(title)
-    coords = geocode_location(entity_location) if entity_location else (None, None)
+def compute_priority(title: str) -> int:
+    t_lower = title.lower()
+    if "grand lodge" in t_lower:
+        return 5
+    elif "masonic temple" in t_lower:
+        return 4
+    elif "lodge" in t_lower:
+        return 3
+    else:
+        return 1
 
-    # Manejo seguro de coordenadas
-    latitude, longitude = coords
+############################################################################
+# ===================== PROCESAR UN ARTÍCULO ===============================
+############################################################################
 
-    # Asignar prioridad
-    priority = 3 if "grand lodge" in title.lower() else 2 if "temple" in title.lower() else 1
+def process_article(article: Dict, lang: str, keyword: str) -> Optional[Dict]:
+    """
+    Crea un dict con lat/lon, priority, etc.
+    """
+    try:
+        page_title = article.get("title", "No Title")
+        page_id = article.get("pageid", -1)
+        # Extraer localización con spacy
+        possible_loc = extract_location_spacy(page_title)
+        lat, lon = (None, None)
+        if possible_loc:
+            lat, lon = geocode_hybrid(possible_loc)
+        
+        # Systema de priorización
+        priority = compute_priority(page_title)
 
-    return {
-        "title": title,
-        "url": url,
-        "keyword": keyword,
-        "lang": lang,
-        "latitude": latitude,
-        "longitude": longitude,
-        "priority": priority,
-        "timestamp": datetime.now().isoformat()
-    }
+        return {
+            "pageid": page_id,
+            "keyword": keyword,
+            "lang": lang,
+            "title": page_title,
+            "latitude": lat,
+            "longitude": lon,
+            "priority": priority,
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error en process_article '{article}': {e}")
+        return None
 
-def validate_data(data):
-    return [item for item in data if "url" in item and "title" in item]
+############################################################################
+# ============= FUSIÓN INTELIGENTE DE DATOS HISTÓRICOS (JSON) ==============
+############################################################################
 
-def merge_data(old_data, new_data):
-    # Filtrar datos para evitar errores por claves faltantes
-    filtered_old_data = validate_data(old_data)
-    merged = {item["url"]: item for item in filtered_old_data}
+def load_previous_data(path: str) -> List[Dict]:
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+def merge_data(old_data: List[Dict], new_data: List[Dict]) -> List[Dict]:
+    """
+    Fusión: si pageid coincide, se actualiza si la priority es mayor.
+    """
+    merged = {f"{item.get('lang','')}_{item.get('pageid','')}": item for item in old_data}
     for item in new_data:
-        if item["url"] not in merged or item["priority"] > merged[item["url"]]["priority"]:
-            merged[item["url"]] = item
+        key = f"{item.get('lang','')}_{item.get('pageid','')}"
+        old_item = merged.get(key)
+        if not old_item or (item.get("priority",0) > old_item.get("priority",0)):
+            merged[key] = item
     return list(merged.values())
 
-def export_data(data):
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    json_path = os.path.join(base_dir, "wikipedia_data.json")
-    geojson_path = os.path.join(base_dir, "wikipedia_data.geojson")
-    parquet_path = os.path.join(base_dir, "wikipedia_data.parquet")
+############################################################################
+# =========== EXPORTAR A JSON, GEOJSON, PARQUET ============================
+############################################################################
 
-    # Guardar JSON
-    with open(json_path, "w", encoding='utf-8') as f:
-        json.dump(data, f, indent=2)
+def export_data(final_data: List[Dict]):
+    # 1) JSON
+    with open(Config.OUTPUT_JSON, "w", encoding="utf-8") as f:
+        json.dump(final_data, f, ensure_ascii=False, indent=2)
+    
+    # 2) GeoJSON
+    feats = []
+    for item in final_data:
+        lat = item.get("latitude")
+        lon = item.get("longitude")
+        if lat is not None and lon is not None:
+            props = dict(item)
+            # remover lat/long del top-level si deseas
+            geom = geojson.Point((lon, lat))
+            feat = geojson.Feature(geometry=geom, properties=props)
+            feats.append(feat)
+    fc = geojson.FeatureCollection(feats)
+    with open(Config.OUTPUT_GEOJSON, "w", encoding="utf-8") as f:
+        geojson.dump(fc, f, indent=2, ensure_ascii=False)
+    
+    # 3) Parquet
+    try:
+        import pyarrow
+        import pyarrow.parquet
+        import pandas as pd
+        df = pd.DataFrame(final_data)
+        df.to_parquet(Config.OUTPUT_PARQUET, index=False)
+    except ImportError:
+        logger.warning("pyarrow/parquet no instalado. Saltando export a Parquet.")
+    logger.info(f"Datos exportados: JSON='{Config.OUTPUT_JSON}', GEOJSON='{Config.OUTPUT_GEOJSON}', PARQUET='{Config.OUTPUT_PARQUET}'")
 
-    # Guardar GeoJSON
-    features = [
-        geojson.Feature(
-            geometry=geojson.Point((item["longitude"], item["latitude"])) if item["latitude"] and item["longitude"] else None,
-            properties=item
-        ) for item in data if item["latitude"] and item["longitude"]
-    ]
-    with open(geojson_path, "w", encoding='utf-8') as f:
-        geojson.dump(geojson.FeatureCollection(features), f, indent=2)
-
-    # Guardar Parquet
-    pd.DataFrame(data).to_parquet(parquet_path, index=False)
+############################################################################
+# ===================== FUNCIÓN PRINCIPAL (MAIN) ===========================
+############################################################################
 
 def main():
+    # Carga datos históricos
+    old_data = load_previous_data(Config.OUTPUT_JSON)
+
+    # Concurrencia para buscar en Wikipedia
     results = []
     with ThreadPoolExecutor() as executor:
-        futures = [executor.submit(fetch_wikipedia_data, kw, lang)
-                   for kw in Config.KEYWORDS for lang in Config.LANGUAGES]
-        for future in as_completed(futures):
-            articles = future.result()
-            for article in articles:
-                results.append(process_article(article, "en", article["title"]))
+        future_map = {}
+        for kw in Config.KEYWORDS:
+            for lang in Config.LANGUAGES:
+                future_map[executor.submit(advanced_wiki_search, kw, lang)] = (kw, lang)
+        
+        for fut in as_completed(future_map):
+            keyword, lang = future_map[fut]
+            articles = fut.result()
+            # Procesar artículos devueltos
+            for art in articles:
+                processed = process_article(art, lang, keyword)
+                if processed:
+                    results.append(processed)
+    
+    # Fusionar con lo viejo
+    final_merged = merge_data(old_data, results)
 
-    # Cargar datos históricos y limpiar posibles datos corruptos
-    try:
-        with open("wikipedia_data.json", "r", encoding="utf-8") as f:
-            historical_data = validate_data(json.load(f))
-    except (FileNotFoundError, json.JSONDecodeError):
-        historical_data = []
+    # Exportar a JSON, GeoJSON, Parquet
+    export_data(final_merged)
 
-    final_data = merge_data(historical_data, results)
-    export_data(final_data)
+    logger.info(f"Proceso finalizado con {len(final_merged)} artículos totales.")
 
 if __name__ == "__main__":
     main()
