@@ -32,4 +32,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Ejecutar scraper optimizado
-        run: python -u scraper.py
+        run: python -u google_sheets_scraper/scraper.py
