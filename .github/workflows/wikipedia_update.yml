@@ -2,8 +2,8 @@ name: Wikipedia Data Update
 
 on:
   schedule:
-    - cron: '0 3 * * *'   # Corre todos los días a las 3:00 AM UTC
-  workflow_dispatch:       # Permite ejecución manual
+    - cron: '0 3 1,16 * *'   # Corre todos los días 1 y 16 de cada mes a las 3:00 AM UTC
+  workflow_dispatch:   # Permite ejecución manual
 
 jobs:
   update-wikipedia:
