@@ -26,10 +26,15 @@ jobs:
           cache: 'pip'
           cache-dependency-path: 'requirements.txt'
 
+      - name: Limpiar caché de pip (opcional pero recomendado)
+        run: |
+          pip cache purge
+          pip install --no-cache-dir --upgrade pip setuptools
+
       - name: Instalar dependencias
         run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install --no-cache-dir -r requirements.txt
+          python -m spacy download en_core_web_sm
 
       - name: Ejecutar scraper optimizado
         run: python -u google_sheets_scraper/scraper.py
