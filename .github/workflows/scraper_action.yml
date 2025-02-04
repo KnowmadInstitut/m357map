@@ -1,0 +1,35 @@
+name: Actualizar Google Sheets
+
+on:
+  schedule:
+    - cron: '40 3 * * *'  # Nueva hora de ejecución: 3:40 AM UTC
+  workflow_dispatch:
+
+jobs:
+  scrape_and_update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONUNBUFFERED: 1
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      MAX_WORKERS: 6
+      REQUEST_TIMEOUT: 20
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+        
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: 'requirements.txt'
+
+      - name: Instalar dependencias
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ejecutar scraper optimizado
+        run: python -u scraper.py
