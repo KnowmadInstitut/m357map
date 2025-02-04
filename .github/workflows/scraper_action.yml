@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
-        
+
       - name: Configurar Python
         uses: actions/setup-python@v4
         with:
@@ -26,15 +26,17 @@ jobs:
           cache: 'pip'
           cache-dependency-path: 'requirements.txt'
 
-      - name: Limpiar caché de pip (opcional pero recomendado)
+      - name: Limpiar y reinstalar dependencias
         run: |
           pip cache purge
           pip install --no-cache-dir --upgrade pip setuptools
-
-      - name: Instalar dependencias
-        run: |
           pip install --no-cache-dir -r requirements.txt
-          python -m spacy download en_core_web_sm
+
+      - name: Verificar instalación de gspread (debug)
+        run: pip show gspread
+
+      - name: Instalar modelo spaCy
+        run: python -m spacy download en_core_web_sm
 
       - name: Ejecutar scraper optimizado
         run: python -u google_sheets_scraper/scraper.py
