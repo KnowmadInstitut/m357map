@@ -36,5 +36,4 @@ validators==0.20.0          # Validación de URLs
 requests-oauthlib==1.3.1    # Autenticación OAuth
 ratelimit==2.2.1            # Control de tasa de solicitudes
 pyarrow==13.0.0             # Lectura/escritura Parquet
-fastparquet==2023.4.0       # Soporte Parquet
-# en-core-web-sm==3.7.1     # Eliminar o comentar esta línea
+fastparquet==2023.4.0       # Soporte Parquet 
