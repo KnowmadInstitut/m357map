@@ -26,17 +26,31 @@ jobs:
           cache: 'pip'
           cache-dependency-path: 'requirements.txt'
 
-      - name: Limpiar y reinstalar dependencias
+      - name: Crear entorno virtual
+        run: python -m venv venv
+
+      - name: Activar entorno virtual y limpiar caché
         run: |
+          source venv/bin/activate
           pip cache purge
-          pip install --no-cache-dir --upgrade pip setuptools
+          pip install --no-cache-dir --upgrade pip setuptools wheel
+
+      - name: Instalar dependencias en el entorno virtual
+        run: |
+          source venv/bin/activate
           pip install --no-cache-dir -r requirements.txt
 
-      - name: Verificar instalación de gspread (debug)
-        run: pip show gspread
+      - name: Verificar instalación de gspread
+        run: |
+          source venv/bin/activate
+          pip show gspread
 
       - name: Instalar modelo spaCy
-        run: python -m spacy download en_core_web_sm
+        run: |
+          source venv/bin/activate
+          python -m spacy download en_core_web_sm
 
       - name: Ejecutar scraper optimizado
-        run: python -u google_sheets_scraper/scraper.py
+        run: |
+          source venv/bin/activate
+          python google_sheets_scraper/scraper.py
