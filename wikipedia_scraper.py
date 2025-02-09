@@ -57,14 +57,13 @@ def save_progress(current_index):
         f.write(str(current_index))
 
 def search_wikipedia(term, lang="en"):
-    """Realiza una búsqueda en Wikipedia y devuelve las entradas relevantes."""
     url = f"https://{lang}.wikipedia.org/w/api.php"
     params = {
         "action": "query",
         "format": "json",
         "list": "search",
         "srsearch": term,
-        "srlimit": 50  # Máximo por consulta
+        "srlimit": 50
     }
     try:
         response = requests.get(url, params=params, timeout=10)
@@ -75,7 +74,6 @@ def search_wikipedia(term, lang="en"):
         return []
 
 def get_article_details(title, lang="en"):
-    """Obtiene detalles del artículo dado un título."""
     url = f"https://{lang}.wikipedia.org/w/api.php"
     params = {
         "action": "query",
@@ -84,7 +82,7 @@ def get_article_details(title, lang="en"):
         "exintro": True,
         "explaintext": True,
         "titles": title,
-        "pithumbsize": 500  # Imagen de previsualización
+        "pithumbsize": 500
     }
     try:
         response = requests.get(url, params=params, timeout=10)
@@ -103,7 +101,6 @@ def get_article_details(title, lang="en"):
         return {}
 
 def geocode_location(coordinates):
-    """Convierte las coordenadas de Wikipedia en formato de lat/lon para GeoJSON."""
     if not coordinates:
         return None
     try:
@@ -115,7 +112,6 @@ def geocode_location(coordinates):
     return None
 
 def process_entries(entries, lang="en"):
-    """Procesa un lote de artículos de Wikipedia."""
     results = []
     for entry in entries:
         details = get_article_details(entry["title"], lang)
@@ -129,7 +125,7 @@ def process_entries(entries, lang="en"):
                 },
                 "properties": {
                     "title": details["title"],
-                    "url": details["url"],
+                    "url": details.get("url", "N/A"),
                     "description": details["description"],
                     "image": details["image"],
                     "timestamp": datetime.utcnow().isoformat(),
@@ -139,7 +135,6 @@ def process_entries(entries, lang="en"):
     return results
 
 def merge_and_save_geojson(new_features):
-    """Combina los resultados nuevos con los existentes y guarda el GeoJSON."""
     existing_data = []
     if os.path.exists(GEOJSON_OUTPUT):
         try:
@@ -149,7 +144,7 @@ def merge_and_save_geojson(new_features):
             print(f"Error al cargar el archivo GeoJSON existente: {e}")
 
     # Eliminar duplicados basados en URL
-    existing_urls = {feature["properties"]["url"] for feature in existing_data}
+    existing_urls = {feature.get("properties", {}).get("url") for feature in existing_data if "url" in feature.get("properties", {})}
     new_features = [f for f in new_features if f["properties"]["url"] not in existing_urls]
 
     # Combinar y guardar
