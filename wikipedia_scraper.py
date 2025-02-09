@@ -10,7 +10,7 @@ from datetime import datetime
 geolocator = Nominatim(user_agent="m357_map_v1", timeout=20)
 geocode = RateLimiter(geolocator.geocode, min_delay_seconds=2)
 
-BATCH_SIZE = 100
+BATCH_SIZE = 100  # Entradas por lote
 PROGRESS_FILE = "progress.txt"
 WIKIPEDIA_JSON = "wikipedia_data.json"
 GEOJSON_OUTPUT = "wikipedia_data.geojson"
@@ -51,11 +51,60 @@ SEARCH_TERMS = [
     "Rey Hiram", "Godofredo de Bouillon", "San Juan Bautista", "Tomás de Aquino",
     "St. Bernard of Clairvaux", "Walter Leslie Wilmshurst", "曼约斯里",
     # Miembros destacados
-    "Benjamin Franklin", "George Washington", "Winston Churchill", "Simón Bolívar",
-    "Wolfgang Amadeus Mozart", "Giuseppe Garibaldi", "Henry Ford", "Voltaire",
-    "Johann Wolfgang von Goethe", "Rudyard Kipling", "Theodore Roosevelt",
-    "Edward VII", "Alexander Fleming", "Franklin D. Roosevelt", "Salvador Allende",
-    "Lyndon B. Johnson", "Louis Armstrong",
+    # América del Norte
+    "Benjamin Franklin", "George Washington", "Theodore Roosevelt",
+    "Thomas Jefferson", "Alexander Fleming", "Harry S. Truman",
+    "William Howard Taft", "Andrew Jackson", "James Monroe",
+    
+    # Canadá
+    "John A. Macdonald", "William Lyon Mackenzie King", "Timothy Eaton",
+    
+    # América Central y el Caribe
+    "José Martí", "Juan Pablo Duarte", "Carlos Manuel de Céspedes",
+    "Máximo Gómez", "Gregorio Luperón", "Antonio Maceo",
+
+    # América del Sur
+    "Simón Bolívar", "Salvador Allende", "José de San Martín",
+    "Domingo Faustino Sarmiento", "Andrés Bello", "Bernardino Rivadavia",
+    "Arturo Prat", "Rafael Núñez", "Francisco de Paula Santander",
+    "José Gervasio Artigas", "Joaquim Nabuco", "José Bonifácio de Andrada e Silva",
+
+    # Europa Occidental
+    "Winston Churchill", "Wolfgang Amadeus Mozart", "Voltaire",
+    "Giuseppe Garibaldi", "Rudyard Kipling", "Johann Wolfgang von Goethe",
+    "Henry Ford", "Edward VII", "Lyndon B. Johnson",
+    "Paul-Henri Spaak", "Robert Burns", "Arthur Conan Doyle",
+    "Frédéric Bartholdi", "Émile Littré", "Pierre Simon Laplace",
+
+    # Europa del Este
+    "Aleksandr Pushkin", "Lajos Kossuth", "Ignacy Jan Paderewski",
+    "Tadeusz Kościuszko", "Józef Piłsudski", "Ferenc Deák",
+    "Boris Yeltsin", "Sergei Witte", "Mikhail Gorbachev",
+
+    # Europa del Norte
+    "Oscar II de Suecia", "Dag Hammarskjöld", "Henrik Ibsen",
+    "Christian Michelsen", "Carl Gustaf Emil Mannerheim", "Niels Bohr",
+    "Haakon VII", "Fridtjof Nansen", "Emanuel Swedenborg",
+
+    # Europa del Sur
+    "Giuseppe Mazzini", "Francesco Crispi", "Fernando Pessoa",
+    "António de Oliveira Salazar", "Giovanni Pascoli", "Enrico Fermi",
+    "Giosuè Carducci", "Manuel de Arriaga", "Teófilo Braga",
+
+    # África
+    "Nelson Mandela", "Cecil Rhodes", "Jan Smuts",
+    "Saad Zaghloul", "Ahmed Lutfi el-Sayed", "Agostinho Neto",
+    "Mohammed V de Marruecos", "Hassan II", "Houphouët-Boigny",
+
+    # Asia
+    "Sun Yat-sen", "Mustafa Kemal Atatürk", "José Rizal",
+    "Andrés Bonifacio", "Sukarno", "Rabindranath Tagore",
+    "Chiang Kai-shek", "Hassan al-Banna", "Tunku Abdul Rahman",
+    "Mohammad Hatta", "Gamal Abdel Nasser (controvertido)", "Prince Tokugawa Iesato",
+
+    # Oceanía
+    "Ernest Rutherford", "Edmund Barton", "Charles Kingsford Smith",
+    "William Ferguson Massey", "Richard Seddon", "John Forrest", 
 
     # Estructuras Masónicas y Lugares (Masonic Structures and Places)
     "Logia de la Antigüedad", "Lodge of Antiquity", "Loge de l’Antiquité",
@@ -79,15 +128,91 @@ SEARCH_TERMS = [
     "Observancia de Navidad", "Rito Templario", "Ritual Templario", "Ordo Militum Christi",
 
     # Grandes Logias Reconocidas (Grand Lodges)
-    "Gran Logia Unida de Inglaterra", "Grand Lodge of England", "Grande Loge Unie d'Angleterre",
-    "Grande Loja Unida da Inglaterra", "Vereinigte Großloge von England",
-    "Gran Logia de Argentina", "Gran Logia de México", "Gran Logia de España",
-    "Grand Lodge of Japan", "Gran Logia Alpina de Suiza", "Grande Oriente do Brasil",
-    "Gran Logia de Colombia", "Grande Loge Nationale Française", "大不列顿联合大共氏会",
+    "United Grand Lodge of England", "Gran Logia Unida de Inglaterra", "Grande Loge Unie d'Angleterre",
+    "Vereinigte Großloge von England", "Grande Loja Unida da Inglaterra",
+
+    "Grand Lodge of Scotland", "Gran Logia de Escocia", "Grande Loge d'Écosse",
+    "Großloge von Schottland", "Grande Loja da Escócia",
+
+    "Grand Lodge of Ireland", "Gran Logia de Irlanda", "Grande Loge d'Irlande",
+    "Großloge von Irland", "Grande Loja da Irlanda",
+
+    "Grand Lodge of Spain", "Gran Logia de España", "Grande Loge d'Espagne",
+    "Großloge von Spanien", "Grande Loja da Espanha",
+
+    "Grande Loge Nationale Française", "Gran Logia Nacional de Francia", "Grand National Lodge of France",
+    "Nationale Großloge von Frankreich", "Grande Loja Nacional da França",
+
+    "Grand Lodge Alpina of Switzerland", "Gran Logia Alpina de Suiza", "Grande Loge Alpina de Suisse",
+    "Alpine Großloge der Schweiz", "Grande Loja Alpina da Suíça",
+
+    "Grand Lodge of Japan", "Gran Logia de Japón", "Grande Loge du Japon",
+    "Großloge von Japan", "Grande Loja do Japão",
+
+    "Grand Lodge of Mexico", "Gran Logia de México", "Grande Loge du Mexique",
+    "Großloge von Mexiko", "Grande Loja do México",
+
+    "Grand Lodge of Argentina", "Gran Logia de Argentina", "Grande Loge d'Argentine",
+    "Großloge von Argentinien", "Grande Loja da Argentina",
+
+    "Grand Lodge of Canada", "Gran Logia de Canadá", "Grande Loge du Canada",
+    "Großloge von Kanada", "Grande Loja do Canadá",
+
+    "Grande Oriente do Brasil", "Gran Oriente de Brasil", "Grand Orient du Brésil",
+    "Großorient von Brasilien", "Grande Loja do Brasil",
+
+    "Grand Lodge of Colombia", "Gran Logia de Colombia", "Grande Loge de Colombie",
+    "Großloge von Kolumbien", "Grande Loja da Colômbia",
+
+    "Grand Lodge of Italy", "Gran Logia de Italia", "Grande Loge d'Italie",
+    "Großloge von Italien", "Grande Loja da Itália",
+
+    "Grand Lodge of the Philippines", "Gran Logia de Filipinas", "Grande Loge des Philippines",
+    "Großloge der Philippinen", "Grande Loja das Filipinas",
+
+    "Grand Lodge of Chile", "Gran Logia de Chile", "Grande Loge du Chili",
+    "Großloge von Chile", "Grande Loja do Chile",
+
+    "Grand Lodge of Venezuela", "Gran Logia de Venezuela", "Grande Loge du Venezuela",
+    "Großloge von Venezuela", "Grande Loja da Venezuela",
+
+    "Grand Lodge of Ecuador", "Gran Logia de Ecuador", "Grande Loge de l'Équateur",
+    "Großloge von Ecuador", "Grande Loja do Equador",
+
+    "Grand Lodge of Peru", "Gran Logia de Perú", "Grande Loge du Pérou",
+    "Großloge von Peru", "Grande Loja do Peru",
+
+    "Grand Lodge of Bolivia", "Gran Logia de Bolivia", "Grande Loge de Bolivie",
+    "Großloge von Bolivien", "Grande Loja da Bolívia",
+
+    "Grand Lodge of Paraguay", "Gran Logia de Paraguay", "Grande Loge du Paraguay",
+    "Großloge von Paraguay", "Grande Loja do Paraguai",
+
+    "Grand Lodge of Uruguay", "Gran Logia de Uruguay", "Grande Loge de l'Uruguay",
+    "Großloge von Uruguay", "Grande Loja do Uruguai",
+
+    "Grand Lodge of Costa Rica", "Gran Logia de Costa Rica", "Grande Loge du Costa Rica",
+    "Großloge von Costa Rica", "Grande Loja da Costa Rica",
+
+    "Grand Lodge of Panama", "Gran Logia de Panamá", "Grande Loge du Panama",
+    "Großloge von Panama", "Grande Loja do Panamá",
+
+    "Grand Lodge of Honduras", "Gran Logia de Honduras", "Grande Loge du Honduras",
+    "Großloge von Honduras", "Grande Loja das Honduras",
+
+    "Grand Lodge of El Salvador", "Gran Logia de El Salvador", "Grande Loge du Salvador",
+    "Großloge von El Salvador", "Grande Loja de El Salvador",
+
+    "Grand Lodge of Guatemala", "Gran Logia de Guatemala", "Grande Loge du Guatemala",
+    "Großloge von Guatemala", "Grande Loja da Guatemala",
+
+    "Grand Lodge of Nicaragua", "Gran Logia de Nicaragua", "Grande Loge du Nicaragua",
+    "Großloge von Nicaragua", "Grande Loja da Nicarágua"
 
     # Términos relacionados con la Antimasonería (Anti-Masonry)
     "Antimasonería", "Anti-Freemasonry", "Antimaçonaria", "Antimaisonnerie",
     "Антимасонство", "反共氏会", "Masonluk karşıtı"
+    # Añadir más términos según la optimización final...
 ]
 
 def load_progress():
@@ -101,23 +226,25 @@ def save_progress(current_index):
         f.write(str(current_index))
 
 def search_wikipedia(term, lang="en"):
+    """Realiza una búsqueda en Wikipedia y devuelve las entradas relevantes."""
     url = f"https://{lang}.wikipedia.org/w/api.php"
     params = {
         "action": "query",
         "format": "json",
         "list": "search",
         "srsearch": term,
-        "srlimit": 50
+        "srlimit": 50  # Máximo por consulta
     }
     try:
         response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
         return response.json().get("query", {}).get("search", [])
     except requests.RequestException as e:
-        print(f"Error en la búsqueda de Wikipedia para '{term}': {e}")
+        print(f"Error en la búsqueda de Wikipedia para el término '{term}': {e}")
         return []
 
 def get_article_details(title, lang="en"):
+    """Obtiene detalles del artículo dado un título."""
     url = f"https://{lang}.wikipedia.org/w/api.php"
     params = {
         "action": "query",
@@ -126,7 +253,7 @@ def get_article_details(title, lang="en"):
         "exintro": True,
         "explaintext": True,
         "titles": title,
-        "pithumbsize": 500
+        "pithumbsize": 500  # Imagen de previsualización
     }
     try:
         response = requests.get(url, params=params, timeout=10)
@@ -145,17 +272,19 @@ def get_article_details(title, lang="en"):
         return {}
 
 def geocode_location(coordinates):
+    """Convierte las coordenadas de Wikipedia en formato de lat/lon para GeoJSON."""
     if not coordinates:
         return None
     try:
         lat, lon = coordinates.get("lat"), coordinates.get("lon")
         if lat and lon:
-            return [lon, lat]
+            return [lon, lat]  # GeoJSON requiere [longitud, latitud]
     except KeyError:
         pass
     return None
 
 def process_entries(entries, lang="en"):
+    """Procesa un lote de artículos de Wikipedia."""
     results = []
     for entry in entries:
         details = get_article_details(entry["title"], lang)
@@ -164,12 +293,12 @@ def process_entries(entries, lang="en"):
             results.append({
                 "type": "Feature",
                 "geometry": {
-                    "type": "Point" if coordinates else "None",
+                    "type": "Point" if coordinates else None,
                     "coordinates": coordinates if coordinates else []
                 },
                 "properties": {
                     "title": details["title"],
-                    "url": details.get("url", "N/A"),
+                    "url": details["url"],
                     "description": details["description"],
                     "image": details["image"],
                     "timestamp": datetime.utcnow().isoformat(),
@@ -179,6 +308,7 @@ def process_entries(entries, lang="en"):
     return results
 
 def merge_and_save_geojson(new_features):
+    """Combina los resultados nuevos con los existentes y guarda el GeoJSON."""
     existing_data = []
     if os.path.exists(GEOJSON_OUTPUT):
         try:
@@ -187,48 +317,52 @@ def merge_and_save_geojson(new_features):
         except (json.JSONDecodeError, FileNotFoundError) as e:
             print(f"Error al cargar el archivo GeoJSON existente: {e}")
 
-    # Actualizar criterio de eliminación de duplicados
-    existing_urls = {feature["properties"]["url"] for feature in existing_data if "url" in feature["properties"]}
-    filtered_features = [f for f in new_features if f["properties"]["url"] not in existing_urls]
+    # Eliminar duplicados basados en URL y título
+    existing_urls_titles = {(feature["properties"]["url"], feature["properties"]["title"]) for feature in existing_data}
+    new_features = [f for f in new_features if (f["properties"]["url"], f["properties"]["title"]) not in existing_urls_titles]
 
-    # Verificación: Agregar aunque no haya nuevas entradas visibles
-    if not filtered_features and existing_data:
-        print("No hay nuevas entradas únicas. GeoJSON no modificado.")
-    else:
-        # Combinar y guardar
-        combined_features = existing_data + filtered_features
-        geojson_data = {
-            "type": "FeatureCollection",
-            "features": combined_features
-        }
-        try:
-            with open(GEOJSON_OUTPUT, "w") as f:
-                json.dump(geojson_data, f, ensure_ascii=False, indent=2)
-            print(f"Guardado exitoso en {GEOJSON_OUTPUT}")
-        except Exception as e:
-            print(f"Error al guardar el archivo GeoJSON: {e}")
+    if not new_features:
+        print("No hay nuevos datos para guardar.")
+        return
+
+    # Combinar y guardar
+    combined_features = existing_data + new_features
+    geojson_data = {
+        "type": "FeatureCollection",
+        "features": combined_features
+    }
+    with open(GEOJSON_OUTPUT, "w") as f:
+        json.dump(geojson_data, f, ensure_ascii=False, indent=2)
+
+    # Actualizar JSON secundario para referencias
+    with open(WIKIPEDIA_JSON, "w") as f:
+        json.dump({"features": combined_features}, f, ensure_ascii=False, indent=2)
+
+    print(f"GeoJSON actualizado: {len(new_features)} nuevas entradas agregadas.")
 
 def main():
-    start_index = load_progress()
-    new_features = []
+    # Cargar el progreso actual
+    progress = load_progress()
 
-    with ThreadPoolExecutor() as executor:
-        future_to_search = {
-            executor.submit(search_wikipedia, term): term for term in SEARCH_TERMS[start_index:]
-        }
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        futures = {}
+        for term in SEARCH_TERMS[progress:]:
+            for lang in ["en", "es", "fr", "de", "pt"]:  # Idiomas a buscar
+                futures[executor.submit(search_wikipedia, term, lang)] = (term, lang)
 
-        for future in as_completed(future_to_search):
-            term = future_to_search[future]
+        new_features = []
+        for future in as_completed(futures):
+            term, lang = futures[future]
             try:
-                search_results = future.result()
-                processed_results = process_entries(search_results)
-                new_features.extend(processed_results)
+                articles = future.result()
+                processed_entries = process_entries(articles, lang)
+                new_features.extend(processed_entries)
             except Exception as e:
-                print(f"Error procesando los resultados para '{term}': {e}")
+                print(f"Error procesando el término '{term}' en '{lang}': {e}")
 
+    # Guardar los resultados en GeoJSON y JSON
     merge_and_save_geojson(new_features)
-    save_progress(start_index + len(new_features))
-    print("Proceso completado.")
+    save_progress(len(SEARCH_TERMS))
 
 if __name__ == "__main__":
     main()
