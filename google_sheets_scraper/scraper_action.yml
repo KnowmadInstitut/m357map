@@ -32,5 +32,8 @@ jobs:
       - name: Verificar instalación de gspread (opcional)
         run: pip show gspread || echo "gspread no está instalado correctamente"
 
+      - name: Crear archivo de credenciales de Google
+        run: echo "${{ secrets.GOOGLE_CREDENTIALS }}" > google-credentials.json
+
       - name: Ejecutar scraper optimizado
         run: python -u scraper.py
