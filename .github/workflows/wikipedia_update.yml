@@ -22,10 +22,6 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
-          # Asegúrate de que en requirements.txt figuren geopy y geojson
-          # ej: 
-          # geojson==2.5.0
-          # geopy==2.3.0
 
       # Paso 1: Ejecuta tu scraper que genera/actualiza wikipedia_data.json
       - name: Run Wikipedia scraper
@@ -33,20 +29,25 @@ jobs:
           python wikipedia_scraper.py
 
       # Paso 2: Crear wikipedia_data.geojson usando el script combinado
-      # que aprovecha lat/lon si existen, o geocodifica si hay "location"
       - name: Generate Wikipedia GeoJSON
         run: |
           python create_wikipedia_geojson.py
 
       # Paso 3: Commit y push de ambas salidas (json + geojson)
-      - name: Commit updated data
+      - name: Commit and push updated data
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "action@github.com"
+          
+          # Hacer pull antes de intentar el push
+          git pull --rebase origin main
+
           git add wikipedia_data.json wikipedia_data.geojson
+          
           # Si no hay cambios reales, el commit puede fallar 
-          # o no hará nada. No pasa nada, el job seguirá.
           git commit -m "Auto-update: Wikipedia data $(date +'%Y-%m-%d')" || echo "No changes to commit."
-          git push
+          
+          # Hacer push con los cambios actualizados
+          git push origin main
