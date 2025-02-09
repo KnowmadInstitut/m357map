@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-M357_MAP.py - Versión Ultra Optimizada con detección de emociones
-
-Script avanzado para análisis geo-temporal de noticias sobre masonería:
-1) Geocodificación con estrategias multicapa y caché inteligente
-2) Detección de emociones con `transformers`
-3) Procesamiento concurrente de feeds RSS
-4) Fusión segura de datos históricos en GeoJSON
+M357_MAP.py - Sistema mejorado con geocodificación exhaustiva y detección de emociones
 """
 
 import feedparser
@@ -21,8 +15,8 @@ import requests
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 from geojson import FeatureCollection, Feature, Point
-import threading
 from transformers import pipeline
+import threading
 
 ############################################################################
 # ============================ CONFIGURACIÓN ===============================
@@ -70,14 +64,13 @@ RSS_FEEDS = [
     "https://www.google.com/alerts/feeds/08823391955851607514/11098843941918965173",
     "https://www.google.com/alerts/feeds/08823391955851607514/5792372986925203132",
     "https://www.google.com/alerts/feeds/08823391955851607514/8767673777731649427", 
-    # ... (más feeds) ...
+    # Añade más feeds aquí si es necesario...
 ]
 
 OUTPUT_FILE = "masonic_alerts.geojson"
 
 GEOLOCATION_CONFIG = {
-    'nominatim': {'user_agent': 'masonic_geo_v1', 'timeout': 15, 'rate_limit': 1.0},
-    'photon': {'endpoint': 'https://photon.komoot.io/api/', 'timeout': 10, 'retries': 2}
+    'nominatim': {'user_agent': 'masonic_geo_v1', 'timeout': 15, 'rate_limit': 1.0}
 }
 
 LOCATION_REGEX = re.compile(
@@ -93,32 +86,76 @@ emotion_classifier = pipeline("text-classification", model="j-hartmann/emotion-e
 ############################################################################
 
 class GeoCache:
-    """Caché LRU para resultados de geocodificación."""
-    _instance = None
-    _lock = threading.Lock()
-    
-    def __new__(cls):
-        with cls._lock:
-            if not cls._instance:
-                cls._instance = super().__new__(cls)
-                cls._instance.cache = {}
-                cls._instance.max_size = 500
-            return cls._instance
-    
-    def get(self, key):
+    """Caché simple para almacenar resultados de geocodificación y optimizar el rendimiento."""
+    def __init__(self, max_size: int = 500):
+        self.cache = {}
+        self.max_size = max_size
+
+    def get(self, key: str) -> Optional[Tuple[float, float]]:
         return self.cache.get(key)
-    
-    def set(self, key, value):
+
+    def set(self, key: str, value: Tuple[float, float]):
         if len(self.cache) >= self.max_size:
-            self.cache.popitem(last=False)
+            self.cache.pop(next(iter(self.cache)))  # Eliminar el primer elemento (FIFO)
         self.cache[key] = value
+
+geo_cache = GeoCache()
 
 geolocator = Nominatim(
     user_agent=GEOLOCATION_CONFIG['nominatim']['user_agent'],
     timeout=GEOLOCATION_CONFIG['nominatim']['timeout']
 )
 geocode = RateLimiter(geolocator.geocode, min_delay_seconds=GEOLOCATION_CONFIG['nominatim']['rate_limit'])
-geo_cache = GeoCache()
+
+def enhanced_geocode(location_text: str) -> Optional[Tuple[float, float]]:
+    """Realiza la geocodificación utilizando un sistema de caché."""
+    if not location_text:
+        return None
+    
+    # Verificar en caché
+    cached = geo_cache.get(location_text)
+    if cached:
+        return cached
+    
+    try:
+        location = geolocator.geocode(location_text)
+        if location and is_valid_coords(location.longitude, location.latitude):
+            coords = (location.longitude, location.latitude)
+            geo_cache.set(location_text, coords)
+            return coords
+    except Exception as e:
+        logger.error(f"Error en geocodificación: {str(e)[:200]}")
+    
+    return None
+
+def is_valid_coords(lon: float, lat: float) -> bool:
+    """Verifica si las coordenadas están dentro de rangos válidos."""
+    return -180 <= lon <= 180 and -90 <= lat <= 90
+
+############################################################################
+# ==================== FUNCIONES DE EXTRACCIÓN DE UBICACIONES ==============
+############################################################################
+
+def metadata_location(entry) -> Optional[Tuple[float, float]]:
+    """Busca ubicación en los metadatos del feed."""
+    if hasattr(entry, 'geo_lat') and hasattr(entry, 'geo_long'):
+        try:
+            lat = float(entry.geo_lat)
+            lon = float(entry.geo_long)
+            if is_valid_coords(lon, lat):
+                return (lon, lat)
+        except Exception:
+            pass
+    return None
+
+def content_location(entry) -> Optional[Tuple[float, float]]:
+    """Busca menciones de ubicaciones en el contenido del título y resumen."""
+    clean_content = re.sub('<[^>]+>', '', f"{entry.title} {entry.summary}")
+    for loc in LOCATION_REGEX.findall(clean_content):
+        coords = enhanced_geocode(loc)
+        if coords:
+            return coords
+    return None
 
 ############################################################################
 # ==================== FUNCIONES PRINCIPALES ===============================
@@ -130,53 +167,16 @@ def detect_emotions(text: str) -> dict:
         return {"joy": 0, "sadness": 0, "surprise": 0, "fear": 0}
     
     emotions = emotion_classifier(text)
+    if not emotions or len(emotions) == 0:
+        return {"joy": 0, "sadness": 0, "surprise": 0, "fear": 0}
+
     emotion_scores = {emotion["label"].lower(): round(emotion["score"], 2) for emotion in emotions[0]}
-    
     return {
         "joy": emotion_scores.get("joy", 0),
         "sadness": emotion_scores.get("sadness", 0),
         "surprise": emotion_scores.get("surprise", 0),
         "fear": emotion_scores.get("fear", 0)
     }
-
-def enhanced_geocode(location_text: str) -> Optional[Tuple[float, float]]:
-    """Geocodificación mejorada con caché y múltiples proveedores."""
-    if not location_text:
-        return None
-    
-    cached = geo_cache.get(location_text)
-    if cached:
-        return cached
-    
-    try:
-        location = geocode(location_text)
-        if location and is_valid_coords(location.longitude, location.latitude):
-            coords = (location.longitude, location.latitude)
-            geo_cache.set(location_text, coords)
-            return coords
-
-        session = requests.Session()
-        for _ in range(GEOLOCATION_CONFIG['photon']['retries']):
-            try:
-                response = session.get(
-                    GEOLOCATION_CONFIG['photon']['endpoint'],
-                    params={'q': location_text, 'lang': 'en,es'},
-                    timeout=GEOLOCATION_CONFIG['photon']['timeout']
-                )
-                if response.status_code == 200:
-                    features = response.json().get('features', [])
-                    if features:
-                        coords = features[0]['geometry']['coordinates']
-                        if is_valid_coords(*coords):
-                            geo_cache.set(location_text, coords)
-                            return tuple(coords)
-                        break
-            except requests.exceptions.RequestException:
-                continue
-    except Exception as e:
-        logger.error(f"Error en geocodificación: {str(e)[:200]}")
-    
-    return None
 
 def process_feed_entry(entry) -> Optional[Feature]:
     """Procesa una entrada RSS y crea una Feature de GeoJSON."""
@@ -189,12 +189,8 @@ def process_feed_entry(entry) -> Optional[Feature]:
         # Detección de emociones
         emotions = detect_emotions(summary)
 
-        # Geocodificación avanzada
-        coords = None
-        for strategy in [metadata_location, content_location]:
-            coords = strategy(entry)
-            if coords:
-                break
+        # Estrategia de geocodificación múltiple
+        coords = metadata_location(entry) or content_location(entry)
 
         properties = {
             'title': title,
@@ -206,48 +202,18 @@ def process_feed_entry(entry) -> Optional[Feature]:
             'source': entry.get('source', {}).get('title', 'Fuente desconocida')
         }
 
-        return Feature(
-            geometry=Point(coords) if coords else None,
-            properties=properties
-        )
+        return Feature(geometry=Point(coords) if coords else None, properties=properties)
     except Exception as e:
         logger.error(f"Error procesando entrada: {str(e)[:200]}")
         return None
 
-############################################################################
-# ==================== FUNCIONES DE GEOCODIFICACIÓN ========================
-############################################################################
-
-def is_valid_coords(lon: float, lat: float) -> bool:
-    return -180 <= lon <= 180 and -90 <= lat <= 90
-
 def format_date(date_str: str) -> str:
+    """Formatea la fecha publicada en un formato legible."""
     try:
         dt = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ")
         return dt.strftime("%Y-%m-%d %H:%M UTC")
-    except:
+    except Exception:
         return date_str[:19]
-
-def metadata_location(entry) -> Optional[Tuple]:
-    """Busca ubicación en metadatos del feed."""
-    if hasattr(entry, 'geo_lat') and hasattr(entry, 'geo_long'):
-        try:
-            lat = float(entry.geo_lat)
-            lon = float(entry.geo_long)
-            if is_valid_coords(lon, lat):
-                return (lon, lat)
-        except:
-            pass
-    return None
-
-def content_location(entry) -> Optional[Tuple]:
-    """Busca ubicación en el contenido del título y resumen."""
-    clean_content = re.sub('<[^>]+>', '', f"{entry.title} {entry.summary}")
-    for loc in LOCATION_REGEX.findall(clean_content):
-        coords = enhanced_geocode(loc)
-        if coords:
-            return coords
-    return None
 
 ############################################################################
 # ==================== FUSIÓN Y ALMACENAMIENTO =============================
@@ -255,18 +221,32 @@ def content_location(entry) -> Optional[Tuple]:
 
 def merge_geojson_data(new_data: FeatureCollection) -> None:
     existing_data = FeatureCollection([])
+
     if os.path.exists(OUTPUT_FILE):
         try:
             with open(OUTPUT_FILE, 'r', encoding='utf-8') as f:
-                existing_data = FeatureCollection(json.load(f))
+                existing_data_json = json.load(f)
+                valid_features = [
+                    f for f in existing_data_json.get("features", [])
+                    if isinstance(f, dict) and isinstance(f.get("properties", {}), dict)
+                ]
+                existing_data = FeatureCollection(valid_features)
         except Exception as e:
             logger.error(f"Error cargando datos existentes: {str(e)[:200]}")
 
-    existing_ids = {f.properties.get('link') for f in existing_data.features}
-    new_features = [f for f in new_data.features if f.properties.get('link') not in existing_ids]
-    
-    updated_features = existing_data.features + new_features
-    
+    existing_ids = {
+        f.get("properties", {}).get("link")
+        for f in existing_data.get("features", [])
+        if isinstance(f, dict) and isinstance(f.get("properties", {}), dict)
+    }
+
+    new_features = [
+        f for f in new_data.get("features", [])
+        if isinstance(f, dict) and f.get("properties", {}).get('link') not in existing_ids
+    ]
+
+    updated_features = existing_data.get("features", []) + new_features
+
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(FeatureCollection(updated_features), f, ensure_ascii=False, indent=2)
 
@@ -282,17 +262,17 @@ def process_feed(feed_url: str) -> List[Feature]:
 
 def main():
     logger.info("Iniciando recopilación de alertas masónicas")
-    
+
     with ThreadPoolExecutor(max_workers=8) as executor:
         futures = {executor.submit(process_feed, url): url for url in RSS_FEEDS}
         results = []
-        
+
         for future in as_completed(futures):
             try:
                 results.extend(future.result())
             except Exception as e:
                 logger.error(f"Error en feed: {str(e)[:200]}")
-    
+
     merge_geojson_data(FeatureCollection(results))
     logger.info(f"Proceso completado. Datos guardados en {OUTPUT_FILE}")
 

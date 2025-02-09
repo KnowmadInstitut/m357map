@@ -1,0 +1,10 @@
+gspread==6.0.2
+google-auth==2.23.3
+beautifulsoup4==4.12.2
+requests==2.31.0
+langdetect==1.0.9
+lxml==4.9.3
+cchardet==2.1.7
+urllib3==2.0.4
+gspread-formatting==1.1.2
+python-dotenv==1.0.0
