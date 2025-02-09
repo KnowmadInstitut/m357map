@@ -81,8 +81,13 @@ def scrape_and_process(url):
         return ("Error",) * 10  # Tupla de 10 elementos para consistencia
 
 def main():
-    # Configuración de Google Sheets
-    creds = Credentials.from_service_account_info(json.loads(os.environ["GOOGLE_CREDENTIALS"]))
+    # Configuración de Google Sheets con scopes actualizados
+    scopes = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
+    ]
+    
+    creds = Credentials.from_service_account_info(json.loads(os.environ["GOOGLE_CREDENTIALS"]), scopes=scopes)
     gc = gspread.authorize(creds)
     
     # Cargar datos
