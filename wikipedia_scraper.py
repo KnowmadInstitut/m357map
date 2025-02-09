@@ -199,4 +199,15 @@ def main():
     combined_results = []
 
     with ThreadPoolExecutor() as executor:
-        futures = {executor.submit(process_an
+        futures = {executor.submit(process_and_merge_entries, term, lang): (term, lang) for term in ["Freemasonry", "Gran Logia"] for lang in WIKIPEDIA_LANGUAGES}
+        for future in as_completed(futures):
+            try:
+                combined_results.extend(future.result())
+            except Exception as e:
+                logger.error(f"Error en la ejecución del proceso: {e}")
+
+    save_results(combined_results)
+    logger.info(f"Proceso completado con {len(combined_results)} entradas.")
+
+if __name__ == "__main__":
+    main()
