@@ -12,6 +12,12 @@ from requests.packages.urllib3.util.retry import Retry
 from gspread import Cell
 import threading
 
+# Configuración de scopes de Google
+scopes = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
+
 # Configuración inicial
 thread_local = threading.local()
 
@@ -76,17 +82,21 @@ def scrape_and_process(url):
             language
         )
     
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 403:
+            print(f"Acceso denegado para {url}. Saltando.")
+        elif e.response.status_code == 429:
+            print(f"Demasiadas solicitudes a {url}. Retentando en el siguiente lote.")
+        else:
+            print(f"Error HTTP en {url}: {str(e)}")
+        return ("Error",) * 10
+    
     except Exception as e:
         print(f"Error procesando {url}: {str(e)}")
-        return ("Error",) * 10  # Tupla de 10 elementos para consistencia
+        return ("Error",) * 10
 
 def main():
-    # Configuración de Google Sheets con scopes actualizados
-    scopes = [
-        "https://www.googleapis.com/auth/spreadsheets",
-        "https://www.googleapis.com/auth/drive"
-    ]
-    
+    # Configuración de Google Sheets
     creds = Credentials.from_service_account_info(json.loads(os.environ["GOOGLE_CREDENTIALS"]), scopes=scopes)
     gc = gspread.authorize(creds)
     
