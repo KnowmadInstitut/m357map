@@ -262,7 +262,7 @@ def merge_geojson_data(new_data: FeatureCollection) -> None:
         except Exception as e:
             logger.error(f"Error cargando datos existentes: {str(e)[:200]}")
 
-    existing_ids = {f.properties.get('link') for f in existing_data.features}
+    existing_ids = {f.get("properties", {}).get("link") for f in existing_data.get("features", [])}
     new_features = [f for f in new_data.features if f.properties.get('link') not in existing_ids]
     
     updated_features = existing_data.features + new_features
