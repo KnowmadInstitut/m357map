@@ -258,12 +258,12 @@ def merge_geojson_data(new_data: FeatureCollection) -> None:
     if os.path.exists(OUTPUT_FILE):
         try:
             with open(OUTPUT_FILE, 'r', encoding='utf-8') as f:
-                existing_data = FeatureCollection(json.load(f))
+                existing_data_json = json.load(f) if not isinstance(existing_data_json, dict) or "features" not in existing_data_json:     logger.error("El archivo GeoJSON no tiene una estructura válida.")     existing_data = FeatureCollection([]) else:     existing_data = FeatureCollection(existing_data_json.get("features", []))
         except Exception as e:
             logger.error(f"Error cargando datos existentes: {str(e)[:200]}")
 
-    existing_ids = {f.get("properties", {}).get("link") for f in existing_data.get("features", [])}
-    new_features = [f for f in new_data.features if f.properties.get('link') not in existing_ids]
+    existing_ids = {f.get("properties", {}).get("link") for f in existing_data.get("features", []) if isinstance(f, dict)}
+    new_features = [     f for f in new_data.get("features", [])     if isinstance(f, dict) and f.get("properties", {}).get('link') not in existing_ids ]
     
     updated_features = existing_data.features + new_features
     
