@@ -1,24 +1,17 @@
-name: Actualizar Google Sheets
+name: Unificación de Datos y Actualización
 
 on:
   schedule:
-    - cron: '40 3 * * *'  # Nueva hora de ejecución: 3:40 AM UTC
+    - cron: '40 3 * * *'
   workflow_dispatch:
 
 jobs:
-  scrape_and_update:
+  unification:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    env:
-      PYTHONUNBUFFERED: 1
-      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-      MAX_WORKERS: 6
-      REQUEST_TIMEOUT: 20
-
     steps:
-      - name: Checkout código
+      - name: Checkout del repositorio
         uses: actions/checkout@v4
-        
+
       - name: Configurar Python
         uses: actions/setup-python@v4
         with:
@@ -26,14 +19,7 @@ jobs:
 
       - name: Instalar dependencias
         run: |
-          pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Verificar instalación de gspread (opcional)
-        run: pip show gspread || echo "gspread no está instalado correctamente"
-
-      - name: Crear archivo de credenciales de Google
-        run: echo "${{ secrets.GOOGLE_CREDENTIALS }}" > google-credentials.json
-
-      - name: Ejecutar scraper optimizado
-        run: python -u scraper.py
+      - name: Ejecutar unificación de datos
+        run: python scraper.py
