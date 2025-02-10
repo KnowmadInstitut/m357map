@@ -1,416 +1,368 @@
-# -*- coding: utf-8 -*-
-"""
-masonic_wikipedia_scraper.py
-
-Características principales:
-1) Búsqueda multilingüe con paginación avanzada (Wikipedia).
-2) Caché persistente en SQLite para geocodificación (GeoCache).
-3) Geocodificación híbrida (Nominatim + Photon).
-4) Extracción de entidades con spaCy (p. ej., lugar, GPE).
-5) Fusión inteligente de datos históricos (mantiene JSON anterior).
-6) Exportación a JSON, GeoJSON y Parquet.
-7) Sistema de priorización (términos como 'Grand Lodge', etc.).
-8) Control de tasa de solicitudes (Rate Limiting con ratelimit + RateLimiter).
-
-Requerimientos:
-    pip install requests spacy geopy feedparser tenacity ratelimit pandas pyarrow geojson
-    python -m spacy download en_core_web_sm   # o el modelo que desees
-"""
-
-import json
-import logging
 import os
-import re
-import sqlite3
-from typing import List, Dict, Optional, Tuple
-from datetime import datetime
-from concurrent.futures import ThreadPoolExecutor, as_completed
-
+import json
 import requests
-import spacy
-import subprocess
-import pandas as pd
-import geojson
-
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
-from ratelimit import limits, sleep_and_retry
+from datetime import datetime
 
-############################################################################
-# ===================== CONFIGURACIÓN GLOBAL ===============================
-############################################################################
+# Configuración inicial
+geolocator = Nominatim(user_agent="m357_map_v1", timeout=20)
+geocode = RateLimiter(geolocator.geocode, min_delay_seconds=2)
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("masonic_wiki_scraper.log"), logging.StreamHandler()]
-)
-logger = logging.getLogger("MasonicWikiScraper")
+BATCH_SIZE = 100  # Entradas por lote
+PROGRESS_FILE = "progress.txt"
+WIKIPEDIA_JSON = "wikipedia_data.json"
+GEOJSON_OUTPUT = "wikipedia_data.geojson"
 
-class Config:
-    # 1) Búsqueda en varios idiomas de Wikipedia
-    LANGUAGES = ["en", "es", "fr", "de", "pt"]
+# Términos relevantes
+SEARCH_TERMS = [
+    # Generalidades de la Masonería (General Masonry)
+    "Francmasonería", "Freemasonry", "Freemason", "Masons", "Masonería", "Gran Logia",
+    "Masonería Simbólica", "Franc-maçonnerie", "Loge maçonnique", "Ordre maçonnique",
+    "Maçonnerie symbolique", "Freimaurerei", "Freimaurer", "Symbolische Maurerei",
+    "Maçonaria", "Maçon", "Maçonaria Simbólica", "Massoneria", "Loggia Massonica",
+    "Massoneria Simbolica", "自由石匠", "Масонство", "Özgür Mason", "Ahiman Rezon",
+    "Francmasonería Universal", "Arte Real", "Royal Art", "Art Royal", "Arte Reale",
+    "Königliche Kunst", "Gran Oriente", "Grande Oriente", "Grand Orient",
+    "Vereinigte Großloge", "Grande Loja", "Grande Loge", "大共氏会",
+    "Universal Brotherhood", "Hermandad Masónica", "Libertad, Igualdad y Fraternidad",
+    "Irmandade Maçônica", "Fraternité Maçonnique", "Universal Brotherhood", "国际兄弟情谊",
 
-    # 2) Palabras clave extensas relacionadas con masonería
-    KEYWORDS = [
-        "Freemason", "Mason", "Francmason", "Freemasonry", "Francmasonería", "Gran Logia", "Masonic Lodge",
-        "Masonic Temple", "Loge maçonnique", "Freimaurer", "Freimaurerei", "Franc-maçon", "Masonic Order",
-        "Grand Orient", "Ancient and Accepted Scottish Rite", "Rito Escocés Antiguo y Aceptado", "York Rite",
-        "Rito de York", "Knights Templar", "Caballeros Templarios", "Chevaliers du Temple", "Cavaleiros Templários",
-        "Quatuor Coronati", "Hiram Abiff", "Anderson's Constitutions", "Constituciones de Anderson",
-        "Constitutions d’Anderson", "Operative Masonry", "Maçonnerie Opérative", "Operative Maurerei",
-        "Maçonnerie Opérative", "Free-Masons", "Franc-Maçons", "Franc-Masones", "Estatutos de Schaw",
-        "Schaw Statutes", "Schaw-Statuten", "Lodge of Antiquity", "Logia de la Antigüedad", "Loge de l’Antiquité",
-        "Mother Kilwinning", "Mãe Kilwinning", "Mère Kilwinning", "Entered Apprentice", "Aprendiz Masón",
-        "Apprenti Maçon", "Lehrling", "Templar Freemasonry", "Masonería Templaria", "Maçonnerie Templière",
-        "Templer-Freimaurerei", "Regius Manuscript", "Manuscrito Regius", "Manuscrit Regius", "Egregor",
-        "Égrégore", "Royal Arch Masonry", "Real Arco Masónico", "Arco Real Maçônico", "Arc Royal Maçonnique",
-        "Schottische Grade", "Grados del Rito Escocés", "Graus do Rito Escocês", "Degrés du Rite Écossais",
-        "Brotherhood of Light", "Hermandad de la Luz", "Irmandade da Luz", "Fraternité de la Lumière",
-        "Symbolic Masonry", "Masonería Simbólica", "Maçonnerie Symbolique", "Symbolische Maurerei",
-        "Gothic Cathedral and Masonry", "Catedral Gótica y Masonería", "Cathédrale Gothique et Maçonnerie",
-        "Gotische Kathedralen und Freimaurerei", "Speculative Masonry", "Masonería Especulativa",
-        "Maçonnerie Spéculative", "Spekulative Maurerei", "Latin American Freemasonry", "Masonería en América Latina",
-        "Maçonnerie en Amérique Latine", "Maçonaria na América Latina", "Landmarks of Freemasonry",
-        "Landmarks Masónicos", "Landmarks der Freimaurerei", "Landmarks Maçônicos", "Landmarks Maçonniques",
-        "Grand Orient of France", "Gran Oriente de Francia", "Grand Orient de France", "Grande Oriente da França",
-        "Rectified Scottish Rite", "Rito Escocés Rectificado", "Rite Écossais Rectifié", "Rito Escocês Retificado",
-        "Wilhelmsbad Convention", "Convención de Wilhelmsbad", "Convenção de Wilhelmsbad", "Convention de Wilhelmsbad",
-        "Ramsay's Oration", "Oración de Ramsay", "Oração de Ramsay", "Discours de Ramsay", "Ramsays Rede",
-        "Lessing and German Freemasonry", "Lessing y la Masonería Alemana", "Lessing e a Maçonaria Alemã",
-        "Lessing et la Franc-maçonnerie allemande", "Royal Art", "Arte Real", "Art Royal", "Königliche Kunst"
-    ]
+    # Órdenes y Ritos Masónicos (Masonic Orders and Rites)
+    "Rito Escocés Antiguo y Aceptado", "Ancient and Accepted Scottish Rite",
+    "Rite Écossais Ancien et Accepté", "Schottischer Ritus", "约克仪式", "York Rite",
+    "Rito de York", "Knights Templar", "Caballeros Templarios", "Cavaleiros Templários",
+    "Chevaliers du Temple", "Масонский орден тамплиеров", "Rito Escocés Rectificado",
+    "Rite Écossais Rectifié", "Rito Escocês Retificado", "Gran Campamento Templario de los Estados Unidos",
+    "Memphis-Misraim Rite", "Órdenes de la Cruz Roja",
 
-    # 3) Caché en SQLite para la geocodificación
-    CACHE_DB = "masonic_data_cache.db"
+    # Historia y Documentos Fundacionales (Historical Documents)
+    "Constituciones de Anderson", "Anderson's Constitutions", "Constitutions d’Anderson",
+    "Estatutos de Schaw", "Schaw Statutes", "Schaw-Statuten", "Manuscrito Regius",
+    "Regius Manuscript", "Manuscrit Regius", "Charter of Larmenius", "Ahiman Rezon",
+    "Declaración de York", "Wilhelmsbad Convention", "Convención de Wilhelmsbad",
+    "St. Clair Charters", "Bula Omne Datum Optimum", "Actas del Gran Oriente",
+    "Cartas Patentes Masónicas",
 
-    # Tiempos y Rate Limit
-    REQUEST_TIMEOUT = 15
-    RATE_LIMIT_CALLS = 50   # máx 50 llamadas/min
-    SPA_MODEL = "en_core_web_sm"
-
-    SRESULTS_PER_PAGE = 50  # Hasta 50 resultados por página
-    OUTPUT_JSON = "wikipedia_data.json"
-    OUTPUT_GEOJSON = "wikipedia_data.geojson"
-    OUTPUT_PARQUET = "wikipedia_data.parquet"
-
-
-############################################################################
-# ============= VERIFICAR DESCARGAR AUTOMÁTICAMENTE MODELO SPACY ==========
-############################################################################
-
-try:
-    nlp = spacy.load(Config.SPA_MODEL)
-except OSError:
-    logger.warning(f"Modelo spaCy '{Config.SPA_MODEL}' no encontrado. Descargando e instalando...")
-    subprocess.run(["python", "-m", "spacy", "download", Config.SPA_MODEL], check=True)
-    nlp = spacy.load(Config.SPA_MODEL)
-
-############################################################################
-# ============= RATE LIMITING (con ratelimit) ==============================
-############################################################################
-
-@sleep_and_retry
-@limits(calls=Config.RATE_LIMIT_CALLS, period=60)
-def safe_requests_get(url, params=None):
-    """
-    Llamada a requests.get con un límite de 50 llamadas por minuto
-    """
-    return requests.get(url, params=params, timeout=Config.REQUEST_TIMEOUT)
-
-############################################################################
-# =============== CACHÉ PERSISTENTE PARA GEOCODIFICACIÓN ===================
-############################################################################
-
-class GeoCache:
-    """Almacena en SQLite (table: locations) las coords lat/lon de cada lugar."""
-    def __init__(self):
-        self.conn = sqlite3.connect(Config.CACHE_DB)
-        self.conn.execute("""
-            CREATE TABLE IF NOT EXISTS locations (
-                place TEXT PRIMARY KEY,
-                lat REAL,
-                lon REAL
-            )
-        """)
-        self.conn.commit()
-
-    def get(self, place: str) -> Optional[Tuple[float, float]]:
-        c = self.conn.cursor()
-        c.execute("SELECT lat, lon FROM locations WHERE place=?", (place,))
-        row = c.fetchone()
-        return (row[0], row[1]) if row else None
-
-    def set(self, place: str, lat: float, lon: float):
-        self.conn.execute("""
-            INSERT OR REPLACE INTO locations (place, lat, lon)
-            VALUES (?, ?, ?)
-        """, (place, lat, lon))
-        self.conn.commit()
-
-geo_cache = GeoCache()
-
-############################################################################
-# ================ GEOCODIFICACIÓN HÍBRIDA (NOMINATIM + PHOTON) ============
-############################################################################
-
-geolocator = Nominatim(user_agent="masonic_scraper_v3")
-# RateLimiter para Nominatim
-geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
-
-def geocode_hybrid(location_text: str) -> Tuple[Optional[float], Optional[float]]:
-    """
-    3) Geocodifica con:
-      - Caché local
-      - Nominatim con RateLimiter
-      - Photon como fallback
-    Retorna (lat, lon) o (None, None).
-    """
-    if not location_text:
-        return (None, None)
+    # Personalidades y Miembros Destacados (Personalities and Notable Members)
+    "Hiram Abiff", "Jacques de Molay", "Hugh de Payens", "Bernard de Clairvaux",
+    "Baphomet", "Cruz Templaria", "Escudo de los Templarios", "Eliashib", "Salomón",
+    "Rey Hiram", "Godofredo de Bouillon", "San Juan Bautista", "Tomás de Aquino",
+    "St. Bernard of Clairvaux", "Walter Leslie Wilmshurst", "曼约斯里",
+    # Miembros destacados
+    # América del Norte
+    "Benjamin Franklin", "George Washington", "Theodore Roosevelt",
+    "Thomas Jefferson", "Alexander Fleming", "Harry S. Truman",
+    "William Howard Taft", "Andrew Jackson", "James Monroe",
     
-    # Revisar cache
-    cached = geo_cache.get(location_text)
-    if cached:
-        return cached
+    # Canadá
+    "John A. Macdonald", "William Lyon Mackenzie King", "Timothy Eaton",
     
-    # Nominatim
+    # América Central y el Caribe
+    "José Martí", "Juan Pablo Duarte", "Carlos Manuel de Céspedes",
+    "Máximo Gómez", "Gregorio Luperón", "Antonio Maceo",
+
+    # América del Sur
+    "Simón Bolívar", "Salvador Allende", "José de San Martín",
+    "Domingo Faustino Sarmiento", "Andrés Bello", "Bernardino Rivadavia",
+    "Arturo Prat", "Rafael Núñez", "Francisco de Paula Santander",
+    "José Gervasio Artigas", "Joaquim Nabuco", "José Bonifácio de Andrada e Silva",
+
+    # Europa Occidental
+    "Winston Churchill", "Wolfgang Amadeus Mozart", "Voltaire",
+    "Giuseppe Garibaldi", "Rudyard Kipling", "Johann Wolfgang von Goethe",
+    "Henry Ford", "Edward VII", "Lyndon B. Johnson",
+    "Paul-Henri Spaak", "Robert Burns", "Arthur Conan Doyle",
+    "Frédéric Bartholdi", "Émile Littré", "Pierre Simon Laplace",
+
+    # Europa del Este
+    "Aleksandr Pushkin", "Lajos Kossuth", "Ignacy Jan Paderewski",
+    "Tadeusz Kościuszko", "Józef Piłsudski", "Ferenc Deák",
+    "Boris Yeltsin", "Sergei Witte", "Mikhail Gorbachev",
+
+    # Europa del Norte
+    "Oscar II de Suecia", "Dag Hammarskjöld", "Henrik Ibsen",
+    "Christian Michelsen", "Carl Gustaf Emil Mannerheim", "Niels Bohr",
+    "Haakon VII", "Fridtjof Nansen", "Emanuel Swedenborg",
+
+    # Europa del Sur
+    "Giuseppe Mazzini", "Francesco Crispi", "Fernando Pessoa",
+    "António de Oliveira Salazar", "Giovanni Pascoli", "Enrico Fermi",
+    "Giosuè Carducci", "Manuel de Arriaga", "Teófilo Braga",
+
+    # África
+    "Nelson Mandela", "Cecil Rhodes", "Jan Smuts",
+    "Saad Zaghloul", "Ahmed Lutfi el-Sayed", "Agostinho Neto",
+    "Mohammed V de Marruecos", "Hassan II", "Houphouët-Boigny",
+
+    # Asia
+    "Sun Yat-sen", "Mustafa Kemal Atatürk", "José Rizal",
+    "Andrés Bonifacio", "Sukarno", "Rabindranath Tagore",
+    "Chiang Kai-shek", "Hassan al-Banna", "Tunku Abdul Rahman",
+    "Mohammad Hatta", "Gamal Abdel Nasser (controvertido)", "Prince Tokugawa Iesato",
+
+    # Oceanía
+    "Ernest Rutherford", "Edmund Barton", "Charles Kingsford Smith",
+    "William Ferguson Massey", "Richard Seddon", "John Forrest", 
+
+    # Estructuras Masónicas y Lugares (Masonic Structures and Places)
+    "Logia de la Antigüedad", "Lodge of Antiquity", "Loge de l’Antiquité",
+    "Gran Logia", "Grand Lodge", "Grande Loge", "大共氏会", "Roslin Chapel",
+    "Monte del Templo", "St. Thomas of Acon", "Capilla de los Templarios",
+    "Catedral Gótica y Masonería", "Gothic Cathedral and Masonry",
+    "Cathédrale Gothique et Maçonnerie", "Asilo del Temple", "Templo Escocés",
+    "Vereinigte Großloge von Deutschland", "Monte Moriah",
+
+    # Conceptos Simbólicos y Filosóficos (Symbolic and Philosophical Concepts)
+    "Arte Real", "Royal Art", "Art Royal", "Arte Reale", "Arte Real", "Königliche Kunst",
+    "Egregor", "Égrégore", "Landmarks of Freemasonry", "Landmarks Masónicos",
+    "Landmarks der Freimaurerei", "Landmarks Maçonniques", "Landmarks Maçônicos",
+    "规格的标记", "Hombre Libre y de Buenas Costumbres", "Fraternidad Universal",
+    "Hermetismo Masónico", "Virtudes Cardinales", "Secreto Masónico", "Alquimia Espiritual",
+
+    # Rituales y Prácticas (Rituals and Practices)
+    "Libación Quinta", "Oración del Comendador", "Promesa de Fidelidad", "Juramento del Templo",
+    "Vigilia de Armas", "Rito de Iniciación", "Salve Templaria", "Tenidas Solemnes",
+    "Custodia del Santo Sepulcro", "Conclaves", "Observancia de Pascua", "Procesión del Templo",
+    "Observancia de Navidad", "Rito Templario", "Ritual Templario", "Ordo Militum Christi",
+
+    # Grandes Logias Reconocidas (Grand Lodges)
+    "United Grand Lodge of England", "Gran Logia Unida de Inglaterra", "Grande Loge Unie d'Angleterre",
+    "Vereinigte Großloge von England", "Grande Loja Unida da Inglaterra",
+
+    "Grand Lodge of Scotland", "Gran Logia de Escocia", "Grande Loge d'Écosse",
+    "Großloge von Schottland", "Grande Loja da Escócia",
+
+    "Grand Lodge of Ireland", "Gran Logia de Irlanda", "Grande Loge d'Irlande",
+    "Großloge von Irland", "Grande Loja da Irlanda",
+
+    "Grand Lodge of Spain", "Gran Logia de España", "Grande Loge d'Espagne",
+    "Großloge von Spanien", "Grande Loja da Espanha",
+
+    "Grande Loge Nationale Française", "Gran Logia Nacional de Francia", "Grand National Lodge of France",
+    "Nationale Großloge von Frankreich", "Grande Loja Nacional da França",
+
+    "Grand Lodge Alpina of Switzerland", "Gran Logia Alpina de Suiza", "Grande Loge Alpina de Suisse",
+    "Alpine Großloge der Schweiz", "Grande Loja Alpina da Suíça",
+
+    "Grand Lodge of Japan", "Gran Logia de Japón", "Grande Loge du Japon",
+    "Großloge von Japan", "Grande Loja do Japão",
+
+    "Grand Lodge of Mexico", "Gran Logia de México", "Grande Loge du Mexique",
+    "Großloge von Mexiko", "Grande Loja do México",
+
+    "Grand Lodge of Argentina", "Gran Logia de Argentina", "Grande Loge d'Argentine",
+    "Großloge von Argentinien", "Grande Loja da Argentina",
+
+    "Grand Lodge of Canada", "Gran Logia de Canadá", "Grande Loge du Canada",
+    "Großloge von Kanada", "Grande Loja do Canadá",
+
+    "Grande Oriente do Brasil", "Gran Oriente de Brasil", "Grand Orient du Brésil",
+    "Großorient von Brasilien", "Grande Loja do Brasil",
+
+    "Grand Lodge of Colombia", "Gran Logia de Colombia", "Grande Loge de Colombie",
+    "Großloge von Kolumbien", "Grande Loja da Colômbia",
+
+    "Grand Lodge of Italy", "Gran Logia de Italia", "Grande Loge d'Italie",
+    "Großloge von Italien", "Grande Loja da Itália",
+
+    "Grand Lodge of the Philippines", "Gran Logia de Filipinas", "Grande Loge des Philippines",
+    "Großloge der Philippinen", "Grande Loja das Filipinas",
+
+    "Grand Lodge of Chile", "Gran Logia de Chile", "Grande Loge du Chili",
+    "Großloge von Chile", "Grande Loja do Chile",
+
+    "Grand Lodge of Venezuela", "Gran Logia de Venezuela", "Grande Loge du Venezuela",
+    "Großloge von Venezuela", "Grande Loja da Venezuela",
+
+    "Grand Lodge of Ecuador", "Gran Logia de Ecuador", "Grande Loge de l'Équateur",
+    "Großloge von Ecuador", "Grande Loja do Equador",
+
+    "Grand Lodge of Peru", "Gran Logia de Perú", "Grande Loge du Pérou",
+    "Großloge von Peru", "Grande Loja do Peru",
+
+    "Grand Lodge of Bolivia", "Gran Logia de Bolivia", "Grande Loge de Bolivie",
+    "Großloge von Bolivien", "Grande Loja da Bolívia",
+
+    "Grand Lodge of Paraguay", "Gran Logia de Paraguay", "Grande Loge du Paraguay",
+    "Großloge von Paraguay", "Grande Loja do Paraguai",
+
+    "Grand Lodge of Uruguay", "Gran Logia de Uruguay", "Grande Loge de l'Uruguay",
+    "Großloge von Uruguay", "Grande Loja do Uruguai",
+
+    "Grand Lodge of Costa Rica", "Gran Logia de Costa Rica", "Grande Loge du Costa Rica",
+    "Großloge von Costa Rica", "Grande Loja da Costa Rica",
+
+    "Grand Lodge of Panama", "Gran Logia de Panamá", "Grande Loge du Panama",
+    "Großloge von Panama", "Grande Loja do Panamá",
+
+    "Grand Lodge of Honduras", "Gran Logia de Honduras", "Grande Loge du Honduras",
+    "Großloge von Honduras", "Grande Loja das Honduras",
+
+    "Grand Lodge of El Salvador", "Gran Logia de El Salvador", "Grande Loge du Salvador",
+    "Großloge von El Salvador", "Grande Loja de El Salvador",
+
+    "Grand Lodge of Guatemala", "Gran Logia de Guatemala", "Grande Loge du Guatemala",
+    "Großloge von Guatemala", "Grande Loja da Guatemala",
+
+    "Grand Lodge of Nicaragua", "Gran Logia de Nicaragua", "Grande Loge du Nicaragua",
+    "Großloge von Nicaragua", "Grande Loja da Nicarágua"
+
+    # Términos relacionados con la Antimasonería (Anti-Masonry)
+    "Antimasonería", "Anti-Freemasonry", "Antimaçonaria", "Antimaisonnerie",
+    "Антимасонство", "反共氏会", "Masonluk karşıtı"
+    # Añadir más términos según la optimización final...
+]
+
+def load_progress():
+    if os.path.exists(PROGRESS_FILE):
+        with open(PROGRESS_FILE, "r") as f:
+            return int(f.read().strip())
+    return 0
+
+def save_progress(current_index):
+    with open(PROGRESS_FILE, "w") as f:
+        f.write(str(current_index))
+
+def search_wikipedia(term, lang="en"):
+    """Realiza una búsqueda en Wikipedia y devuelve las entradas relevantes."""
+    url = f"https://{lang}.wikipedia.org/w/api.php"
+    params = {
+        "action": "query",
+        "format": "json",
+        "list": "search",
+        "srsearch": term,
+        "srlimit": 50  # Máximo por consulta
+    }
     try:
-        loc = geocode(location_text)
-        if loc:
-            lat, lon = loc.latitude, loc.longitude
-            geo_cache.set(location_text, lat, lon)
-            return (lat, lon)
-    except Exception as e:
-        logger.warning(f"Nominatim error con '{location_text}': {e}")
-    
-    # Photon fallback
+        response = requests.get(url, params=params, timeout=10)
+        response.raise_for_status()
+        return response.json().get("query", {}).get("search", [])
+    except requests.RequestException as e:
+        print(f"Error en la búsqueda de Wikipedia para el término '{term}': {e}")
+        return []
+
+def get_article_details(title, lang="en"):
+    """Obtiene detalles del artículo dado un título."""
+    url = f"https://{lang}.wikipedia.org/w/api.php"
+    params = {
+        "action": "query",
+        "format": "json",
+        "prop": "extracts|coordinates|pageimages",
+        "exintro": True,
+        "explaintext": True,
+        "titles": title,
+        "pithumbsize": 500  # Imagen de previsualización
+    }
     try:
-        photon_url = f"https://photon.komoot.io/api/?q={location_text}"
-        r = safe_requests_get(photon_url)
-        if r.status_code == 200:
-            data = r.json()
-            feats = data.get("features", [])
-            if feats:
-                best = feats[0]
-                lon, lat = best["geometry"]["coordinates"]
-                geo_cache.set(location_text, lat, lon)
-                return (lat, lon)
-    except Exception as e:
-        logger.warning(f"Photon error con '{location_text}': {e}")
+        response = requests.get(url, params=params, timeout=10)
+        response.raise_for_status()
+        pages = response.json().get("query", {}).get("pages", {})
+        for page_id, page in pages.items():
+            return {
+                "title": page.get("title"),
+                "url": f"https://{lang}.wikipedia.org/wiki/{page.get('title').replace(' ', '_')}",
+                "description": page.get("extract", ""),
+                "coordinates": page.get("coordinates", [{}])[0],
+                "image": page.get("thumbnail", {}).get("source")
+            }
+    except requests.RequestException as e:
+        print(f"Error al obtener detalles del artículo '{title}': {e}")
+        return {}
 
-    return (None, None)
-
-############################################################################
-# ================ PAGINACIÓN AVANZADA EN WIKIPEDIA ========================
-############################################################################
-
-def advanced_wiki_search(keyword: str, lang: str) -> List[Dict]:
-    """
-    1) Búsqueda con paginación en Wikipedia:
-       Toma 50 resultados x página hasta agotar 'sroffset'.
-    """
-    base_url = f"https://{lang}.wikipedia.org/w/api.php"
-    all_articles = []
-    sroffset = 0
-    
-    while True:
-        params = {
-            "action": "query",
-            "list": "search",
-            "srsearch": f'"{keyword}"',
-            "format": "json",
-            "srlimit": Config.SRESULTS_PER_PAGE,
-            "srprop": "size|wordcount|timestamp",
-            "sroffset": sroffset
-        }
-        try:
-            resp = safe_requests_get(base_url, params=params)
-            resp.raise_for_status()
-            data = resp.json()
-            batch = data.get("query", {}).get("search", [])
-            if not batch:
-                break
-            all_articles.extend(batch)
-
-            cont = data.get("continue")
-            if cont and "sroffset" in cont:
-                sroffset = cont["sroffset"]
-            else:
-                break
-        except Exception as e:
-            logger.warning(f"Error paginando '{keyword}' en {lang}: {e}")
-            break
-    
-    return all_articles
-
-############################################################################
-# ================ EXTRACCIÓN DE ENTIDADES (spaCy) =========================
-############################################################################
-
-def extract_location_spacy(text: str) -> Optional[str]:
-    """
-    4) Usa spaCy para extraer el primer GPE que encuentre en el texto.
-    """
-    if not text:
+def geocode_location(coordinates):
+    """Convierte las coordenadas de Wikipedia en formato de lat/lon para GeoJSON."""
+    if not coordinates:
         return None
-    doc = nlp(text)
-    for ent in doc.ents:
-        if ent.label_ == "GPE":
-            return ent.text
+    try:
+        lat, lon = coordinates.get("lat"), coordinates.get("lon")
+        if lat and lon:
+            return [lon, lat]  # GeoJSON requiere [longitud, latitud]
+    except KeyError:
+        pass
     return None
 
-############################################################################
-# ============= SISTEMA DE PRIORIDAD (EJ. 'GRAND LODGE' => MÁS) ============
-############################################################################
+def process_entries(entries, lang="en"):
+    """Procesa un lote de artículos de Wikipedia."""
+    results = []
+    for entry in entries:
+        details = get_article_details(entry["title"], lang)
+        coordinates = geocode_location(details.get("coordinates"))
+        if details:
+            results.append({
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point" if coordinates else None,
+                    "coordinates": coordinates if coordinates else []
+                },
+                "properties": {
+                    "title": details["title"],
+                    "url": details["url"],
+                    "description": details["description"],
+                    "image": details["image"],
+                    "timestamp": datetime.utcnow().isoformat(),
+                    "language": lang
+                }
+            })
+    return results
 
-def compute_priority(title: str) -> int:
-    """
-    7) Aumenta prioridad a términos importantes.
-    """
-    tlower = title.lower()
-    if "grand lodge" in tlower:
-        return 5
-    elif "masonic temple" in tlower:
-        return 4
-    elif "lodge" in tlower:
-        return 3
-    else:
-        return 1
+def merge_and_save_geojson(new_features):
+    """Combina los resultados nuevos con los existentes y guarda el GeoJSON."""
+    existing_data = []
+    if os.path.exists(GEOJSON_OUTPUT):
+        try:
+            with open(GEOJSON_OUTPUT, "r") as f:
+                existing_data = json.load(f).get("features", [])
+        except (json.JSONDecodeError, FileNotFoundError) as e:
+            print(f"Error al cargar el archivo GeoJSON existente: {e}")
 
-############################################################################
-# ============= PROCESAR UN ARTÍCULO (CREAR OBJETO FINAL) ==================
-############################################################################
+    # Eliminar duplicados basados en URL y título
+    existing_urls_titles = {(feature["properties"]["url"], feature["properties"]["title"]) for feature in existing_data}
+    new_features = [f for f in new_features if (f["properties"]["url"], f["properties"]["title"]) not in existing_urls_titles]
 
-def process_article(article: Dict, lang: str, keyword: str) -> Optional[Dict]:
-    """
-    Maneja desempaquetado seguro (lat, lon) or (None, None).
-    """
-    try:
-        page_title = article.get("title", "No Title")
-        page_id = article.get("pageid", -1)
+    if not new_features:
+        print("No hay nuevos datos para guardar.")
+        return
 
-        # Extraer localización con spaCy
-        loc_text = extract_location_spacy(page_title)
-        lat, lon = (None, None)
-        if loc_text:
-            lat, lon = geocode_hybrid(loc_text)  # Evita error => None => (None, None)
+    # Combinar y guardar
+    combined_features = existing_data + new_features
+    geojson_data = {
+        "type": "FeatureCollection",
+        "features": combined_features
+    }
+    with open(GEOJSON_OUTPUT, "w") as f:
+        json.dump(geojson_data, f, ensure_ascii=False, indent=2)
 
-        priority = compute_priority(page_title)
+    # Actualizar JSON secundario para referencias
+    with open(WIKIPEDIA_JSON, "w") as f:
+        json.dump({"features": combined_features}, f, ensure_ascii=False, indent=2)
 
-        return {
-            "pageid": page_id,
-            "keyword": keyword,
-            "lang": lang,
-            "title": page_title,
-            "latitude": lat,
-            "longitude": lon,
-            "priority": priority,
-            "timestamp": datetime.now().isoformat()
-        }
-    except Exception as e:
-        logger.error(f"Error en process_article '{article}': {e}")
-        return None
-
-############################################################################
-# ============ FUSIÓN DE DATOS HISTÓRICOS (JSON) ===========================
-############################################################################
-
-def load_previous_data(path: str) -> List[Dict]:
-    if not os.path.exists(path):
-        return []
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        return []
-
-def merge_data(old_data: List[Dict], new_data: List[Dict]) -> List[Dict]:
-    """
-    5) Fusión inteligente: si 'pageid' coincide, actualiza si la priority es mayor.
-    Usa (lang + pageid) como identificador.
-    """
-    merged = {}
-    for item in old_data:
-        key = f"{item.get('lang','')}_{item.get('pageid','')}"
-        merged[key] = item
-
-    for item in new_data:
-        key = f"{item.get('lang','')}_{item.get('pageid','')}"
-        old_item = merged.get(key)
-        if (not old_item) or (item.get("priority",0) > old_item.get("priority",0)):
-            merged[key] = item
-    
-    return list(merged.values())
-
-############################################################################
-# =============== EXPORTAR A JSON, GEOJSON, PARQUET ========================
-############################################################################
-
-def export_data(final_data: List[Dict]):
-    # 1) JSON
-    with open(Config.OUTPUT_JSON, "w", encoding="utf-8") as f:
-        json.dump(final_data, f, ensure_ascii=False, indent=2)
-    
-    # 2) GeoJSON
-    feats = []
-    for obj in final_data:
-        lat = obj.get("latitude")
-        lon = obj.get("longitude")
-        if lat is not None and lon is not None:
-            props = dict(obj)
-            # si no quieres lat/lon duplicados, podrías removerlos de props
-            geometry = geojson.Point((lon, lat))
-            feat = geojson.Feature(geometry=geometry, properties=props)
-            feats.append(feat)
-    fc = geojson.FeatureCollection(feats)
-    with open(Config.OUTPUT_GEOJSON, "w", encoding="utf-8") as f:
-        geojson.dump(fc, f, ensure_ascii=False, indent=2)
-    
-    # 3) Parquet
-    try:
-        df = pd.DataFrame(final_data)
-        df.to_parquet(Config.OUTPUT_PARQUET, index=False)
-    except ImportError:
-        logger.warning("pyarrow/parquet no instalado. Saltando export a Parquet.")
-    
-    logger.info(f"Export final: JSON='{Config.OUTPUT_JSON}', GEOJSON='{Config.OUTPUT_GEOJSON}', PARQUET='{Config.OUTPUT_PARQUET}'")
-
-############################################################################
-# ========================= FUNCIÓN PRINCIPAL ==============================
-############################################################################
+    print(f"GeoJSON actualizado: {len(new_features)} nuevas entradas agregadas.")
 
 def main():
-    # Cargar histórico
-    old_data = load_previous_data(Config.OUTPUT_JSON)
+    # Cargar el progreso actual
+    progress = load_progress()
 
-    # Realizar búsquedas concurrentes
-    results = []
-    with ThreadPoolExecutor() as executor:
-        future_map = {}
-        for kw in Config.KEYWORDS:
-            for lang in Config.LANGUAGES:
-                fut = executor.submit(advanced_wiki_search, kw, lang)
-                future_map[fut] = (kw, lang)
-        
-        for fut in as_completed(future_map):
-            keyword, lang = future_map[fut]
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        futures = {}
+        for term in SEARCH_TERMS[progress:]:
+            for lang in ["en", "es", "fr", "de", "pt"]:  # Idiomas a buscar
+                futures[executor.submit(search_wikipedia, term, lang)] = (term, lang)
+
+        new_features = []
+        for future in as_completed(futures):
+            term, lang = futures[future]
             try:
-                articles = fut.result()
-                for art in articles:
-                    processed = process_article(art, lang, keyword)
-                    if processed:
-                        results.append(processed)
+                articles = future.result()
+                processed_entries = process_entries(articles, lang)
+                new_features.extend(processed_entries)
             except Exception as e:
-                logger.error(f"Error en {keyword} ({lang}): {e}")
+                print(f"Error procesando el término '{term}' en '{lang}': {e}")
 
-    # Fusionar con datos viejos
-    final_merged = merge_data(old_data, results)
-
-    # Exportar
-    export_data(final_merged)
-
-    logger.info(f"Proceso finalizado. Total de artículos: {len(final_merged)}")
+    # Guardar los resultados en GeoJSON y JSON
+    merge_and_save_geojson(new_features)
+    save_progress(len(SEARCH_TERMS))
 
 if __name__ == "__main__":
     main()
