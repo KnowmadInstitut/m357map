@@ -5,8 +5,17 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 from datetime import datetime
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
-# Configuración inicial
+# Configuración de sesión con reintentos para requests
+session = requests.Session()
+retries = Retry(total=3, backoff_factor=1, status_forcelist=[429, 500, 502, 503, 504])
+adapter = HTTPAdapter(max_retries=retries)
+session.mount("http://", adapter)
+session.mount("https://", adapter)
+
+# Configuración inicial de geolocalización
 geolocator = Nominatim(user_agent="m357_map_v1", timeout=20)
 geocode = RateLimiter(geolocator.geocode, min_delay_seconds=2)
 
@@ -15,7 +24,7 @@ PROGRESS_FILE = "progress.txt"
 WIKIPEDIA_JSON = "wikipedia_data.json"
 GEOJSON_OUTPUT = "wikipedia_data.geojson"
 
-# Términos relevantes
+# Lista completa de términos de búsqueda
 SEARCH_TERMS = [
     # Generalidades de la Masonería (General Masonry)
     "Francmasonería", "Freemasonry", "Freemason", "Masons", "Masonería", "Gran Logia",
@@ -138,7 +147,7 @@ SEARCH_TERMS = [
     "Großloge von Irland", "Grande Loja da Irlanda",
 
     "Grand Lodge of Spain", "Gran Logia de España", "Grande Loge d'Espagne",
-    "Großloge von Spanien", "Grande Loja da Espanha",
+    "Großloge von España", "Grande Loja de España",
 
     "Grande Loge Nationale Française", "Gran Logia Nacional de Francia", "Grand National Lodge of France",
     "Nationale Großloge von Frankreich", "Grande Loja Nacional da França",
@@ -147,7 +156,7 @@ SEARCH_TERMS = [
     "Alpine Großloge der Schweiz", "Grande Loja Alpina da Suíça",
 
     "Grand Lodge of Japan", "Gran Logia de Japón", "Grande Loge du Japon",
-    "Großloge von Japan", "Grande Loja do Japão",
+    "Großloge von Japón", "Grande Loja do Japão",
 
     "Grand Lodge of Mexico", "Gran Logia de México", "Grande Loge du Mexique",
     "Großloge von Mexiko", "Grande Loja do México",
@@ -156,7 +165,7 @@ SEARCH_TERMS = [
     "Großloge von Argentinien", "Grande Loja da Argentina",
 
     "Grand Lodge of Canada", "Gran Logia de Canadá", "Grande Loge du Canada",
-    "Großloge von Kanada", "Grande Loja do Canadá",
+    "Großloge von Canadá", "Grande Loja do Canadá",
 
     "Grande Oriente do Brasil", "Gran Oriente de Brasil", "Grand Orient du Brésil",
     "Großorient von Brasilien", "Grande Loja do Brasil",
@@ -165,7 +174,7 @@ SEARCH_TERMS = [
     "Großloge von Kolumbien", "Grande Loja da Colômbia",
 
     "Grand Lodge of Italy", "Gran Logia de Italia", "Grande Loge d'Italie",
-    "Großloge von Italien", "Grande Loja da Itália",
+    "Großloge von Italia", "Grande Loja da Itália",
 
     "Grand Lodge of the Philippines", "Gran Logia de Filipinas", "Grande Loge des Philippines",
     "Großloge der Philippinen", "Grande Loja das Filipinas",
@@ -180,7 +189,7 @@ SEARCH_TERMS = [
     "Großloge von Ecuador", "Grande Loja do Equador",
 
     "Grand Lodge of Peru", "Gran Logia de Perú", "Grande Loge du Pérou",
-    "Großloge von Peru", "Grande Loja do Peru",
+    "Großloge von Perú", "Grande Loja do Perú",
 
     "Grand Lodge of Bolivia", "Gran Logia de Bolivia", "Grande Loge de Bolivie",
     "Großloge von Bolivien", "Grande Loja da Bolívia",
@@ -195,7 +204,7 @@ SEARCH_TERMS = [
     "Großloge von Costa Rica", "Grande Loja da Costa Rica",
 
     "Grand Lodge of Panama", "Gran Logia de Panamá", "Grande Loge du Panama",
-    "Großloge von Panama", "Grande Loja do Panamá",
+    "Großloge von Panamá", "Grande Loja do Panamá",
 
     "Grand Lodge of Honduras", "Gran Logia de Honduras", "Grande Loge du Honduras",
     "Großloge von Honduras", "Grande Loja das Honduras",
@@ -207,12 +216,11 @@ SEARCH_TERMS = [
     "Großloge von Guatemala", "Grande Loja da Guatemala",
 
     "Grand Lodge of Nicaragua", "Gran Logia de Nicaragua", "Grande Loge du Nicaragua",
-    "Großloge von Nicaragua", "Grande Loja da Nicarágua"
-
+    "Großloge von Nicaragua", "Grande Loja da Nicarágua",
+    
     # Términos relacionados con la Antimasonería (Anti-Masonry)
     "Antimasonería", "Anti-Freemasonry", "Antimaçonaria", "Antimaisonnerie",
     "Антимасонство", "反共氏会", "Masonluk karşıtı"
-    # Añadir más términos según la optimización final...
 ]
 
 def load_progress():
@@ -236,7 +244,7 @@ def search_wikipedia(term, lang="en"):
         "srlimit": 50  # Máximo por consulta
     }
     try:
-        response = requests.get(url, params=params, timeout=10)
+        response = session.get(url, params=params, timeout=10)
         response.raise_for_status()
         return response.json().get("query", {}).get("search", [])
     except requests.RequestException as e:
@@ -256,17 +264,18 @@ def get_article_details(title, lang="en"):
         "pithumbsize": 500  # Imagen de previsualización
     }
     try:
-        response = requests.get(url, params=params, timeout=10)
+        response = session.get(url, params=params, timeout=20)
         response.raise_for_status()
         pages = response.json().get("query", {}).get("pages", {})
         for page_id, page in pages.items():
-            return {
-                "title": page.get("title"),
-                "url": f"https://{lang}.wikipedia.org/wiki/{page.get('title').replace(' ', '_')}",
-                "description": page.get("extract", ""),
-                "coordinates": page.get("coordinates", [{}])[0],
-                "image": page.get("thumbnail", {}).get("source")
-            }
+            if page.get("title"):
+                return {
+                    "title": page.get("title"),
+                    "url": f"https://{lang}.wikipedia.org/wiki/{page.get('title').replace(' ', '_')}",
+                    "description": page.get("extract", ""),
+                    "coordinates": page.get("coordinates", [{}])[0],
+                    "image": page.get("thumbnail", {}).get("source")
+                }
     except requests.RequestException as e:
         print(f"Error al obtener detalles del artículo '{title}': {e}")
         return {}
@@ -288,8 +297,9 @@ def process_entries(entries, lang="en"):
     results = []
     for entry in entries:
         details = get_article_details(entry["title"], lang)
-        coordinates = geocode_location(details.get("coordinates"))
-        if details:
+        # Solo procesar si se obtuvieron 'title' y 'url'
+        if details and details.get("title") and details.get("url"):
+            coordinates = geocode_location(details.get("coordinates"))
             results.append({
                 "type": "Feature",
                 "geometry": {
@@ -299,8 +309,8 @@ def process_entries(entries, lang="en"):
                 "properties": {
                     "title": details["title"],
                     "url": details["url"],
-                    "description": details["description"],
-                    "image": details["image"],
+                    "description": details.get("description", ""),
+                    "image": details.get("image"),
                     "timestamp": datetime.utcnow().isoformat(),
                     "language": lang
                 }
@@ -317,15 +327,23 @@ def merge_and_save_geojson(new_features):
         except (json.JSONDecodeError, FileNotFoundError) as e:
             print(f"Error al cargar el archivo GeoJSON existente: {e}")
 
-    # Eliminar duplicados basados en URL y título
-    existing_urls_titles = {(feature["properties"]["url"], feature["properties"]["title"]) for feature in existing_data}
-    new_features = [f for f in new_features if (f["properties"]["url"], f["properties"]["title"]) not in existing_urls_titles]
+    # Se filtran duplicados comprobando que existan las claves 'url' y 'title'
+    existing_urls_titles = {
+        (feature.get("properties", {}).get("url"), feature.get("properties", {}).get("title"))
+        for feature in existing_data
+        if feature.get("properties", {}).get("url") and feature.get("properties", {}).get("title")
+    }
+    
+    new_features = [
+        f for f in new_features
+        if f["properties"].get("url") and f["properties"].get("title")
+           and (f["properties"]["url"], f["properties"]["title"]) not in existing_urls_titles
+    ]
 
     if not new_features:
         print("No hay nuevos datos para guardar.")
         return
 
-    # Combinar y guardar
     combined_features = existing_data + new_features
     geojson_data = {
         "type": "FeatureCollection",
@@ -334,14 +352,14 @@ def merge_and_save_geojson(new_features):
     with open(GEOJSON_OUTPUT, "w") as f:
         json.dump(geojson_data, f, ensure_ascii=False, indent=2)
 
-    # Actualizar JSON secundario para referencias
+    # Actualizar también el archivo JSON secundario
     with open(WIKIPEDIA_JSON, "w") as f:
         json.dump({"features": combined_features}, f, ensure_ascii=False, indent=2)
 
     print(f"GeoJSON actualizado: {len(new_features)} nuevas entradas agregadas.")
 
 def main():
-    # Cargar el progreso actual
+    # Cargar el progreso actual (índice en la lista de términos)
     progress = load_progress()
 
     with ThreadPoolExecutor(max_workers=5) as executor:
@@ -360,7 +378,7 @@ def main():
             except Exception as e:
                 print(f"Error procesando el término '{term}' en '{lang}': {e}")
 
-    # Guardar los resultados en GeoJSON y JSON
+    # Guardar los resultados en los archivos GeoJSON y JSON
     merge_and_save_geojson(new_features)
     save_progress(len(SEARCH_TERMS))
 
