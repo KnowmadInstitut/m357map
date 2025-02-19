@@ -1955,7 +1955,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Unity, South Sudan جنوب السودان, Desconocido, South Sudan جنوب السودان
+Ubicación: Desconocido, Unity الوحدة, South Sudan جنوب السودان, Desconocido, South Sudan جنوب السودان
 Coordenadas: 8.458253, 29.956055
 
 Título: An International Lineup Comes to Jazz Night in Sag Harbor - 27 East
