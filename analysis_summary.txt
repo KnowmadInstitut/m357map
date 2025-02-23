@@ -4235,7 +4235,7 @@ URL: https://www.google.com/url?rct=j&sa=t&url=https://www.lalibre.be/debats/opi
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Paris, Desconocido, France, Desconocido, France
+Ubicación: Paris, Île-de-France, France, Desconocido, France
 Coordenadas: 48.862703, 2.33845
 
 Título: &quot;C'est 12 milliards d'euros de gâchis&quot; : la censure du gouvernement Barnier coûte-t-elle ...
