@@ -95,7 +95,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Los Angeles, California, United States, Desconocido, United States
+Ubicación: Desconocido, California, United States, Desconocido, United States
 Coordenadas: 34.053691, -118.242766
 
 Título: ODOT Urges Caution as First Major Snowstorm of the Year Approaches - WHIZ News
@@ -335,7 +335,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Los Angeles, California, United States, Desconocido, United States
+Ubicación: Desconocido, California, United States, Desconocido, United States
 Coordenadas: 34.088464, -118.319048
 
 Título: Jack Hendrickson | Obituary | Minnesota Star Tribune
@@ -1015,7 +1015,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Los Angeles, California, United States, Desconocido, United States
+Ubicación: Desconocido, California, United States, Desconocido, United States
 Coordenadas: 34.053691, -118.242766
 
 Título: Kohr Explores: Spend the winter at McMenamins <b>Grand Lodge</b> - YouTube
@@ -2625,7 +2625,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Los Angeles, California, United States, Desconocido, United States
+Ubicación: Desconocido, California, United States, Desconocido, United States
 Coordenadas: 33.934951, -118.240264
 
 Título: Muskies Serving Their Community - WHIZ - Fox 5 / Marquee Broadcasting
