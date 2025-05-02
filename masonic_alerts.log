@@ -193,3 +193,6 @@
 2025-05-01 02:07:45,345 - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
 2025-05-01 02:07:48,336 - INFO - Iniciando recopilación de alertas masónicas
 2025-05-01 02:08:42,758 - INFO - Proceso completado. Datos guardados en masonic_alerts.geojson
+2025-05-02 01:59:37,885 - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-05-02 01:59:40,330 - INFO - Iniciando recopilación de alertas masónicas
+2025-05-02 02:00:24,172 - INFO - Proceso completado. Datos guardados en masonic_alerts.geojson
