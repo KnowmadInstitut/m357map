@@ -2175,7 +2175,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Paris, Desconocido, France, Desconocido, France
+Ubicación: Paris, Île-de-France, France, Desconocido, France
 Coordenadas: 48.853495, 2.348391
 
 Título: William Turner - East Texas News
@@ -3865,7 +3865,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
+Ubicación: Louisville, Kentucky, United States, Desconocido, United States
 Coordenadas: 38.172222, -85.80722
 
 Título: WHAT'S ON: A list of PQB community events, week of Jan. 26, 2025 - Parksville Qualicum ...
