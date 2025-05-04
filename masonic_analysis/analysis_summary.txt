@@ -275,7 +275,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Strasbourg, Grand Est, France, Desconocido, France
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 48.584614, 7.750713
 
 Título: Alpaca Rescue Spaghetti Dinner FUNDRAISERMyClallamCounty.com | MyClallamCounty.com
@@ -2075,7 +2075,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Las Vegas Valley, Nevada, United States, Desconocido, United States
+Ubicación: Las Vegas, Nevada, United States, Desconocido, United States
 Coordenadas: 36.167256, -115.148516
 
 Título: The Everyday is Somebody's Birthday Party with Chik'n Wing,The Magic Clown!
@@ -2175,7 +2175,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Paris, Île-de-France, France, Desconocido, France
+Ubicación: Paris, Desconocido, France, Desconocido, France
 Coordenadas: 48.853495, 2.348391
 
 Título: William Turner - East Texas News
