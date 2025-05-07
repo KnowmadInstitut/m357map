@@ -2175,7 +2175,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Paris, Île-de-France, France, Desconocido, France
+Ubicación: Paris, Desconocido, France, Desconocido, France
 Coordenadas: 48.853495, 2.348391
 
 Título: William Turner - East Texas News
