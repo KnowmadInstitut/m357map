@@ -2855,7 +2855,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Columbus, Ohio, United States, Desconocido, United States
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 39.994857, -83.019874
 
 Título: Obituary: Helen C. DeVinney, 94, Canaseraga - Wellsville Regional News (dot) com
