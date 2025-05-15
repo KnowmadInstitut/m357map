@@ -775,7 +775,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Massachusetts, United States, Desconocido, United States
+Ubicación: Marlborough, Massachusetts, United States, Desconocido, United States
 Coordenadas: 42.352621, -71.507729
 
 Título: CALENDAR | Archives | sanfordherald.com
