@@ -1885,7 +1885,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, New York, United States, Desconocido, United States
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 41.091121, -73.919679
 
 Título: New HQ, Big Workforce Housing Development, and More with Housing Assistance Lead
@@ -1895,7 +1895,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Orléans, Centre-Val de Loire, France, Desconocido, France
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 47.902734, 1.908607
 
 Título: I-95 Exclusive: How Could You Do That? – Mayor On Danbury's Opioid Fund Allocation
@@ -1905,7 +1905,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Danbury, Connecticut, United States, Desconocido, United States
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 41.394817, -73.454011
 
 Título: John Toto senior grand warden for Grand <b>Lodge Masons</b> in Massachusetts - Milford Daily News
@@ -4105,7 +4105,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: 臺北市, Desconocido, 臺灣, Desconocido, 臺灣
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 25.047473, 121.547264
 
 Título: Pancake Breakfast Saturday at Garret's Bluff <b>Masonic Lodge</b> - EastTexasRadio.com
