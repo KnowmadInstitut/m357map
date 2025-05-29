@@ -2625,7 +2625,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Los Angeles, California, United States, Desconocido, United States
+Ubicación: Desconocido, California, United States, Desconocido, United States
 Coordenadas: 33.934951, -118.240264
 
 Título: Muskies Serving Their Community - WHIZ - Fox 5 / Marquee Broadcasting
