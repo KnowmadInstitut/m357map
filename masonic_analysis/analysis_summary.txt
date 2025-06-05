@@ -1775,7 +1775,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: City of Rochester, New York, United States, Desconocido, United States
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 43.157285, -77.615214
 
 Título: Major Milestone for Kennedy's Bakery - WHIZ - Fox 5 / Marquee Broadcasting
