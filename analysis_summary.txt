@@ -1775,7 +1775,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
+Ubicación: City of Rochester, New York, United States, Desconocido, United States
 Coordenadas: 43.157285, -77.615214
 
 Título: Major Milestone for Kennedy's Bakery - WHIZ - Fox 5 / Marquee Broadcasting
@@ -4105,7 +4105,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: 臺北市, Desconocido, 臺灣, Desconocido, 臺灣
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 25.047473, 121.547264
 
 Título: Pancake Breakfast Saturday at Garret's Bluff <b>Masonic Lodge</b> - EastTexasRadio.com
