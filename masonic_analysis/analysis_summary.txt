@@ -215,7 +215,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Michigan, United States, Desconocido, United States
+Ubicación: Chippewa Township, Michigan, United States, Desconocido, United States
 Coordenadas: 43.621195, -84.682435
 
 Título: William Edgar Harris | Obituaries | journalpatriot.com
@@ -1395,7 +1395,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Michigan, United States, Desconocido, United States
+Ubicación: Boyne Valley Township, Michigan, United States, Desconocido, United States
 Coordenadas: 45.168065, -84.916157
 
 Título: Michigan: <b>Grand</b> Traverse Band to launch temporary casino in Benzonia next week
@@ -4165,7 +4165,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Michigan, United States, Desconocido, United States
+Ubicación: Vevay Township, Michigan, United States, Desconocido, United States
 Coordenadas: 42.58605, -84.380084
 
 Título: George Meaney Obituary (2025) - Cedar Rapids, IA - The Gazette - Legacy.com
