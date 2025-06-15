@@ -1435,7 +1435,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: New Haven, Connecticut, United States, Desconocido, United States
+Ubicación: New Haven, Desconocido, United States, Desconocido, United States
 Coordenadas: 41.308214, -72.925052
 
 Título: Denzel G. Worth - Benton County Enterprise
@@ -1465,7 +1465,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: New Haven, Connecticut, United States, Desconocido, United States
+Ubicación: New Haven, Desconocido, United States, Desconocido, United States
 Coordenadas: 41.308214, -72.925052
 
 Título: Frank Blackwell Obituary (2025) - Charleston, WV - Charleston Gazette-Mail - Legacy.com
@@ -1515,7 +1515,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: New Haven, Connecticut, United States, Desconocido, United States
+Ubicación: New Haven, Desconocido, United States, Desconocido, United States
 Coordenadas: 41.308214, -72.925052
 
 Título: The global elite: power and influence - Meer
@@ -1525,7 +1525,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: ירושלים, מחוז ירושלים, ישראל, Desconocido, ישראל
+Ubicación: ירושלים, Desconocido, ישראל, Desconocido, ישראל
 Coordenadas: 31.778001, 35.23574
 
 Título: Charles Brown - WHIZ - Fox 5 / Marquee Broadcasting
@@ -1625,7 +1625,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: New Haven, Connecticut, United States, Desconocido, United States
+Ubicación: New Haven, Desconocido, United States, Desconocido, United States
 Coordenadas: 41.308214, -72.925052
 
 Título: Obituary of Joseph Eugene Brockman, Sr. | Carter - Ricks Funeral Home
@@ -1905,7 +1905,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Danbury, Connecticut, United States, Desconocido, United States
+Ubicación: Danbury, Desconocido, United States, Desconocido, United States
 Coordenadas: 41.394817, -73.454011
 
 Título: John Toto senior grand warden for Grand <b>Lodge Masons</b> in Massachusetts - Milford Daily News
@@ -2075,7 +2075,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Las Vegas Valley, Nevada, United States, Desconocido, United States
+Ubicación: Las Vegas, Nevada, United States, Desconocido, United States
 Coordenadas: 36.167256, -115.148516
 
 Título: The Everyday is Somebody's Birthday Party with Chik'n Wing,The Magic Clown!
@@ -2795,7 +2795,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Milford, Connecticut, United States, Desconocido, United States
+Ubicación: Milford, Desconocido, United States, Desconocido, United States
 Coordenadas: 41.222222, -73.05706
 
 Título: George F. Wheeler Jr. Obituary (2025) - Walden, NY - Gridley-Horan Funeral Home
@@ -2895,7 +2895,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Middletown, Connecticut, United States, Desconocido, United States
+Ubicación: Middletown, Desconocido, United States, Desconocido, United States
 Coordenadas: 41.562318, -72.650906
 
 Título: The Buckeyes are National Champs: Here's Where to Find Some Gear - WHIZ
@@ -3365,7 +3365,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Connecticut, United States, Desconocido, United States
+Ubicación: Desconocido, Desconocido, United States, Desconocido, United States
 Coordenadas: 41.65002, -72.734216
 
 Título: Those faces carved in Minneapolis City Hall are absolutely grotesque - Star Tribune
@@ -4105,7 +4105,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
+Ubicación: 臺北市, Desconocido, 臺灣, Desconocido, 臺灣
 Coordenadas: 25.047473, 121.547264
 
 Título: Pancake Breakfast Saturday at Garret's Bluff <b>Masonic Lodge</b> - EastTexasRadio.com
