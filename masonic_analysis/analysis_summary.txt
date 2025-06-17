@@ -1525,7 +1525,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Desconocido, ישראל, Desconocido, ישראל
+Ubicación: Desconocido, מחוז ירושלים, ישראל, Desconocido, ישראל
 Coordenadas: 31.778001, 35.23574
 
 Título: Charles Brown - WHIZ - Fox 5 / Marquee Broadcasting
