@@ -275,7 +275,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Strasbourg, Grand Est, France, Desconocido, France
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 48.584614, 7.750713
 
 Título: Alpaca Rescue Spaghetti Dinner FUNDRAISERMyClallamCounty.com | MyClallamCounty.com
@@ -1275,7 +1275,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Wisconsin, United States, Desconocido, United States
+Ubicación: Sun Prairie, Wisconsin, United States, Desconocido, United States
 Coordenadas: 43.183458, -89.213436
 
 Título: Historic return: Traditional <b>Masonic Lodge</b> to re-establish in Spartansburg | News - The Corry Journal
@@ -1595,7 +1595,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Wisconsin, United States, Desconocido, United States
+Ubicación: West Allis, Wisconsin, United States, Desconocido, United States
 Coordenadas: 43.015326, -87.99525
 
 Título: Joseph Shepard King Obituary - Naples Daily News
