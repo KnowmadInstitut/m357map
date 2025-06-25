@@ -275,7 +275,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
+Ubicación: Strasbourg, Grand Est, France, Desconocido, France
 Coordenadas: 48.584614, 7.750713
 
 Título: Alpaca Rescue Spaghetti Dinner FUNDRAISERMyClallamCounty.com | MyClallamCounty.com
