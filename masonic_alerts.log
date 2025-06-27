@@ -321,3 +321,7 @@
 2025-06-25 02:09:01,032 - INFO - Proceso completado. Datos guardados en masonic_alerts.geojson
 2025-06-26 02:07:09,990 - INFO - Iniciando recopilación de alertas masónicas
 2025-06-26 02:08:05,398 - INFO - Proceso completado. Datos guardados en masonic_alerts.geojson
+2025-06-27 02:07:57,393 - INFO - Iniciando recopilación de alertas masónicas
+2025-06-27 02:08:44,518 - INFO - Received an HTTP error (503): Query took too long to process.
+2025-06-27 02:08:44,518 - ERROR - Error en geocodificación: Non-successful status code 503
+2025-06-27 02:08:55,363 - INFO - Proceso completado. Datos guardados en masonic_alerts.geojson

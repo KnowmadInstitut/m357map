@@ -3505,7 +3505,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Greenville, South Carolina, United States, Desconocido, United States
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 34.851354, -82.398488
 
 Título: The Northumberland 48 | 93.3 myFM
@@ -3535,7 +3535,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, England, United Kingdom, Desconocido, United Kingdom
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 51.011479, -3.120016
 
 Título: DAVID BLACKMON: Trump Dresses Down The Davos Globalists – IJR
@@ -3545,7 +3545,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Graubünden/Grischun/Grigioni, Schweiz/Suisse/Svizzera/Svizra, Desconocido, Schweiz/Suisse/Svizzera/Svizra
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 46.796198, 9.823689
 
 Título: Downtown Danville's FIRST FRIDAYS WINTER BINGO Coming to <b>Masonic Temple</b> Fri Feb 7th
