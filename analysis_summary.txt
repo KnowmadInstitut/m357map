@@ -3095,7 +3095,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
+Ubicación: Topeka, Kansas, United States, Desconocido, United States
 Coordenadas: 39.049011, -95.677556
 
 Título: Richard Neil Dain Obituary (2025) - Cuyahoga Falls, OH - Legacy.com
@@ -4105,7 +4105,7 @@ URL:
 Sentimiento: neutral
 Categoría: sin categoría
 Idioma: Desconocido
-Ubicación: 臺北市, Desconocido, 臺灣, Desconocido, 臺灣
+Ubicación: Desconocido, Desconocido, Desconocido, Desconocido, Desconocido
 Coordenadas: 25.047473, 121.547264
 
 Título: Pancake Breakfast Saturday at Garret's Bluff <b>Masonic Lodge</b> - EastTexasRadio.com
